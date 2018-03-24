@@ -21,11 +21,12 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-loadable": "^5.3.1",
+    "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.1",
     "sequelize": "^4.37.4"
   },
   "scripts": {
-    "start": "react-scripts start node server.js",
+    "start": "react-scripts build && node server/bootstrap.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
