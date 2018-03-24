@@ -3,7 +3,6 @@ const router = express.Router();
 
 const db = require('../models');
 const bcrypt = require('bcrypt-nodejs');
-const mailer = require('./mail_controller');
 const randomstring = require('randomstring');
 
 router.get('/verify/:username/:token', (req, res) => {
@@ -28,7 +27,6 @@ router.post('/resetRequest', (req, res) => {
     if (data) {
       if (data.dataValues.verified) {
         let token = randomstring.generate(16);
-        mailer.sendResetPasswordEmail(data.dataValues.email, data.dataValues.username, token);
         data.updateAttributes({verificationToken: token});
         req.flash('resetMessage', '<p class="success-message text-center">Password reset email sent.</p>');
       } else {
@@ -48,8 +46,6 @@ router.post('/resetRequest', (req, res) => {
 router.get('/resendVerification/:username', (req, res) => {
   db.users.findOne({where: {username: req.params.username}}).then(user => {
     let verificationToken = randomstring.generate(16);
-    mailer.sendVerificationEmail(user.dataValues.email, 
-      user.dataValues.username, verificationToken);
     user.updateAttributes({verificationToken: verificationToken});
     req.flash('loginMessage', '<p class="success-message text center">Verification email sent to email on file for account.</p>');
     res.redirect('/');
