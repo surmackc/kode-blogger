@@ -1,9 +1,9 @@
 import React from "react";
 import "./Home.css";
 
-const Home = props => 
+const Home = props => ( 
     <div className="home">
         Home content here...
-    </div>;
+    </div>);
 
 export default Home;
