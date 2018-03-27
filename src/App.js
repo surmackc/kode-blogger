@@ -6,12 +6,6 @@ import Home from './components/Home';
 import Auth from './components/Auth';
 import Wrapper from './components/Wrapper';
 
-// import Loadable from 'react-loadable';
-// const AsyncComponent = Loadable({
-//   loader: () => import("./SomeComponent"),
-//   loading: () => <div>loading...</div>,
-// });
-
 class App extends Component {
   render() {
     return (
