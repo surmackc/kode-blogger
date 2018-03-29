@@ -1,11 +1,22 @@
 import React from "react";
 import API from "../../utils/API";
 
-var results = API.getAll();
+class AllPosts extends Component {
+  state = {
+    posts: {}
+  };
 
-const AllPosts = props => ( 
-    <div className="home">
-        {JSON.stringify(results)}
-    </div>);
+  componentDidMount = () => {
+    API.getAll()
+    .then(results => {
+      this.setState({ posts: results.data });
+    });
+  };
 
+  render() {
+    return <div>
+        {JSON.stringify(this.state.posts)}
+    </div>;
+  }
+}
 export default AllPosts;

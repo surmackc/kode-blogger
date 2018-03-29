@@ -6,6 +6,8 @@ import Nav from "./components/Nav/Nav";
 import LoginForm from "./components/LoginForm/LoginForm";
 import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
+import Posts from "./components/Posts/Posts";
+import NoMatch from "./components/NoMatch/NoMatch";
 
 class App extends Component {
   state = {
@@ -21,6 +23,8 @@ class App extends Component {
             <Route exact path="/login" component={LoginForm} />
             <Route exact path="/input" component={InputForm} />
             <Route exact path="/posts" component={AllPosts} />
+            <Route exact path="/post/:id" component={Post} />
+            <Route component={NoMatch} />
           </Switch>
         </Wrapper>
       </BrowserRouter>

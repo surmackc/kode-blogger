@@ -4,11 +4,10 @@ import axios from "axios";
 // It can accept a "query" that may be a search term or id
 export default {
   getAll: function() {
-    // return axios.get("/api");
-    return {message: "Testing..."};
+    return axios.get("/api");
   },
 
-  getByQuery: function(query) {
-    return axios.get("/api", { params: { q: query } });
+  getById: function(id) {
+    return axios.get("/api/" + id);
   }
 };

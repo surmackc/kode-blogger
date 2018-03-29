@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 
-router.get("/:q?", (req, res) => {
-    if (req.params.q) {
-        var query = req.params.q;
+router.get("/:id?", (req, res) => {
+    if (req.params.id) {
+        var id = req.params.id;
         // add Sequelize query to get all results from database
          
         // db.findAll({
         //     where: {
-        //         query
+        //         id
         //     }
         // })
         // .then(results => {
