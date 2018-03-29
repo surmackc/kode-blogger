@@ -1,41 +1,31 @@
-const express = require('express');
-const path = require('path');
-const cluster = require('cluster');
-const numCPUs = require('os').cpus().length;
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const PORT = process.env.PORT || 3001;
+const app = express();
+const apiController = require("./controllers/api_controller");
+const loginController = require("./controllers/login_controller");
+const userController = require("./controllers/user_controller");
 
-const PORT = process.env.PORT || 3000;
+// Serve up static assets
+app.use(express.static("client/build"));
 
-// Multi-process to utilize all CPU cores.
-if (cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
-  // Fork workers.
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
+// parse application/json
+app.use(bodyParser.json());
 
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-  });
+// Use Controllers
+app.use("/api", apiController);
+app.use("/login", loginController);
+app.use("/user", userController);
 
-} else {
-  const app = express();
+// Send all other requests to the React app
+app.get("*", function(req, res) {
+  res.sendFile(path.join(__dirname, "./client/build/index.html"));
+});
 
-  // Priority serve any static files.
-  app.use(express.static(path.join(__dirname, 'build')));
-
-  // Answer API requests.
-  app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
-  });
-
-  // All remaining requests return the React app, so it can handle routing.
-  app.get('*', function(request, response) {
-    response.sendFile(path.resolve(__dirname, './build', 'index.html'));
-  });
-
-  app.listen(PORT, function () {
-    console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-  });
-}
+app.listen(PORT, function() {
+  console.log(`🌎 ==> Server now on port ${PORT}!`);
+});

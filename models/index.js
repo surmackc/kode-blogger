@@ -8,10 +8,13 @@ var env       = process.env.NODE_ENV || 'development';
 var config    = require(__dirname + '/../config/config.json')[env];
 var db        = {};
 
+// Load variables from .env
+require('dotenv').config();
+
 if (config.use_env_variable) {
-  var sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  var sequelize = new Sequelize(process.env[config.use_env_variable], {operatorsAliases: Sequelize.Op});
 } else {
-  var sequelize = new Sequelize(config.database, config.username, config.password, config);
+  var sequelize = new Sequelize(config.database, config.username, config.password, {operatorsAliases: Sequelize.Op});
 }
 
 fs
