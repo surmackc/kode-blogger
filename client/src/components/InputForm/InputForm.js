@@ -1,29 +1,17 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import {Editor, EditorState} from 'draft-js';
 
 class InputForm extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      author: "",
-      content: ""
-    }
-    this.handleFormInput = this.handleFormInput.bind(this);
+    this.state = {editorState: EditorState.createEmpty()};
+    this.onChange = (editorState) => this.setState({editorState});
   }
-
-  handleFormInput(event) {
-    const {name, value} = event.target;
-    this.setState({[name]: value});
-  }
-
   render() {
     return (
-      <form>
-        <input type="text" name="author" onChange={this.handleFormInput} value={this.state.username} />
-        <input type="text" name="content" onChange={this.handleFormInput} value={this.state.password} />
-        <button type="submit">Post</button>
-      </form>
-    )
+        <Editor editorState={this.state.editorState} onChange={this.onChange} />
+    );
   }
 }
 
