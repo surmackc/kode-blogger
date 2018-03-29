@@ -4,7 +4,7 @@ import Wrapper from "./components/Wrapper/Wrapper";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav/Nav";
 import LoginForm from "./components/LoginForm/LoginForm";
-import Inputform from "./components/Inputform/Inputform";
+import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
 
 class App extends Component {
