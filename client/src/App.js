@@ -6,7 +6,7 @@ import Nav from "./components/Nav/Nav";
 import LoginForm from "./components/LoginForm/LoginForm";
 import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
-import Posts from "./components/Posts/Posts";
+import Post from "./components/Post/Post";
 import NoMatch from "./components/NoMatch/NoMatch";
 
 class App extends Component {

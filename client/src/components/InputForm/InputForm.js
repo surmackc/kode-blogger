@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import {Editor, EditorState, RichUtils, getDefaultKeyBinding} from 'draft-js';
 import CodeUtils from 'draft-js-code';
+import PrismDecorator from 'draft-js-prism';
+import Prism from 'prismjs';
 import "./InputForm.css";
+
+var decorator = new PrismDecorator({
+  // Provide your own instance of PrismJS
+  prism: Prism,
+});
+var editorState = EditorState.createEmpty(decorator)
 
 class InputForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState: EditorState.createEmpty()
+      editorState: EditorState.createEmpty(decorator)
     };
   }
  
@@ -74,6 +82,7 @@ class InputForm extends React.Component {
             handleReturn={this.handleReturn}
             onTab={this.onTab}
           />
+          <Toolbar />
         </div>
       </div>
     );

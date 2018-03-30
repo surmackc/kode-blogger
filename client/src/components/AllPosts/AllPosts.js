@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import API from "../../utils/API";
 
 class AllPosts extends Component {
@@ -10,6 +10,9 @@ class AllPosts extends Component {
     API.getAll()
     .then(results => {
       this.setState({ posts: results.data });
+    })
+    .catch(err => {
+      console.log(err);
     });
   };
 
