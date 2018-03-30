@@ -82,7 +82,6 @@ class InputForm extends React.Component {
             handleReturn={this.handleReturn}
             onTab={this.onTab}
           />
-          <Toolbar />
         </div>
       </div>
     );
