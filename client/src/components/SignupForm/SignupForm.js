@@ -16,7 +16,6 @@ class SignupForm extends Component {
       signupSubmitted: false
     }
     
-    
     this.handleFormInput = this.handleFormInput.bind(this);
   }
 

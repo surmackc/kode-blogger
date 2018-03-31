@@ -8,6 +8,7 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignupForm from './components/SignupForm/SignupForm';
 import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
+import VerifyEmail from './components/VerifyEmail/VerifyEmail';
 import Post from "./components/Post/Post";
 import NoMatch from "./components/NoMatch/NoMatch";
 
@@ -50,9 +51,11 @@ class App extends Component {
               <Redirect to="/input" /> 
               : <LoginForm userLoggedIn={this.userLoggedIn}/>}/>
             <Route exact path="/signup" component={SignupForm} />
+            <Route path="/verify/:username/:token" component={VerifyEmail} />
             <Route exact path="/input" component={InputForm} />
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />
+            
             <Route component={NoMatch} />
           </Switch>
         </Wrapper>

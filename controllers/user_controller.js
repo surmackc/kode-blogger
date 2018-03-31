@@ -1,19 +1,18 @@
 const express = require('express');
-const mailer = require('./mail_controller');
 const db = require('../models');
 const bcrypt = require('bcrypt-nodejs');
 const randomstring = require('randomstring');
 
 module.exports = (app, passport) => {
-  app.get('/verify/:username/:token', (req, res) => {
+  app.get('/account/:username/:token', (req, res) => {
+    console.log('Hit endpoint');
     db.users.findOne({where: {username: req.params.username, verificationToken: req.params.token}}).then( data => {
       if (data) {
         data.updateAttributes({verified: true});
-        req.flash('loginMessage', '<p class="success-message text-center">Email verified. Please login.</p>');
+        // res.sendCode(200);
         res.redirect('/');
       } else {
-        req.flash('loginMessage', '<p class="error-message text-center">Invalid verification token. Please contact support.</p>');
-        res.redirect('/');
+        res.sendCode(400);
       }
     });
   });
