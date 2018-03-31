@@ -1,5 +1,5 @@
 var LocalStrategy   = require('passport-local').Strategy;
-
+const mailer = require('../controllers/mail_controller');
 var bcrypt = require('bcrypt-nodejs');
 const db = require('../models');
 const randomstring = require('randomstring');
@@ -56,6 +56,7 @@ module.exports = function(passport) {
           let newUser = {
             username: username,
             password: bcrypt.hashSync(password, null, null),
+            email: req.body.email,
             verificationToken: randomstring.generate(16) 
           };
           

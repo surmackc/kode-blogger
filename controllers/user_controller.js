@@ -1,5 +1,5 @@
 const express = require('express');
-
+const mailer = require('./mail_controller');
 const db = require('../models');
 const bcrypt = require('bcrypt-nodejs');
 const randomstring = require('randomstring');

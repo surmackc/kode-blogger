@@ -1,0 +1,12 @@
+.signupContainer {
+  width: 30%;
+}
+
+input {
+  clear: both;
+  width: 100%;
+}
+
+input.invalid {
+  border: 2px dotted red;
+}
