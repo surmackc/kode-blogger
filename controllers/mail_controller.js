@@ -18,7 +18,7 @@ module.exports = {
       to: email, 
       subject: 'Kode Blogger - Account Verification', 
       text: `http://localhost:3000/verify/${username}/${token}`, 
-      html: `<a href="http://localhost:3000/verify/${username}/${token}` 
+      html: `<a href="http://localhost:3000/verify/${username}/${token}">Verify Now</a>` 
     };
   
     transporter.sendMail(mailOptions, (error, info) => {
@@ -35,7 +35,7 @@ module.exports = {
       to: email, 
       subject: 'Kode Blogger - Reset Password', 
       text: `http://localhost:3000/reset/${username}/${token}`, 
-      html: `<a href="http://localhost:3000/reset/${username}/${token}`  
+      html: `<a href="http://localhost:3000/reset/${username}/${token}">Reset Now</a>`  
     };
 
     transporter.sendMail(mailOptions, (error) => {
