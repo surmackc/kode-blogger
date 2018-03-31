@@ -27,11 +27,16 @@ module.exports = (app, passport) => {
     res.send(200);
   })
 
+  app.get('/users/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
+
   function loggedIn(req, res, next) {
     if (req.user) {
         next();
     } else {
-        res.send('Error: Not logged in');
+        res.sendStatus(403, 'Not Logged In');
     }
 }
 }
@@ -48,9 +53,6 @@ module.exports = (app, passport) => {
 
 
 
-  // router.get('/logout', function(req, res) {
-  //   req.logout();
-  //   res.redirect('/');
-  // });
+
 
 // module.exports = router;

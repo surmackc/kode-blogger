@@ -31,11 +31,18 @@ class App extends Component {
     this.setState({loggedIn: true});
   }
 
+  logOut = () => {
+    axios.get('/users/logout')
+    .then( res => {
+      this.setState({loggedIn: false})
+    });
+  }
+
   render() {
     return (
       <BrowserRouter>
         <Wrapper>
-          <Nav />
+          <Nav loggedIn={this.state.loggedIn} logOut={this.logOut}/>
           <Switch>
             <Route exact path="/" component={Home}  />
             <Route exact path="/login"
