@@ -14,10 +14,7 @@ module.exports = (app, passport) => {
     } else {
       req.session.cookie.expires = false;
     }
-    // res.redirect('/');
-    console.log(req.session);
-    res.cookie(req.session.cookie);
-    res.send();
+    res.sendStatus(200);
   });
     // process the signup form
   app.post('/users/signup', passport.authenticate('local-signup', {
@@ -25,6 +22,18 @@ module.exports = (app, passport) => {
     failureRedirect : '/', 
     failureFlash : true 
   }));
+
+  app.get('/users/loggedIn', loggedIn, (req, res) => {
+    res.send(200);
+  })
+
+  function loggedIn(req, res, next) {
+    if (req.user) {
+        next();
+    } else {
+        res.send('Error: Not logged in');
+    }
+}
 }
 
 

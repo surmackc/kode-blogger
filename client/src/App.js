@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Redirect, BrowserRouter} from 'react-router-dom';
+import axios from 'axios';
 import Wrapper from "./components/Wrapper/Wrapper";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav/Nav";
@@ -11,8 +12,24 @@ import Post from "./components/Post/Post";
 import NoMatch from "./components/NoMatch/NoMatch";
 
 class App extends Component {
-  state = {
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false
+    }
+  }
+
+  componentDidMount() {
+    axios.get('/users/loggedIn')
+    .then( res => {
+      this.setState({loggedIn: true})
+    })
+    .catch(err => this.setState({loggedIn: false})); 
+  }
+
+  userLoggedIn = () => {
+    this.setState({loggedIn: true});
+  }
 
   render() {
     return (
@@ -20,8 +37,11 @@ class App extends Component {
         <Wrapper>
           <Nav />
           <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/" component={Home}  />
+            <Route exact path="/login"
+              render={() => this.state.loggedIn ? 
+              <Redirect to="/input" /> 
+              : <LoginForm userLoggedIn={this.userLoggedIn}/>}/>
             <Route exact path="/signup" component={SignupForm} />
             <Route exact path="/input" component={InputForm} />
             <Route exact path="/posts" component={AllPosts} />

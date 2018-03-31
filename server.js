@@ -26,7 +26,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 db.users.sync();
-const seq = db.sequelize;
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -34,7 +33,7 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
   cookie: { secure: false },
-  store: new SequelStore({ database: seq})
+  // store: new SequelStore({ database: db.sequelize})
 }))
 
 // Use Controllers
