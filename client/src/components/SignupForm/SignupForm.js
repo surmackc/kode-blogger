@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 
-class LoginForm extends Component {
+class SignupForm extends Component {
   constructor(props) {
     super(props);
 
@@ -21,7 +21,7 @@ class LoginForm extends Component {
   onFormSubmit = (event) => {
     event.preventDefault();
     console.log('Form submitted');
-    axios.post('/users/login', {
+    axios.post('/users/signup', {
       username: this.state.username,
       password: this.state.password 
     }).then((res) => console.log(res));
@@ -38,4 +38,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm;
+export default SignupForm;

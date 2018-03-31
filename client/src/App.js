@@ -4,6 +4,7 @@ import Wrapper from "./components/Wrapper/Wrapper";
 import Home from "./components/Home/Home";
 import Nav from "./components/Nav/Nav";
 import LoginForm from "./components/LoginForm/LoginForm";
+import SignupForm from './components/SignupForm/SignupForm';
 import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
 import Post from "./components/Post/Post";
@@ -21,6 +22,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={LoginForm} />
+            <Route exact path="/signup" component={SignupForm} />
             <Route exact path="/input" component={InputForm} />
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />

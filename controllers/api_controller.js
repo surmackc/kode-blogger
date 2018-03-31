@@ -3,6 +3,7 @@ const router = express.Router();
 const db = require('../models');
 
 router.get("/:id?", (req, res) => {
+   res.end('Something');
     if (req.params.id) {
         var id = req.params.id;
         // add Sequelize query to get all results from database

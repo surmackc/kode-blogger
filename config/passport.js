@@ -43,21 +43,19 @@ module.exports = function(passport) {
           req.flash('email', req.body.email);
           return done(null, false, req.flash('signupMessage','<p class="error-message text-center">Username is unavailable.</p>'));
         } else {
-          if (!password.match(passwordRegex)) {
-            req.flash('username', req.body.username);
-            req.flash('companyName', req.body.companyName);
-            req.flash('email', req.body.email);
-            return done(null, false, req.flash('signupMessage',
-              `<p class="error-message text-center">Password must be at least 8 characters long and contain 
-              uppercase letter, lowercase letter, a number, and one special character.</p>`));
-          }
+          // if (!password.match(passwordRegex)) {
+          //   req.flash('username', req.body.username);
+          //   req.flash('companyName', req.body.companyName);
+          //   req.flash('email', req.body.email);
+          //   return done(null, false, req.flash('signupMessage',
+          //     `<p class="error-message text-center">Password must be at least 8 characters long and contain 
+          //     uppercase letter, lowercase letter, a number, and one special character.</p>`));
+          // }
 
           //Username is free to be used
           let newUser = {
             username: username,
             password: bcrypt.hashSync(password, null, null),
-            email: req.body.email,
-            company: req.body.companyName,
             verificationToken: randomstring.generate(16) 
           };
           
@@ -70,10 +68,10 @@ module.exports = function(passport) {
             req.flash('companyName', req.body.companyName);
             req.flash('email', req.body.email);
 
-            if (err.errors[0].path === 'email') {
-              return done(null, false, req.flash('signupMessage', 
-                `<p class="error-message text-center">Please enter a valid email address.</p>`));
-            } 
+            // if (err.errors[0].path === 'email') {
+            //   return done(null, false, req.flash('signupMessage', 
+            //     `<p class="error-message text-center">Please enter a valid email address.</p>`));
+            // } 
           });
         }
       }).catch(error => {
@@ -90,23 +88,31 @@ module.exports = function(passport) {
       passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) { 
+      console.log('Logging in!!');
+
       db.users.findOne({where: {username: username}}).then(data => {
+        console.log('Logging in!');
         if (!data) {
           //No user was found
+          console.log('No user was found');
           return done(null, false, req.flash('loginMessage', '<p class="error-message text-center">Username or password was invalid.</p>'));
         }
 
         if (!bcrypt.compareSync(password, data.dataValues.password)) {
           //Password was incorrect
+          console.log('Passowrd was incorrect');
           return done(null, false, req.flash('loginMessage', '<p class="error-message text-center">Username or password was invalid.</p>'));
         }
 
         if(!data.dataValues.verified) {
+          console.log('Email not verified');
           //User not has verified their email
           return done(null, false, req.flash('loginMessage', 
             `<p class="error-message text-center">Please verify your email before logging in.
             <a href="/resendVerification/${data.dataValues.username}">Resend Verification Email</a></p>`));
         }
+
+        console.log('Auth done, logged in');
 
         return done(null, data.dataValues);
       }).catch(error => {
