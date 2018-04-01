@@ -1,64 +1,47 @@
 const express = require('express');
 const db = require('../models');
 const bcrypt = require('bcrypt-nodejs');
+const mailer = require('./mail_controller');
 const randomstring = require('randomstring');
 
 module.exports = (app, passport) => {
   app.get('/account/:username/:token', (req, res) => {
-    console.log('Hit endpoint');
     db.users.findOne({where: {username: req.params.username, verificationToken: req.params.token}}).then( data => {
       if (data) {
         data.updateAttributes({verified: true});
-        // res.sendCode(200);
-        res.redirect('/');
+        res.status(200);
       } else {
-        res.sendCode(400);
+        res.status(400);
       }
     });
   });
   
-  app.get('/resetRequest', (req, res) => {
-    res.render('home', {message: req.flash('resetMessage'), showResetForm: true});
-  });
-  
-  app.post('/resetRequest', (req, res) => {
+  app.post('/account/resetRequest', (req, res) => {
     db.users.findOne({where: {username: req.body.username}}).then(data => {
       if (data) {
         if (data.dataValues.verified) {
           let token = randomstring.generate(16);
+          mailer.sendResetPasswordEmail(data.dataValues.email, data.dataValues.username, token);
           data.updateAttributes({verificationToken: token});
-          req.flash('resetMessage', '<p class="success-message text-center">Password reset email sent.</p>');
+          res.send({message: 'Password reset email sent.'});
         } else {
           //User account is not verified, can't reset password
-          req.flash('resetMessage', 
-            `<p class="error-message text-center">Account is not verified. Please verify email before reseting password.
-            <a href="/resendVerification/${data.dataValues.username}>Resend Verification</a></p>`);
+          res.send({message: "Account is not verified. You must verify email before resetting the password"})
         }
       } else {
-        req.flash('resetMessage', '<p class="error-message text-center">Username does not match our records</p>');
+        res.send({message: "Username does not match our records."});
       }
-  
-      res.redirect('/resetRequest');
     });
   });
   
   app.get('/resendVerification/:username', (req, res) => {
     db.users.findOne({where: {username: req.params.username}}).then(user => {
       let verificationToken = randomstring.generate(16);
+      mailer.sendVerificationEmail(user.dataValues.email, 
+        user.dataValues.username, verificationToken);
       user.updateAttributes({verificationToken: verificationToken});
       req.flash('loginMessage', '<p class="success-message text center">Verification email sent to email on file for account.</p>');
       res.redirect('/');
-    });
-  });
-  
-  app.get('/reset/:username/:token', (req, res) => {
-    db.users.findOne({where: {username: req.params.username, verificationToken: req.params.token}}).then(data =>{
-      if (data) {
-        res.render('resetForm');
-      } else {
-        req.flash('loginMessage', '<p class="error-message">Invalid password reset token. Please contact support.</p>');
-        res.redirect('/');
-      }
     });
   });
   
@@ -69,11 +52,9 @@ module.exports = (app, passport) => {
           password: bcrypt.hashSync(req.body.password, null, null),
           verificationToken: randomstring.generate(16)
         });
-        req.flash('loginMessage', '<p class="success-message text-center">Password reset succesful. Please login with new password.</p>');
-        res.redirect('/');
+        res.send({message: 'Password reset succesful. Please login with new password'});
       } else {
-        req.flash('loginMessage', '<p class="error-message text-center">Invalid password reset token. Please contact support.</p>');
-        res.redirect('/');
+        res.send({message: 'Invalid password reset token.'});
       }
     });
   });

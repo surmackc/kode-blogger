@@ -23,7 +23,7 @@ module.exports = (app, passport) => {
   }));
 
   app.get('/users/loggedIn', loggedIn, (req, res) => {
-    res.send(200);
+    res.send({username: req.user.username});
   })
 
   app.get('/users/logout', function(req, res) {

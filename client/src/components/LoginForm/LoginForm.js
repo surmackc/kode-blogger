@@ -25,7 +25,9 @@ class LoginForm extends Component {
     axios.post('/users/login', {
       username: this.state.username,
       password: this.state.password 
-    }).then((res) => this.props.userLoggedIn());
+    }).then((res) => {
+      this.props.userLoggedIn(JSON.parse(res.config.data).username);
+    });
   }
 
   render() {
@@ -34,7 +36,6 @@ class LoginForm extends Component {
         <input type="text" name="username" onChange={this.handleFormInput} value={this.state.username} />
         <input type="password" name="password" onChange={this.handleFormInput} value={this.state.password} />
         <button type="submit" onClick={this.onFormSubmit}>Login</button>
-        <button type="button" onClick={this.testLoggedIn}>Test</button>
       </form>
     )
   }

@@ -9,7 +9,6 @@ const Nav = (props) => (
       Kode Blogger
     </a>
     <LoginNav {...props}/>
-    {/* {props.loggedIn ? <button onClick={props.logOut} type="button">Logout</button> : ""} */}
   </nav>
 );
 

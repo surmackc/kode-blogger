@@ -9,6 +9,8 @@ import SignupForm from './components/SignupForm/SignupForm';
 import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
 import VerifyEmail from './components/VerifyEmail/VerifyEmail';
+import PasswordResetRequest from './components/PasswordResetRequest/PasswordResetRequest';
+import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm';
 import Post from "./components/Post/Post";
 import NoMatch from "./components/NoMatch/NoMatch";
 
@@ -16,20 +18,22 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false
+      loggedIn: false,
+      username: ''
     }
   }
 
   componentDidMount() {
     axios.get('/users/loggedIn')
     .then( res => {
-      this.setState({loggedIn: true})
+      console.log(res);
+      this.setState({loggedIn: true, username: res.data.username})
     })
     .catch(err => this.setState({loggedIn: false})); 
   }
 
-  userLoggedIn = () => {
-    this.setState({loggedIn: true});
+  userLoggedIn = (username) => {
+    this.setState({loggedIn: true, username});
   }
 
   logOut = () => {
@@ -43,7 +47,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Wrapper>
-          <Nav loggedIn={this.state.loggedIn} logOut={this.logOut}/>
+          <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>
           <Switch>
             <Route exact path="/" component={Home}  />
             <Route exact path="/login"
@@ -52,6 +56,8 @@ class App extends Component {
               : <LoginForm userLoggedIn={this.userLoggedIn}/>}/>
             <Route exact path="/signup" component={SignupForm} />
             <Route path="/verify/:username/:token" component={VerifyEmail} />
+            <Route exact path="/resetPassword" component={PasswordResetRequest} />
+            <Route path="/reset/:username/:token" component={PasswordResetForm} />
             <Route exact path="/input" component={InputForm} />
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />
