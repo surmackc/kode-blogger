@@ -3,9 +3,8 @@
   background: #ECEFF1;
   height: 100vh;
   display: flex;
-  flex-flow: row wrap;
+  flex-flow: column;
   padding: 20px;
-  justify-content: space-around;
   align-content: flex-start;
   overflow: auto;
 }
