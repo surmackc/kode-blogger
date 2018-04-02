@@ -12,6 +12,7 @@ import VerifyEmail from './components/VerifyEmail/VerifyEmail';
 import PasswordResetRequest from './components/PasswordResetRequest/PasswordResetRequest';
 import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm';
 import Post from "./components/Post/Post";
+import Note from "./components/Note/Note";
 import NoMatch from "./components/NoMatch/NoMatch";
 
 class App extends Component {
@@ -59,6 +60,7 @@ class App extends Component {
             <Route exact path="/resetPassword" component={PasswordResetRequest} />
             <Route path="/reset/:username/:token" component={PasswordResetForm} />
             <Route exact path="/input" component={InputForm} />
+            <Route exact path="/addnote" component={Note} />
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />
             

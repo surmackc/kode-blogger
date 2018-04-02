@@ -11,6 +11,7 @@ const db = require("./models");
 const apiController = require("./controllers/api_controller");
 const loginController = require("./controllers/login_controller");
 const userController = require("./controllers/user_controller");
+const noteController = require("./controllers/note_controller");
 
 //Setup passport
 const passport = require('passport');
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 db.users.sync();
+db.notes.sync();
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
@@ -38,6 +40,7 @@ app.use(session({
 
 // Use Controllers
 app.use("/api", apiController);
+app.use(noteController);
 // app.use("/login", loginController);
 // app.use("/user", userController);
 
