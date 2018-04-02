@@ -1,55 +1,13 @@
 import React, {Component} from 'react';
 import {EditorState, RichUtils} from 'draft-js';
-import Editor from 'draft-js-plugins-editor';
-import createCodeEditorPlugin from 'draft-js-code-editor-plugin';
-import createToolbarPlugin, { Separator } from 'draft-js-static-toolbar-plugin';
-import {
-  ItalicButton,
-  BoldButton,
-  UnderlineButton,
-  CodeButton,
-  HeadlineOneButton,
-  HeadlineTwoButton,
-  HeadlineThreeButton,
-  UnorderedListButton,
-  OrderedListButton,
-  BlockquoteButton,
-  CodeBlockButton,
-} from 'draft-js-buttons';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import createPrismPlugin from 'draft-js-prism-plugin';
 import Prism from 'prismjs';
 import './../../../node_modules/draft-js/dist/Draft.css';
 import './../../../node_modules/draft-js-prism/demo/editor.css';
-import  './../../../node_modules/draft-js-static-toolbar-plugin/lib/plugin.css';
 import './prism-okaidia.css';
 import "./InputForm.css";
-
-var editorPlugin = createCodeEditorPlugin();
-var prismPlugin = createPrismPlugin({ prism: Prism });
-var toolbarPlugin = createToolbarPlugin({
-  structure: [
-    ItalicButton,
-    BoldButton,
-    UnderlineButton,
-    CodeButton,
-    Separator,
-    HeadlineOneButton,
-    HeadlineTwoButton,
-    HeadlineThreeButton,
-    UnorderedListButton,
-    OrderedListButton,
-    BlockquoteButton,
-    CodeBlockButton,
-  ]
-});
-
-var { Toolbar } = toolbarPlugin;
-
-var plugins = [
-  editorPlugin,
-  toolbarPlugin,
-  prismPlugin
-];
 
 var editorState = EditorState.createEmpty();
 
@@ -59,18 +17,18 @@ class InputForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorState    
+      editorState,
     };
     this.onChange = (editorState) => {
       this.setState({
-        editorState,          
+        editorState          
       });
     };
   }
   
-  focus = () => {
-    this.editor.focus();
-  };
+  // focus = () => {
+  //   this.editor.focus();
+  // };
 
   getBlockStyle = (block) => {
     switch (block.getType()) {
@@ -92,17 +50,16 @@ class InputForm extends React.Component {
     return (
       <div className="inputForm">
         <h1>Draft.js</h1>
-        <div className="editor" onClick={this.focus}>
+        <div className="editor" >
           <Editor
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            plugins={plugins}
-            blockStyleFn={this.getBlockStyle}
-            handleKeyCommand={this.handleKeyCommand}
-            ref={(element) => { this.editor = element; }}
+          editorState={this.state.editorState}
+          toolbarClassName="toolbarClassName"
+          wrapperClassName="wrapperClassName"
+          editorClassName="editorClassName"
+          onEditorStateChange={this.onChange}
+          ref={(element) => { this.editor = element; }}
           />
         </div>
-        <Toolbar />
       </div>
     );
   }
