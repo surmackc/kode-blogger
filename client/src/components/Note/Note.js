@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Wrapper from "../Wrapper/Wrapper";
+import "./Note.css";
 
 
 class App extends Component {
@@ -15,13 +15,13 @@ class App extends Component {
   render() {
     
     return (
-      <Wrapper>
+      
         <form action='/notes/create/{{this.id}}' method="POST">
             <textarea>
             </textarea>
             <button type='submit' class="btn btn-default">Submit</button>
         </form>
-      </Wrapper>
+      
     );
   }
 
