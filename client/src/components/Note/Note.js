@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Wrapper from "../Wrapper/Wrapper";
-import Nav from "../Nav/Nav";
+
 
 class App extends Component {
   // Setting this.state.friends to the friends json array
@@ -16,7 +16,11 @@ class App extends Component {
     
     return (
       <Wrapper>
-        
+        <form action='/notes/create/{{this.id}}' method="POST">
+            <textarea>
+            </textarea>
+            <button type='submit' class="btn btn-default">Submit</button>
+        </form>
       </Wrapper>
     );
   }
