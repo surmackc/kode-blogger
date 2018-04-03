@@ -37,7 +37,7 @@ router.get('/notes/read/:id', (req, res) => {
     });
   });
 
-router.post('/note/create/:id', (req, res) => {
+router.post('/note/create/', (req, res) => {
   db.notes.findOne({where: {id: req.params.id}}).then(data => {
     res.json("creating");
     // if (data) {

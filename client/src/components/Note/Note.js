@@ -16,7 +16,7 @@ class App extends Component {
     
     return (
       
-        <form action='/notes/create/{{this.id}}' method="POST">
+        <form action='/notes/create/' method="POST">
             <textarea>
             </textarea>
             <button type='submit' class="btn btn-default">Submit</button>
