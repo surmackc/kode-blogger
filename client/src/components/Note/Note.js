@@ -15,6 +15,8 @@ class App extends Component {
   render() {
     
     return (
+
+        
       
         <form action='/notes/create/' method="POST">
             <textarea>
