@@ -9,8 +9,8 @@ const LoginNav = (props) =>
           </div>
           :
           (<div>
-            <Link to="/signup"><button type="button">Signup</button></Link>
-            <Link to="/login"><button type="button">Login</button></Link>
+            <Link to="/signup"><button className="btn btn-outline-light mr-1" type="button">Signup</button></Link>
+            <Link to="/login"><button className="btn btn-outline-light" type="button">Login</button></Link>
           </div>);
 
 export default LoginNav;
