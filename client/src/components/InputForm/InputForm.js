@@ -2,16 +2,19 @@ import React, {Component} from 'react';
 import {EditorState, RichUtils} from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import createPrismPlugin from 'draft-js-prism-plugin';
+import PrismDecorator from 'draft-js-prism';
 import Prism from 'prismjs';
-import './../../../node_modules/draft-js/dist/Draft.css';
-import './../../../node_modules/draft-js-prism/demo/editor.css';
+// import 'draft-js/dist/Draft.css';
+// import './../../../node_modules/draft-js-prism/demo/editor.css';
 import './prism-okaidia.css';
 import "./InputForm.css";
 
-var editorState = EditorState.createEmpty();
+var decorator = new PrismDecorator({
+  // Provide your own instance of PrismJS
+  prism: Prism,
+});
 
-var text = 'In this editor you can type text and code …';
+var editorState = EditorState.createEmpty(decorator);
 
 class InputForm extends React.Component {
   constructor(props) {
@@ -25,10 +28,6 @@ class InputForm extends React.Component {
       });
     };
   }
-  
-  // focus = () => {
-  //   this.editor.focus();
-  // };
 
   getBlockStyle = (block) => {
     switch (block.getType()) {
@@ -57,7 +56,6 @@ class InputForm extends React.Component {
           wrapperClassName="wrapperClassName"
           editorClassName="editorClassName"
           onEditorStateChange={this.onChange}
-          ref={(element) => { this.editor = element; }}
           />
         </div>
       </div>
