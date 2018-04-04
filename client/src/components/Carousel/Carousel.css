@@ -1,0 +1,11 @@
+
+.carousel {
+  padding-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .carousel {
+    width:auto;
+    height:auto;
+  }
+}
