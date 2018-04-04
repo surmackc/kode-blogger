@@ -49,6 +49,7 @@ class App extends Component {
       <BrowserRouter>
         <Wrapper>
           <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>
+          <div className="container">
           <Switch>
             <Route exact path="/" component={Home}  />
             <Route exact path="/login"
@@ -66,6 +67,7 @@ class App extends Component {
             
             <Route component={NoMatch} />
           </Switch>
+          </div>
         </Wrapper>
       </BrowserRouter>
     );

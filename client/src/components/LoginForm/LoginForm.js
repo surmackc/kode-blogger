@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-
 import axios from 'axios';
 
 class LoginForm extends Component {
@@ -34,12 +33,22 @@ class LoginForm extends Component {
 
   render() {
     return (
-        <form>
-        {this.state.message ? <p>{this.state.message}</p> : ''}
-        <input type="text" name="username" onChange={this.handleFormInput} value={this.state.username} />
-        <input type="password" name="password" onChange={this.handleFormInput} value={this.state.password} />
-        <button type="submit" onClick={this.onFormSubmit}>Login</button>
-        </form>
+      <div className="row">
+        <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded">
+            {this.state.message ? <p>{this.state.message}</p> : ''}
+          <form className="mt-0">
+            <div className="form-group">
+              <label className="text-light" for="username">Username</label>
+              <input type="text" name="username" onChange={this.handleFormInput} value={this.state.username} />
+            </div>
+            <div className="form-group">
+              <label className="text-light" for="password">Password</label>
+              <input type="password" name="password" onChange={this.handleFormInput} value={this.state.password} />
+            </div>
+            <button className="btn btn-outline-light" type="submit" onClick={this.onFormSubmit}>Login</button>
+          </form>
+        </div>
+      </div>
     )
   }
 }
