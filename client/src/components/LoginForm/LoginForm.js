@@ -8,7 +8,8 @@ class LoginForm extends Component {
 
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      message: ""
     }
 
     this.handleFormInput = this.handleFormInput.bind(this);
@@ -27,16 +28,19 @@ class LoginForm extends Component {
       password: this.state.password 
     }).then((res) => {
       this.props.userLoggedIn(JSON.parse(res.config.data).username);
+    }).catch(err => {
+      this.setState({message: err.response.data.message});
     });
   }
 
   render() {
     return (
-      <form>
+        <form>
+        {this.state.message ? <p>{this.state.message}</p> : ''}
         <input type="text" name="username" onChange={this.handleFormInput} value={this.state.username} />
         <input type="password" name="password" onChange={this.handleFormInput} value={this.state.password} />
         <button type="submit" onClick={this.onFormSubmit}>Login</button>
-      </form>
+        </form>
     )
   }
 }

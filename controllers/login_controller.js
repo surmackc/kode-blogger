@@ -2,17 +2,26 @@
 
 module.exports = (app, passport) => {
 
-  app.post('/users/login', passport.authenticate('local-login', {
-    failureFlash : true 
-  }),
-  function(req, res) {
-    if (req.body.remember) {
-      req.session.cookie.maxAge = 1000 * 60 * 3;
-    } else {
-      req.session.cookie.expires = false;
-    }
+  // app.post('/users/login', passport.authenticate('local-login'),
+  // function(req, res) {
+  //   if (req.body.remember) {
+  //     req.session.cookie.maxAge = 1000 * 60 * 3;
+  //   } else {
+  //     req.session.cookie.expires = false;
+  //   }
     
-    res.sendStatus(200);
+  //   res.sendStatus(200);
+  // });
+
+  app.post('/users/login', function(req, res, next) {
+    passport.authenticate('local-login', function(err, user, info) {
+      if (err) { return res.status(401).send({message: err}); }
+      if (!user) { return res.status(401).send({message: 'Invalid username/password'}); }
+      req.logIn(user, function(err) {
+        if (err) { return res.status(401).send({message: err}); }
+        return res.sendStatus(200);
+      });
+    })(req, res, next);
   });
 
     // process the signup form

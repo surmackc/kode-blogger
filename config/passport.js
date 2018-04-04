@@ -89,30 +89,23 @@ module.exports = function(passport) {
       passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) { 
-      console.log('Logging in!!');
 
       db.users.findOne({where: {username: username}}).then(data => {
-        console.log('Logging in!');
         if (!data) {
           //No user was found
-          console.log('No user was found');
-          return done(null, false, req.flash('loginMessage', '<p class="error-message text-center">Username or password was invalid.</p>'));
+          return done('Username was not found', false, null);
         }
 
         if (!bcrypt.compareSync(password, data.dataValues.password)) {
           //Password was incorrect
-          console.log('Passowrd was incorrect');
-          return done(null, false, req.flash('loginMessage', '<p class="error-message text-center">Username or password was invalid.</p>'));
+          return done('Invalid username/password', false, null);
         }
 
         if(!data.dataValues.verified) {
           console.log('Email not verified');
           //User not has verified their email
-          return done(null, false, req.flash('loginMessage', 
-            `<p class="error-message text-center">Please verify your email before logging in.
-            <a href="/resendVerification/${data.dataValues.username}">Resend Verification Email</a></p>`));
+          return done('Your email is not verified.', false, null);
         }
-
         console.log('Auth done, logged in');
 
         return done(null, data.dataValues);
