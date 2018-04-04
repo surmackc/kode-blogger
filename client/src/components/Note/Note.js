@@ -3,25 +3,37 @@ import "./Note.css";
 
 
 class App extends Component {
-  // Setting this.state.friends to the friends json array
-  state = {
-    NoteBody: ""
-  };
+  
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    
+    fetch('/note/create', {
+      method: 'POST',
+      body: data,
+      
+    });
+  }
     
   
 
-  // Map over this.state.friends and render a FriendCard component for each friend object
+  
   render() {
     
     return (
 
         
       
-        <form action='/notes/create/' method="POST">
+        <form onSubmit={this.handleSubmit}>
             <textarea>
             </textarea>
-            <button type='submit' class="btn btn-default">Submit</button>
+            <button type='submit' class="btn btn-default" name="textbody">Submit</button>
         </form>
       
     );

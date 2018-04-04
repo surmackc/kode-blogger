@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       author: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       body: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       }
     }, {
       timestamps: false

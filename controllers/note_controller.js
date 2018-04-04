@@ -24,8 +24,16 @@ router.get('/notes/read/:id', (req, res) => {
   });
 
 router.post('/note/create/', (req, res) => {
-  db.notes.findOne({where: {id: req.params.id}}).then(data => {
-    res.json("creating");
+  let textbody = req.body.texbody;
+  // let role = req.body.role;
+  db.notes.create({
+    author: "asadasd",
+    body: textbody
+  }).then(data => {
+    res.json(data);
+    // res.redirect("/")
+    // res.json(req)
+    // res.json(data)
     
   });
 });
