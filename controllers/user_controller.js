@@ -9,9 +9,9 @@ module.exports = (app, passport) => {
     db.users.findOne({where: {username: req.params.username, verificationToken: req.params.token}}).then( data => {
       if (data) {
         data.updateAttributes({verified: true});
-        res.status(200);
+        res.status(200).send();
       } else {
-        res.status(400);
+        res.status(400).send();
       }
     });
   });

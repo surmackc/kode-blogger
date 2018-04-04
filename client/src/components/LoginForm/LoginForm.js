@@ -22,7 +22,6 @@ class LoginForm extends Component {
 
   onFormSubmit = (event) => {
     event.preventDefault();
-    console.log('Form submitted');
     axios.post('/users/login', {
       username: this.state.username,
       password: this.state.password 
