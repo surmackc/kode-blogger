@@ -186,6 +186,8 @@ class RichTextExample extends Component {
       const isType = value.blocks.some(block => {
         return !!document.getClosest(block.key, parent => parent.type == type)
       })
+      
+      console.log(this.state.value.toJSON())
 
       if (isList && isType) {
         change
