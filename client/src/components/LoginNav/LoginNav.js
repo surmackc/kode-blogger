@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 const LoginNav = (props) => 
         props.loggedIn ? 
           <div>
-            <span>{props.username}</span>
-            <button onClick={props.logOut} type="button">Logout</button> 
+            <span className="mr-2 ml-2 text-light">{props.username}</span>
+            <button className="btn btn-outline-light" onClick={props.logOut} type="button">Logout</button> 
           </div>
           :
           (<div>

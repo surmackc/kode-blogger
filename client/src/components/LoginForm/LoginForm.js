@@ -35,7 +35,9 @@ class LoginForm extends Component {
     return (
       <div className="row">
         <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded">
-            {this.state.message ? <p>{this.state.message}</p> : ''}
+          <h3 className="text-light font-weight-bold">Log In</h3>
+
+            {this.state.message ? <p className="alert alert-primary">{this.state.message}</p> : ''}
           <form className="mt-0">
             <div className="form-group">
               <label className="text-light" for="username">Username</label>
