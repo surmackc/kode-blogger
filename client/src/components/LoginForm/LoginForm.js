@@ -38,14 +38,14 @@ class LoginForm extends Component {
           <h3 className="text-light font-weight-bold">Log In</h3>
 
             {this.state.message ? <p className="alert alert-primary">{this.state.message}</p> : ''}
-          <form className="mt-0">
+          <form className="mt-0" autoComplete="on">
             <div className="form-group">
-              <label className="text-light" for="username">Username</label>
-              <input type="text" name="username" onChange={this.handleFormInput} value={this.state.username} />
+              <label className="text-light" htmlFor="username">Username</label>
+              <input type="text" name="username" autoComplete="username" onChange={this.handleFormInput} value={this.state.username} />
             </div>
             <div className="form-group">
-              <label className="text-light" for="password">Password</label>
-              <input type="password" name="password" onChange={this.handleFormInput} value={this.state.password} />
+              <label className="text-light" htmlFor="password">Password</label>
+              <input type="password" name="password" autoComplete="current-password" onChange={this.handleFormInput} value={this.state.password} />
             </div>
             <button className="btn btn-outline-light" type="submit" onClick={this.onFormSubmit}>Login</button>
           </form>
