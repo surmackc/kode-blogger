@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { Editor } from 'slate-react';
 import { Value } from 'slate';
 import { isKeyHotkey } from 'is-hotkey'
+import PluginEditCode from 'slate-edit-code';
 import Prism from 'prismjs';
 import SlatePrism from 'slate-prism';
 import initialValue from './value.json';
@@ -9,14 +10,12 @@ import "./InputForm.css";
 import './prism-okaidia.css';
 
 /**
- * Define defaults.
+ * Define the default node type.
  *
  * @type {String}
  */
 
-const DEFAULT_CODE_LANGUAGE = 'js'
 const DEFAULT_NODE = 'paragraph'
-const DEFAULT_INDENTATION = '    '
 
 /**
  * Define hotkey matchers.
@@ -28,8 +27,6 @@ const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
-const isShiftTabHotkey = isKeyHotkey('shift+tab');
-const isTabHotkey = isKeyHotkey('tab');
 
 
 function CodeBlock(props) {
@@ -52,7 +49,6 @@ function CodeBlock(props) {
         style={{ position: 'absolute', top: '5px', right: '5px' }}
       >
         <select value={language} onChange={onChange}>
-          <option value={DEFAULT_CODE_LANGUAGE}>Default ({DEFAULT_CODE_LANGUAGE})</option>
           <option value="css">CSS</option>
           <option value="js">JavaScript</option>
           <option value="html">HTML</option>
@@ -73,7 +69,7 @@ function CodeBlockLine(props) {
  * @type {Component}
  */
 
-class InputForm extends Component {
+class RichTextExample extends Component {
   /**
    * Deserialize the initial editor value.
    *
@@ -93,7 +89,7 @@ class InputForm extends Component {
 
   hasMark = type => {
     const { value } = this.state
-    return value.activeMarks.some(mark => mark.type===type)
+    return value.activeMarks.some(mark => mark.type == type)
   }
 
   /**
@@ -105,7 +101,7 @@ class InputForm extends Component {
 
   hasBlock = type => {
     const { value } = this.state
-    return value.blocks.some(node => node.type===type)
+    return value.blocks.some(node => node.type == type)
   }
 
   /**
@@ -126,60 +122,6 @@ class InputForm extends Component {
    * @return {Change}
    */
 
-  indentLines = (change) => {
-    const { value } = change;
-    const { document, selection } = value;
-    const lines = document
-    .getBlocksAtRange(selection)
-    .filter(node => node.type === "code-line");
-
-    return lines.reduce((c, line) => {
-        // Insert an indent at start of line
-        const text = line.nodes.first();
-        return c.insertTextByKey(text.key, 0, DEFAULT_INDENTATION);
-    }, change);
-  }
-
-  dedentLines = (change) => {
-    const { value } = change;
-    const { document, selection } = value;
-    const lines = document
-    .getBlocksAtRange(selection)
-    .filter(node => node.type === "code-line");
-
-    return lines.reduce((c, line) => {
-        // Insert an indent at start of line
-        const text = line.nodes.first();
-        const lengthToRemove = text.characters
-            .takeWhile((char, index) => DEFAULT_INDENTATION.charAt(index) === char.text)
-            .count();
-        return c.removeTextByKey(text.key, 0, lengthToRemove);
-    }, change);
-  }
-
-  onShiftTab = (event, change) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    // We indent all selected lines
-    this.dedentLines(change);
-  }
-
-  onTab = (event, change) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const { value } = change
-    const { isCollapsed } = value;
-
-    if (isCollapsed) {
-        return change.insertText(DEFAULT_INDENTATION);
-    }
-
-    // We indent all selected lines
-    this.indentLines(change);
-  }
-
   onKeyDown = (event, change) => {
     let mark
 
@@ -193,26 +135,22 @@ class InputForm extends Component {
       mark = 'code'
     } else {
       mark = null;
-    } 
-    
+    }
+ 
     if (mark) {
       event.preventDefault()
       change.toggleMark(mark)
     } else {
       const { value } = change
       const { startBlock } = value
-
-      
-
-      if (isShiftTabHotkey(event) && startBlock.type!== 'block-code')  {       
-        this.onShiftTab(event, change);
-      } else if (isTabHotkey(event) && startBlock.type!== 'block-code')  {       
-        this.onTab(event, change);
-      } else if (event.key== 'Enter' && startBlock.type!== 'block-code') {
-        if (value.isExpanded) change.delete()
-        change.insertText('\n')
-      }
+  
+      if (event.key != 'Enter') return
+      if (startBlock.type != 'block-code') return
+      if (value.isExpanded) change.delete()
+      change.insertText('\n')
     }
+ 
+    return
   }
 
   /**
@@ -242,12 +180,14 @@ class InputForm extends Component {
     const change = value.change()
     const { document } = value
 
-    if (type==='bulleted-list' || type==='numbered-list') {
+    if (type == 'bulleted-list' || type == 'numbered-list') {
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item')
       const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type===type)
+        return !!document.getClosest(block.key, parent => parent.type == type)
       })
+      
+      console.log(this.state.value.toJSON())
 
       if (isList && isType) {
         change
@@ -263,11 +203,11 @@ class InputForm extends Component {
       } else {
         change.setBlocks('list-item').wrapBlock(type)
       }
-    } else if (type==='block-code') {
+    } else if (type == 'block-code') {
       // Handle the extra wrapping required for block-code.
       const hasLines = this.hasBlock('code-line')
       const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type===type)
+        return !!document.getClosest(block.key, parent => parent.type == type)
       })
 
       if (hasLines && isType) {
@@ -434,8 +374,8 @@ class InputForm extends Component {
         return <CodeBlock {...props} />
       case 'code-line':
         return <CodeBlockLine {...props} />
-      default:
-        return <p {...attributes}>{children}</p>
+      // default:
+      //   return
     }
   }
 
@@ -457,6 +397,7 @@ class InputForm extends Component {
         return <em>{children}</em>
       case 'underlined':
         return <u>{children}</u>
+
       case 'comment':
         return <span style={{ opacity: '0.33' }}>{children}</span>
       case 'keyword':
@@ -465,15 +406,15 @@ class InputForm extends Component {
         return <span style={{ fontWeight: 'bold' }}>{children}</span>
       case 'punctuation':
         return <span style={{ opacity: '0.75' }}>{children}</span>
-        default:
-          return <span>{children}</span>
+        // default:
+        //   return
     }
   }
 
   tokenToContent = token => {
-    if (typeof token==='string') {
+    if (typeof token == 'string') {
       return token
-    } else if (typeof token.content==='string') {
+    } else if (typeof token.content == 'string') {
       return token.content
     } else {
       return token.content.map(this.tokenToContent).join('')
@@ -488,10 +429,10 @@ class InputForm extends Component {
    */
 
   decorateNode = node => {
-    if (node.type!== 'block-code') return
+    if (node.type != 'block-code') return
 
     // default language for new blocks is css
-    const language = node.data.get('language') || DEFAULT_CODE_LANGUAGE
+    const language = node.data.get('language') || 'css'
     const texts = node.getTexts().toArray()
     const string = texts.map(t => t.text).join('\n')
     const grammar = Prism.languages[language]
@@ -524,7 +465,7 @@ class InputForm extends Component {
         endOffset = remaining
       }
 
-      if (typeof token!== 'string') {
+      if (typeof token != 'string') {
         const range = {
           anchorKey: startText.key,
           anchorOffset: startOffset,
@@ -547,4 +488,4 @@ class InputForm extends Component {
  * Export.
  */
 
-export default InputForm
+export default RichTextExample
