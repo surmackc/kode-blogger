@@ -3,7 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
 const session = require("express-session");
-const SequelStore = require('sequelstore-connect')(session);
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const flash = require("connect-flash");
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -26,23 +26,26 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-db.users.sync();
-db.notes.sync();
+
+
+const myStore = new SequelizeStore({db: db.sequelize});
 
 app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true,
+  resave: false,
+  saveUninitialized: false,
   cookie: { secure: false },
-  // store: new SequelStore({ database: db.sequelize})
-}))
+  store: myStore 
+}));
+
+db.users.sync();
+db.notes.sync();
+myStore.sync();
 
 // Use Controllers
 app.use("/api", apiController);
 app.use(noteController);
-// app.use("/login", loginController);
-// app.use("/user", userController);
 
 //Persistent login sessions (maybe?)
 app.use(passport.initialize());
