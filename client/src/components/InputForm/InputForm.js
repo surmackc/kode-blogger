@@ -16,7 +16,7 @@ import './prism-okaidia.css';
 
 const DEFAULT_CODE_LANGUAGE = 'js'
 const DEFAULT_NODE = 'paragraph'
-const DEFAULT_INDENTATION = '    '
+const DEFAULT_INDENTATION = '  '
 
 /**
  * Define hotkey matchers.
@@ -202,16 +202,16 @@ class InputForm extends Component {
       const { value } = change
       const { startBlock } = value
 
-      
-
-      if (isShiftTabHotkey(event) && startBlock.type!== 'block-code')  {       
+      if (isShiftTabHotkey(event) && startBlock.type=== 'code-line')  {       
         this.onShiftTab(event, change);
-      } else if (isTabHotkey(event) && startBlock.type!== 'block-code')  {       
+      } else if (isTabHotkey(event) && startBlock.type=== 'code-line')  {       
         this.onTab(event, change);
-      } else if (event.key== 'Enter' && startBlock.type!== 'block-code') {
-        if (value.isExpanded) change.delete()
-        change.insertText('\n')
       }
+      
+      if (event.key != 'Enter') return
+      if (startBlock.type != 'block-code') return
+      if (value.isExpanded) change.delete()
+      change.insertText('\n')
     }
   }
 

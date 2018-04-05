@@ -324,7 +324,7 @@
                 "leaves": [
                   {
                     "object": "leaf",
-                    "text": " first: \"A coding tutorial\"",
+                    "text": "  first: \"A coding tutorial\"",
                     "marks": []
                   }
                 ]
@@ -342,7 +342,7 @@
                 "leaves": [
                   {
                     "object": "leaf",
-                    "text": " second: \"Documentation\"",
+                    "text": "  second: \"Documentation\"",
                     "marks": []
                   }
                 ]
