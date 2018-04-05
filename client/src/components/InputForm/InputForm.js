@@ -150,7 +150,6 @@ class RichTextExample extends Component {
       change.insertText('\n')
     }
  
-
     return
   }
 
@@ -197,6 +196,7 @@ class RichTextExample extends Component {
         change
           .unwrapBlock('bulleted-list')
           .unwrapBlock('numbered-list')
+          .unwrapBlock('code-block')
           .wrapBlock(type)
       } else {
         change.setBlocks('list-item').wrapBlock(type)
@@ -214,9 +214,15 @@ class RichTextExample extends Component {
           .unwrapBlock('block-code')
       } else if (hasLines) {
         change
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list')
           .wrapBlock(type)
       } else {
-        change.setBlocks('code-line').wrapBlock(type)
+        change
+          .setBlocks('code-line')
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list')
+          .wrapBlock(type)
       }
 
 
