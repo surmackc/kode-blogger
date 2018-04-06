@@ -7,11 +7,12 @@ import SlatePrism from 'slate-prism';
 import defaultValue from './value.json';
 import Html from 'slate-html-serializer';
 import serializeRules from './serialize-rules';
+import axios from 'axios';
 import "./InputForm.css";
 import './prism-okaidia.css';
 
 /* Get editor content */
-const initialValue = localStorage.getItem('content') || '<p>Something</p>'
+const initialValue = '<p>Something</p>'
 
 /* Create serializer */
 const html = new Html({ rules: serializeRules });
@@ -91,6 +92,22 @@ class InputForm extends Component {
   state = {
     value: html.deserialize(initialValue)
     // value: Value.fromJSON(initialValue),
+  }
+
+  /* Handle DB Save */
+  onSaveClick = event => {
+    const data = html.serialize(this.state.value);
+    axios.post('/notes/create', ({textBody: data}));
+  }
+
+  componentDidMount() {
+    //Just for testing load something from DB
+    axios.get('/notes').then(data => {
+      console.log(data);
+      if (data.data.length > 0) {
+        this.setState({value: html.deserialize(data.data[0].body)})
+      }
+    })
   }
 
   /**
@@ -331,6 +348,7 @@ class InputForm extends Component {
       <div className="inputForm">
         {this.renderToolbar()}
         {this.renderEditor()}
+        <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
       </div>
     )
   }

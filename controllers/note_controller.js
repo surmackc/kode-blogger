@@ -23,12 +23,20 @@ router.get('/notes/read/:id', (req, res) => {
     });
   });
 
-router.post('/note/create/', (req, res) => {
-  let textbody = req.body.texbody;
+router.get('/notes', (req, res) => {
+  db.notes.findAll({
+    where: { author: req.session.passport.user }
+  }).then(data => {
+    res.json(data);
+  });
+})
+
+router.post('/notes/create/', (req, res) => {
+  let textBody = req.body.textBody;
   // let role = req.body.role;
   db.notes.create({
-    author: "asadasd",
-    body: textbody
+    author: req.session.passport.user,
+    body: textBody
   }).then(data => {
     res.json(data);
     // res.redirect("/")
