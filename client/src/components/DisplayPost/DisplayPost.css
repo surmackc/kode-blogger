@@ -1,0 +1,5 @@
+.scrollPanel {
+  display: flex;
+  position: relative; 
+  height: 600;
+}

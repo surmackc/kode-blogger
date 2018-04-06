@@ -14,6 +14,7 @@ import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm'
 import Post from "./components/Post/Post";
 import Note from "./components/Note/Note";
 import NoMatch from "./components/NoMatch/NoMatch";
+import DisplayPost from "./components/DisplayPost/DisplayPost";
 
 class App extends Component {
   constructor(props) {
@@ -64,6 +65,7 @@ class App extends Component {
             <Route exact path="/addnote" component={Note} />
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />
+            <Route exact path="/displaypost" component={DisplayPost} />
             
             <Route component={NoMatch} />
           </Switch>
