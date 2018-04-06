@@ -4,9 +4,17 @@ import { Value } from 'slate';
 import { isKeyHotkey } from 'is-hotkey'
 import Prism from 'prismjs';
 import SlatePrism from 'slate-prism';
-import initialValue from './value.json';
+import defaultValue from './value.json';
+import Html from 'slate-html-serializer';
+import serializeRules from './serialize-rules';
 import "./InputForm.css";
 import './prism-okaidia.css';
+
+/* Get editor content */
+const initialValue = localStorage.getItem('content') || '<p>Something</p>'
+
+/* Create serializer */
+const html = new Html({ rules: serializeRules });
 
 /**
  * Define defaults.
@@ -81,7 +89,8 @@ class InputForm extends Component {
    */
 
   state = {
-    value: Value.fromJSON(initialValue),
+    value: html.deserialize(initialValue)
+    // value: Value.fromJSON(initialValue),
   }
 
   /**
@@ -115,6 +124,11 @@ class InputForm extends Component {
    */
 
   onChange = ({ value }) => {
+    if (value.document != this.state.value.document) {
+      const string = html.serialize(value)
+      localStorage.setItem('content', string)
+    }
+
     this.setState({ value })
   }
 
@@ -434,6 +448,8 @@ class InputForm extends Component {
         return <CodeBlock {...props} />
       case 'code-line':
         return <CodeBlockLine {...props} />
+      case 'paragraph':
+        return <p {...attributes}>{children}</p>
       default:
         return <p {...attributes}>{children}</p>
     }

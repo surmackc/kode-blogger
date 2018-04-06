@@ -27,7 +27,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-
 const myStore = new SequelizeStore({db: db.sequelize});
 
 app.set('trust proxy', 1) // trust first proxy
