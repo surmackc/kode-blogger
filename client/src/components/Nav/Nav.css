@@ -1,7 +1,28 @@
+body {
+  font-family: 'Montserrat', sans-serif;
+}
+
 nav.navbar {
   margin-bottom: 0;
   width: 100%;
   min-height: 60px;
+}
+
+.navbar-custom {
+  background-color: #03d8be;
+}
+
+nav.form {
+  justify-content: right;
+}
+a.navbar-brand {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+}
+#navbar-brand-second{
+  font-weight: 700;
+  color: #03717f;
 }
 
 nav.form {
