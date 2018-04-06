@@ -24,6 +24,9 @@ router.get('/notes/read/:id', (req, res) => {
   });
 
 router.get('/notes', (req, res) => {
+  if (!req.session.passport.user) {
+    return res.status(400).send();
+  }
   db.notes.findAll({
     where: { author: req.session.passport.user }
   }).then(data => {
@@ -36,13 +39,10 @@ router.post('/notes/create/', (req, res) => {
   // let role = req.body.role;
   db.notes.create({
     author: req.session.passport.user,
+    json: req.body.jsonBody,
     body: textBody
   }).then(data => {
     res.json(data);
-    // res.redirect("/")
-    // res.json(req)
-    // res.json(data)
-    
   });
 });
 

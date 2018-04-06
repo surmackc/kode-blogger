@@ -141,15 +141,17 @@ class InputForm extends Component {
   /* Handle DB Save */
   onSaveClick = event => {
     const data = html.serialize(this.state.value);
-    axios.post('/notes/create', ({textBody: data}));
+    axios.post('/notes/create', ({textBody: data, jsonBody: JSON.stringify(this.state.value.toJSON())}));
   }
 
   componentDidMount() {
     //Just for testing load something from DB
     axios.get('/notes').then(data => {
       console.log(data);
+      console.log(this.state.value);
       if (data.data.length > 0) {
-        this.setState({value: html.deserialize(data.data[0].body)})
+        console.log(JSON.parse(data.data[0].json));
+        this.setState({value: Value.fromJSON(JSON.parse(data.data[0].json))});
       }
     })
   }
@@ -185,11 +187,6 @@ class InputForm extends Component {
    */
 
   onChange = ({ value }) => {
-    if (value.document != this.state.value.document) {
-      const string = html.serialize(value)
-      localStorage.setItem('content', string)
-    }
-
     this.setState({ value })
   }
 

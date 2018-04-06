@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       body: {
         type: DataTypes.STRING,
         allowNull: true,
+      },
+      json : {
+        type: DataTypes.JSON,
+        allowNull: false
       }
     }, {
       timestamps: false
