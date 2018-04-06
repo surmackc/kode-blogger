@@ -23,9 +23,9 @@ const html = new Html({ rules: serializeRules });
  * @type {String}
  */
 
-const DEFAULT_CODE_LANGUAGE = 'js'
+var DEFAULT_CODE_LANGUAGE = 'js'
+var DEFAULT_INDENTATION = '  '
 const DEFAULT_NODE = 'paragraph'
-const DEFAULT_INDENTATION = '  '
 
 /**
  * Define hotkey matchers.
@@ -40,6 +40,52 @@ const isCodeHotkey = isKeyHotkey('mod+`')
 const isShiftTabHotkey = isKeyHotkey('shift+tab');
 const isTabHotkey = isKeyHotkey('tab');
 
+class DefaultCodeLanguage extends Component {
+  state = {
+    value: DEFAULT_CODE_LANGUAGE,
+  }
+
+  onChange = (event) => {
+    this.setState({value: event.target.value})
+    DEFAULT_CODE_LANGUAGE = event.target.value
+  }
+
+  render() {
+    return (      
+      <label className="selector">
+        <span>Code-Language: </span> 
+        <select value={this.state.value} onChange={this.onChange}>
+          <option value="css">CSS</option>
+          <option value="js">JavaScript</option>
+          <option value="html">HTML</option>
+        </select>
+      </label>
+    )
+  }
+}
+
+class DefaultIndentation extends Component {
+  state = {
+    value: DEFAULT_INDENTATION,
+  }
+
+  onChange = (event) => {
+    this.setState({value: event.target.value})
+    DEFAULT_INDENTATION = event.target.value
+  }
+
+  render() {
+    return (
+      <label className="selector">
+        <span>Tab Indent: </span> 
+        <select value={this.state.value} onChange={this.onChange}>
+          <option value="  ">TwoSpaces</option>
+          <option value="    ">FourSpaces</option>
+        </select>
+      </label>
+    )
+  }
+}
 
 function CodeBlock(props) {
   const { editor, node } = props
@@ -60,8 +106,7 @@ function CodeBlock(props) {
         contentEditable={false}
         style={{ position: 'absolute', top: '5px', right: '5px' }}
       >
-        <select value={language} onChange={onChange}>
-          <option value={DEFAULT_CODE_LANGUAGE}>Default ({DEFAULT_CODE_LANGUAGE})</option>
+        <select value={language || DEFAULT_CODE_LANGUAGE} onChange={onChange}>
           <option value="css">CSS</option>
           <option value="js">JavaScript</option>
           <option value="html">HTML</option>
@@ -74,7 +119,6 @@ function CodeBlock(props) {
 function CodeBlockLine(props) {
   return <div {...props.attributes}>{props.children}</div>
 }
-
 
 /**
  * The rich text example.
@@ -359,19 +403,26 @@ class InputForm extends Component {
    * @return {Element}
    */
 
+
   renderToolbar = () => {
     return (
-      <div className="menu toolbar-menu">
-        {this.renderMarkButton('bold', 'format_bold')}
-        {this.renderMarkButton('italic', 'format_italic')}
-        {this.renderMarkButton('underlined', 'format_underlined')}
-        {this.renderMarkButton('code', 'code')}
-        {this.renderBlockButton('heading-one', 'looks_one')}
-        {this.renderBlockButton('heading-two', 'looks_two')}
-        {this.renderBlockButton('block-quote', 'format_quote')}
-        {this.renderBlockButton('numbered-list', 'format_list_numbered')}
-        {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
-        {this.renderBlockButton('block-code', 'code')}
+      <div className="menu">
+        <div className="toolbar">
+          <DefaultCodeLanguage />
+          <DefaultIndentation />
+        </div>
+        <div className="toolbar">
+            {this.renderMarkButton('bold', 'format_bold')}
+            {this.renderMarkButton('italic', 'format_italic')}
+            {this.renderMarkButton('underlined', 'format_underlined')}
+            {this.renderMarkButton('code', 'code')}
+            {this.renderBlockButton('heading-one', 'looks_one')}
+            {this.renderBlockButton('heading-two', 'looks_two')}
+            {this.renderBlockButton('block-quote', 'format_quote')}
+            {this.renderBlockButton('numbered-list', 'format_list_numbered')}
+            {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
+            {this.renderBlockButton('block-code', 'code')}
+        </div>
       </div>
     )
   }
