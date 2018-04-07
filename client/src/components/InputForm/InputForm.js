@@ -51,15 +51,12 @@ class GlobalCodeSyntaxSelector extends Component {
   }
 
   render() {
-    return (      
-      <label className="selector">
-        <span>Syntax: </span> 
+    return (
         <select value={this.state.value} onChange={this.onChange}>
           <option value="css">CSS</option>
           <option value="javascript">JavaScript</option>
           <option value="html">HTML</option>
         </select>
-      </label>
     )
   }
 }
@@ -272,14 +269,21 @@ class InputForm extends Component {
 
   render() {
     return (
-      <div>
-      <NoteSelector onNoteSelected={this.onNoteSelected} />
-        <div className="inputForm">
+      <div className="row">
+        <div className="input-form col-md-6">
+          <NoteSelector onNoteSelected={this.onNoteSelected} />
+          <input className="title-input" onChange={this.onTitleChange} type="text" placeholder="enter a note title" />
           {this.renderToolbar()}
           {this.renderEditor()}
+        </div>
+        <div className="col-md-6">
+          <h5 className="alert-light">Preview:</h5>
+          <h3 className="alert-light">{this.state.title || "Untitled"}</h3>
           <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
-          <h2>HTML Output Preview</h2>
-          <div className="editor" dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}} />
+          <div className="html-output"
+            dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}}
+          >
+          </div>
         </div>
       </div>
     )
@@ -288,7 +292,6 @@ class InputForm extends Component {
   renderEditor = () => {
     return (
       <div className="editor">
-        <input className="title-input" onChange={this.onTitleChange} type="text" placeholder="enter a note title" />
         <Editor
           placeholder="Enter some rich text..."
           value={this.state.value}
@@ -307,14 +310,10 @@ class InputForm extends Component {
   renderToolbar = () => {
     return (
       <div className="menu">
-        <div className="toolbar">
-        </div>
-        <div className="toolbar">
-          <span className="button" onMouseDown={this.onToggleCode}>
-            <span className="material-icons">code</span>
-          </span>
-          <GlobalCodeSyntaxSelector />
-        </div>
+        <button className="btn-light btn-sm mr-2" onMouseDown={this.onToggleCode}>
+          Code Block
+        </button>
+        <GlobalCodeSyntaxSelector />
         <div className="toolbar">
             {this.renderMarkButton('bold', 'format_bold')}
             {this.renderMarkButton('italic', 'format_italic')}

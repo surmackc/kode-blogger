@@ -1,13 +1,8 @@
 .inputForm {
-  box-sizing: border-box;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
+  margin-top: 1.5em;
 }
 
-.editor {
+.editor, .html-output {
   border: 1px solid #ddd;
   margin-top: 0.3em;
   cursor: text;
@@ -16,30 +11,30 @@
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #fefefe;
   max-width: 1000px;
-  width: 80%;
 }
 
 .title-input {
   margin-bottom: 1.5rem;
 }
 
-.menu {
-  border-radius: 2px;
-  padding: 5px 10px;
-  margin-top: 02em;
-  box-shadow: inset 0px 1px 8px -3px #ABABAB;
-  background: #fefefe;
-  max-width: 1000px;
-  width: 80%;
-  border: 1px solid #ddd;
-}
-
 .toolbar {
-  width: 100%;
+  margin-top: 1rem;
+  box-sizing: border-box;
+  flex: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
+}
+
+
+.menu {
+  padding: 5px 10px;
+  /* border: 1px solid #ddd;
+  border-radius: 2px; */
+  box-shadow: inset 0px 1px 8px -3px #ABABAB;
+  background: #ddd;
+  max-width: 1000px;
 }
 
 .selector {
@@ -129,11 +124,16 @@ input:focus {
 }
 
 .button {
-  color: #aaa;
+  color: #888;
   cursor: pointer;
 }
 
 .button[data-active='true'] {
+  color: black;
+}
+
+
+.button-block[data-active='true'] {
   color: black;
 }
 
