@@ -281,12 +281,16 @@ class InputForm extends Component {
           <h5 className="alert-light">Preview:</h5>
           <h3 className="alert-light">{this.state.title || "Untitled"}</h3>
           <div className="html-output"
-            dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}}
+            dangerouslySetInnerHTML={{__html: html.serialize(this.state.value, {sanitize: true})}}
           >
           </div>
         </div>
       </div>
     )
+  }
+
+  renderOutput() {
+
   }
 
   renderEditor = () => {
