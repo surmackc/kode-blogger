@@ -1,5 +1,6 @@
 import React from "react";
 import {ScrollSync, ScrollSyncPane}  from "react-scroll-sync";
+import { Link } from 'react-router-dom'
 
 import "./DisplayPost.css";
 
@@ -12,6 +13,8 @@ const DisplayPost = () => (
           <section style={{ height: 500, width: 500 }}>
             <h1>Article Text</h1>
             <p>Check out this code!</p>
+            <Link to="/addnote"><button class="btn btn-default" >Add Note</button></Link>
+            <p>Check out these comments!</p>
           </section>
         </div>
       </ScrollSyncPane>

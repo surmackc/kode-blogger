@@ -5,9 +5,9 @@ const db = require('../models');
 const bcrypt = require('bcrypt-nodejs');
 const randomstring = require('randomstring');
 
-router.get('/postNote', (req, res) => {
-    res.render('post', {message: req.flash('resetMessage'), showResetForm: true});
-  });
+// router.get('/postNote', (req, res) => {
+//     res.render('post', {message: req.flash('resetMessage'), showResetForm: true});
+//   });
 
 router.get('/notes/read/', (req, res) => {
   db.notes.findAll().then( data => {
@@ -35,11 +35,12 @@ router.get('/notes', (req, res) => {
 })
 
 router.post('/notes/create/', (req, res) => {
-  let textBody = req.body.textBody;
+  let textBody = req.body;
+  console.log(textBody)
   // let role = req.body.role;
   db.notes.create({
-    author: req.session.passport.user,
-    json: req.body.jsonBody,
+    // author: req.session.passport.user,
+    // json: req.body.jsonBody,
     body: textBody
   }).then(data => {
     res.json(data);
