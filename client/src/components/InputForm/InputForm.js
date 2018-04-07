@@ -9,6 +9,7 @@ import defaultValue from './value.json';
 import Html from 'slate-html-serializer';
 import serializeRules from './serialize-rules';
 import axios from 'axios';
+import NoteSelector from '../NoteSelector/NoteSelector';
 import "./InputForm.css";
 
 const plugin = PluginEditCode({
@@ -153,14 +154,35 @@ class InputForm extends Component {
   
   state = {
     // value: html.deserialize(initialValue)
-    value: Value.fromJSON(defaultValue)
+    value: Value.fromJSON(defaultValue),
+    title: ''
   }
 
   /* Handle DB Save */
   onSaveClick = event => {
-    const data = html.serialize(this.state.value);
-    axios.post('/notes/create', ({textBody: data, jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    if (this.state.noteId) {
+      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    } else {
+      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    }
   }
+
+  onNoteSelected = event => {
+    if (event.target.value === 'new') {
+      this.setState({value: Value.fromJSON(defaultValue)});
+    }
+    console.log(event.target.value);
+    axios.get(`/notes/${event.target.value}`).then(res => {
+      if (res.data) {
+        this.setState(
+          {
+            value: Value.fromJSON(JSON.parse(res.data.body)), 
+            noteId: res.data.id
+          }
+      );
+    };
+  });
+}
 
   // componentDidMount() {
   //   //Just for testing load something from DB
@@ -168,8 +190,8 @@ class InputForm extends Component {
   //     console.log(data);
   //     console.log(this.state.value);
   //     if (data.data.length > 0) {
-  //       console.log(JSON.parse(data.data[0].json));
-  //       this.setState({value: Value.fromJSON(JSON.parse(data.data[0].json))});
+  //       console.log(JSON.parse(data.data[0].body));
+  //       this.setState({value: Value.fromJSON(JSON.parse(data.data[0].body))});
   //     }
   //   })
   // }
@@ -215,6 +237,10 @@ class InputForm extends Component {
 
   onChange = ({ value }) => {
     this.setState({ value })
+  }
+
+  onTitleChange = (event) => {
+    this.setState({title: event.target.value});
   }
 
   onKeyDown = (event, change) => {
@@ -317,10 +343,14 @@ class InputForm extends Component {
 
   render() {
     return (
+      <div>
+      <NoteSelector onNoteSelected={this.onNoteSelected} />
       <div className="inputForm">
         {this.renderToolbar()}
         {this.renderEditor()}
         <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
+        <div dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}} />
+      </div>
       </div>
     )
   }
@@ -335,6 +365,9 @@ class InputForm extends Component {
   renderToolbar = () => {
     return (
       <div className="menu">
+        <div className="toolbar">
+        <input onChange={this.onTitleChange} type="text" />
+        </div>
         <div className="toolbar">
           <span className="button" onMouseDown={this.onToggleCode}>
             <span className="material-icons">code</span>

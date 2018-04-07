@@ -34,15 +34,20 @@ router.get('/notes', (req, res) => {
   });
 })
 
+router.get('/notes/:id', (req, res) => {
+  db.notes.findOne({
+    where: {author: req.session.passport.user, id: req.params.id}
+  }).then(data => {
+    res.json(data);
+  })
+})
+
 router.post('/notes/create/', (req, res) => {
   let textBody = req.body.content;
-  console.log(textBody)
-  // res.send(textBody)
-  // let role = req.body.role;
   db.notes.create({
-    // author: req.session.passport.user,
-    // json: req.body.jsonBody,
-    body: textBody
+    title: req.body.title,
+    author: req.session.passport.user,
+    body: req.body.jsonBody 
   })
   .then(data => {
     res.json(data);
@@ -55,7 +60,7 @@ router.post('/notes/create/', (req, res) => {
 router.put('/notes/update/:id', (req, res) => {
   
   db.notes.update({
-    body: req.body
+    body: req.body.jsonBody
   },
     {
       where: {
@@ -63,7 +68,8 @@ router.put('/notes/update/:id', (req, res) => {
       }
     }
   ).then(function(dbNote) {
-    res.json("Editing");
+    console.log(dbNote);
+    res.send(dbNote);
   });
 
 });
