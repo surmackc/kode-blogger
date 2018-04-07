@@ -1,4 +1,4 @@
-.inputForm {
+/* .inputForm {
   box-sizing: border-box;
   flex: 1;
   display: flex;
@@ -28,7 +28,7 @@
   max-width: 1000px;
   width: 80%;
   border: 1px solid #ddd;
-}
+} */
 
 .toolbar {
   width: 100%;
@@ -42,11 +42,6 @@
   padding: 5px;
 }
 
-.code_block > span::before {
-  content: "\A";
-}
-
-
 /* -- Slate-RichText-Example -- */
 
 p {
@@ -57,6 +52,13 @@ pre {
   padding: 10px;
   background-color: #eee;
   white-space: pre-wrap;
+}
+
+pre[class*="language-"],
+pre[class*="language-"] {
+  overflow-x: hidden;
+  /* overflow-wrap: break-word; */
+  /* white-space: pre-wrap; */
 }
 
 :not(pre) > code {

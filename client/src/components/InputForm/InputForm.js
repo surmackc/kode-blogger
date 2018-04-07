@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Editor } from 'slate-react';
 import { Value } from 'slate';
 import { isKeyHotkey } from 'is-hotkey'
-import Prism from 'prismjs';
 import PluginPrism from 'slate-prism';
 import PluginEditCode from 'slate-edit-code'
 import defaultValue from './value.json';
@@ -11,6 +10,10 @@ import serializeRules from './serialize-rules';
 import axios from 'axios';
 import "./InputForm.css";
 
+/* State.Value to HTML serializer */
+const html = new Html({ rules: serializeRules });
+
+/* Plugins */
 const plugin = PluginEditCode({
   onlyIn: node => node.type === 'code_block'
 })
@@ -22,31 +25,21 @@ const plugins = [
   plugin
 ];
 
-/* Create serializer */
-const html = new Html({ rules: serializeRules });
-
-/**
- * Define defaults.
- *
- * @type {String}
- */
-
-var DEFAULT_CODE_LANGUAGE = 'javascript'
-var DEFAULT_INDENTATION = '  '
+/* Editor Defaults */
+let DEFAULT_CODE_LANGUAGE = 'javascript'
 const DEFAULT_NODE = 'paragraph'
 
-/**
- * Define hotkey matchers.
- *
- * @type {Function}
- */
-
+/* Hotkeys */
 const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
 
-class DefaultCodeLanguage extends Component {
+/**
+ * Syntax Selector Component
+ */
+
+class GlobalCodeSyntaxSelector extends Component {
   state = {
     value: DEFAULT_CODE_LANGUAGE,
   }
@@ -70,28 +63,9 @@ class DefaultCodeLanguage extends Component {
   }
 }
 
-class DefaultIndentation extends Component {
-  state = {
-    value: DEFAULT_INDENTATION,
-  }
-
-  onChange = (event) => {
-    this.setState({value: event.target.value})
-    DEFAULT_INDENTATION = event.target.value
-  }
-
-  render() {
-    return (
-      <label className="selector">
-        <span>Tab: </span> 
-        <select value={this.state.value} onChange={this.onChange}>
-          <option value="  ">TwoSpaces</option>
-          <option value="    ">FourSpaces</option>
-        </select>
-      </label>
-    )
-  }
-}
+/**
+ * Code Block Component
+ */
 
 class CodeBlock extends Component {
   state = {
@@ -125,7 +99,7 @@ class CodeBlock extends Component {
         </pre>
         <div
           contentEditable={false}
-          style={{ position: 'absolute', top: '5px', right: '5px' }}
+          style={{ position: 'absolute', top: '-5px', right: '5px' }}
         >
           <select value={syntax || DEFAULT_CODE_LANGUAGE} ref={this.toggle} onChange={this.setSyntax}>
             <option value="css">CSS</option>
@@ -139,18 +113,22 @@ class CodeBlock extends Component {
 }
 
 /**
- * The rich text example.
- *
- * @type {Component}
+ * Code Line Component
+ */
+
+class CodeLine extends Component {
+  render() {
+    return(
+      <div {...this.props.attributes}>{this.props.children}</div>
+    )
+  }
+}
+
+/**
+ * Input Form Component
  */
 
 class InputForm extends Component {
-  /**
-   * Deserialize the initial editor value.
-   *
-   * @type {Object}
-   */
-  
   state = {
     // value: html.deserialize(initialValue)
     value: Value.fromJSON(defaultValue)
@@ -159,7 +137,13 @@ class InputForm extends Component {
   /* Handle DB Save */
   onSaveClick = event => {
     const data = html.serialize(this.state.value);
-    axios.post('/notes/create', ({textBody: data, jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    axios.post(
+      '/notes/create',
+      ({
+        textBody: data,
+        jsonBody: JSON.stringify(this.state.value.toJSON())
+      })
+    );
   }
 
   // componentDidMount() {
@@ -179,7 +163,7 @@ class InputForm extends Component {
     const value = this.state.value;
 
     this.onChange(
-      plugin.changes.toggleCodeBlock(value.change(), 'paragraph').focus()
+      plugin.changes.toggleCodeBlock(value.change(), DEFAULT_NODE).focus()
     );
   };
 
@@ -289,8 +273,6 @@ class InputForm extends Component {
       } else {
         change.setBlocks('list-item').wrapBlock(type)
       }
-    } else if (type==='code_block') {
-      this.onToggleCode()
     } else {
       // Handle everything but list buttons
       const isActive = this.hasBlock(type)
@@ -339,8 +321,7 @@ class InputForm extends Component {
           <span className="button" onMouseDown={this.onToggleCode}>
             <span className="material-icons">code</span>
           </span>
-          <DefaultCodeLanguage />
-          <DefaultIndentation />
+          <GlobalCodeSyntaxSelector />
         </div>
         <div className="toolbar">
             {this.renderMarkButton('bold', 'format_bold')}
@@ -446,7 +427,7 @@ class InputForm extends Component {
       case 'code_block':
         return <CodeBlock {...props} />
       case 'code_line':
-        return <div {...attributes}>{children}</div>;
+        return <CodeLine {...props} />;
       case 'paragraph':
         return <p {...attributes}>{children}</p>
       default:
