@@ -35,15 +35,20 @@ router.get('/notes', (req, res) => {
 })
 
 router.post('/notes/create/', (req, res) => {
-  let textBody = req.body;
+  let textBody = req.body.content;
   console.log(textBody)
+  // res.send(textBody)
   // let role = req.body.role;
   db.notes.create({
     // author: req.session.passport.user,
     // json: req.body.jsonBody,
     body: textBody
-  }).then(data => {
+  })
+  .then(data => {
     res.json(data);
+  })
+  .catch(err => {
+    res.send(err)
   });
 });
 
