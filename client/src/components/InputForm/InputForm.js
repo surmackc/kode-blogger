@@ -99,7 +99,7 @@ class CodeBlock extends Component {
           contentEditable={false}
           style={{ position: 'absolute', top: '-5px', right: '5px' }}
         >
-          <select value={syntax || DEFAULT_CODE_LANGUAGE} ref={this.toggle} onChange={this.setSyntax}>
+          <select value={syntax || DEFAULT_CODE_LANGUAGE} onChange={this.setSyntax}>
             <option value="css">CSS</option>
             <option value="javascript">JavaScript</option>
             <option value="html">HTML</option>
@@ -275,11 +275,11 @@ class InputForm extends Component {
           <input className="title-input" onChange={this.onTitleChange} type="text" placeholder="enter a note title" />
           {this.renderToolbar()}
           {this.renderEditor()}
+          <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
         </div>
         <div className="col-md-6">
           <h5 className="alert-light">Preview:</h5>
           <h3 className="alert-light">{this.state.title || "Untitled"}</h3>
-          <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
           <div className="html-output"
             dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}}
           >
