@@ -1,4 +1,4 @@
-/* .inputForm {
+.inputForm {
   box-sizing: border-box;
   flex: 1;
   display: flex;
@@ -19,6 +19,10 @@
   width: 80%;
 }
 
+.title-input {
+  margin-bottom: 1.5rem;
+}
+
 .menu {
   border-radius: 2px;
   padding: 5px 10px;
@@ -28,7 +32,7 @@
   max-width: 1000px;
   width: 80%;
   border: 1px solid #ddd;
-} */
+}
 
 .toolbar {
   width: 100%;

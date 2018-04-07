@@ -136,83 +136,6 @@ class InputForm extends Component {
     title: ''
   }
 
-  /* Handle DB Save */
-  onSaveClick = event => {
-    if (this.state.noteId) {
-      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}));
-    } else {
-      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}));
-    }
-  }
-
-  onNoteSelected = event => {
-    if (event.target.value === 'new') {
-      this.setState({value: Value.fromJSON(defaultValue)});
-    }
-    console.log(event.target.value);
-    axios.get(`/notes/${event.target.value}`).then(res => {
-      if (res.data) {
-        this.setState(
-          {
-            value: Value.fromJSON(JSON.parse(res.data.body)), 
-            noteId: res.data.id
-          }
-      );
-    };
-  });
-}
-
-  // componentDidMount() {
-  //   //Just for testing load something from DB
-  //   axios.get('/notes').then(data => {
-  //     console.log(data);
-  //     console.log(this.state.value);
-  //     if (data.data.length > 0) {
-  //       console.log(JSON.parse(data.data[0].body));
-  //       this.setState({value: Value.fromJSON(JSON.parse(data.data[0].body))});
-  //     }
-  //   })
-  // }
-
-  onToggleCode = (event) => {
-    event.preventDefault()
-    const value = this.state.value;
-
-    this.onChange(
-      plugin.changes.toggleCodeBlock(value.change(), DEFAULT_NODE).focus()
-    );
-  };
-
-  /**
-   * Check if the current selection has a mark with `type` in it.
-   *
-   * @param {String} type
-   * @return {Boolean}
-   */
-
-  hasMark = type => {
-    const { value } = this.state
-    return value.activeMarks.some(mark => mark.type===type)
-  }
-
-  /**
-   * Check if the any of the currently selected blocks are of `type`.
-   *
-   * @param {String} type
-   * @return {Boolean}
-   */
-
-  hasBlock = type => {
-    const { value } = this.state
-    return value.blocks.some(node => node.type===type)
-  }
-
-  /**
-   * On change, save the new `value`.
-   *
-   * @param {Change} change
-   */
-
   onChange = ({ value }) => {
     this.setState({ value })
   }
@@ -242,12 +165,53 @@ class InputForm extends Component {
     }
   }
 
-  /**
-   * When a mark button is clicked, toggle the current mark.
-   *
-   * @param {Event} event
-   * @param {String} type
-   */
+  /* Handle DB Save */
+  onSaveClick = event => {
+    if (this.state.noteId) {
+      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    } else {
+      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    }
+  }
+
+  /* Handle DB Retrieval */
+  onNoteSelected = event => {
+    if (event.target.value === 'new') {
+      this.setState({value: Value.fromJSON(defaultValue)});
+    }
+    console.log(event.target.value);
+    axios.get(`/notes/${event.target.value}`).then(res => {
+      if (res.data) {
+        this.setState(
+          {
+            value: Value.fromJSON(JSON.parse(res.data.body)), 
+            noteId: res.data.id
+          }
+        );
+      };
+    });
+  }
+
+ /*----- Toolbar Functions -----*/
+
+  onToggleCode = (event) => {
+    event.preventDefault()
+    const value = this.state.value;
+
+    this.onChange(
+      plugin.changes.toggleCodeBlock(value.change(), DEFAULT_NODE).focus()
+    );
+  };
+
+  hasMark = type => {
+    const { value } = this.state
+    return value.activeMarks.some(mark => mark.type===type)
+  }
+
+  hasBlock = type => {
+    const { value } = this.state
+    return value.blocks.some(node => node.type===type)
+  }
 
   onClickMark = (event, type) => {
     event.preventDefault()
@@ -255,13 +219,6 @@ class InputForm extends Component {
     const change = value.change().toggleMark(type)
     this.onChange(change)
   }
-
-  /**
-   * When a block button is clicked, toggle the block type.
-   *
-   * @param {Event} event
-   * @param {String} type
-   */
 
   onClickBlock = (event, type) => {
     event.preventDefault()
@@ -311,38 +268,46 @@ class InputForm extends Component {
     this.onChange(change)
   }
 
-  /**
-   * Render.
-   *
-   * @return {Element}
-   */
+  /*----- Render Functions -----*/
 
   render() {
     return (
       <div>
       <NoteSelector onNoteSelected={this.onNoteSelected} />
-      <div className="inputForm">
-        {this.renderToolbar()}
-        {this.renderEditor()}
-        <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
-        <div dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}} />
-      </div>
+        <div className="inputForm">
+          {this.renderToolbar()}
+          {this.renderEditor()}
+          <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
+          <h2>HTML Output Preview</h2>
+          <div className="editor" dangerouslySetInnerHTML={{__html: html.serialize(this.state.value)}} />
+        </div>
       </div>
     )
   }
 
-  /**
-   * Render the toolbar.
-   *
-   * @return {Element}
-   */
-
+  renderEditor = () => {
+    return (
+      <div className="editor">
+        <input className="title-input" onChange={this.onTitleChange} type="text" placeholder="enter a note title" />
+        <Editor
+          placeholder="Enter some rich text..."
+          value={this.state.value}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
+          renderNode={this.renderNode}
+          renderMark={this.renderMark}
+          plugins={plugins}
+          spellCheck
+          autoFocus
+        />
+      </div>
+    )
+  }
 
   renderToolbar = () => {
     return (
       <div className="menu">
         <div className="toolbar">
-        <input onChange={this.onTitleChange} type="text" />
         </div>
         <div className="toolbar">
           <span className="button" onMouseDown={this.onToggleCode}>
@@ -365,14 +330,6 @@ class InputForm extends Component {
     )
   }
 
-  /**
-   * Render a mark-toggling toolbar button.
-   *
-   * @param {String} type
-   * @param {String} icon
-   * @return {Element}
-   */
-
   renderMarkButton = (type, icon) => {
     const isActive = this.hasMark(type)
     const onMouseDown = event => this.onClickMark(event, type)
@@ -385,14 +342,6 @@ class InputForm extends Component {
     )
   }
 
-  /**
-   * Render a block-toggling toolbar button.
-   *
-   * @param {String} type
-   * @param {String} icon
-   * @return {Element}
-   */
-
   renderBlockButton = (type, icon) => {
     const isActive = this.hasBlock(type)
     const onMouseDown = event => this.onClickBlock(event, type)
@@ -404,37 +353,6 @@ class InputForm extends Component {
       </span>
     )
   }
-
-  /**
-   * Render the Slate editor.
-   *
-   * @return {Element}
-   */
-
-  renderEditor = () => {
-    return (
-      <div className="editor">
-        <Editor
-          placeholder="Enter some rich text..."
-          value={this.state.value}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          renderNode={this.renderNode}
-          renderMark={this.renderMark}
-          plugins={plugins}
-          spellCheck
-          autoFocus
-        />
-      </div>
-    )
-  }
-
-  /**
-   * Render a Slate node.
-   *
-   * @param {Object} props
-   * @return {Element}
-   */
 
   renderNode = props => {
     const { attributes, children, node } = props
@@ -461,13 +379,6 @@ class InputForm extends Component {
         return null
     }
   }
-
-  /**
-   * Render a Slate mark.
-   *
-   * @param {Object} props
-   * @return {Element}
-   */
 
   renderMark = props => {
     const { children, mark } = props
