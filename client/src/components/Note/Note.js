@@ -22,13 +22,15 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     // let data = tinymce.get('textbody').getContent()
-    
+    console.log(this.content)
     fetch('/notes/create', {
       method: 'POST',
-      body: {
+      body: JSON.stringify({
         content: this.content
-      },
-      dataType: 'JSON'
+      }),
+      headers: {
+        'content-type': 'application/json'
+      }
     });
   }
     

@@ -34,24 +34,33 @@ router.get('/notes', (req, res) => {
   });
 })
 
-router.post('/notes/create/', (req, res) => {
-  // if (!req.session.passport.user) {
-  //   return res.status(400).send();
-  // }
-  // let role = req.body.role;
-  db.notes.create({
-    // author: req.session.passport.user,
-    json: req.body.jsonBody,
-    body: textreq.body
+router.get('/notes/:id', (req, res) => {
+  db.notes.findOne({
+    where: {author: req.session.passport.user, id: req.params.id}
   }).then(data => {
     res.json(data);
+  })
+})
+
+router.post('/notes/create/', (req, res) => {
+  let textBody = req.body.content;
+  db.notes.create({
+    title: req.body.title,
+    author: req.session.passport.user,
+    body: req.body.jsonBody 
+  })
+  .then(data => {
+    res.json(data);
+  })
+  .catch(err => {
+    res.send(err)
   });
 });
 
 router.put('/notes/update/:id', (req, res) => {
   
   db.notes.update({
-    body: req.body
+    body: req.body.jsonBody
   },
     {
       where: {
@@ -59,7 +68,8 @@ router.put('/notes/update/:id', (req, res) => {
       }
     }
   ).then(function(dbNote) {
-    res.json("Editing");
+    console.log(dbNote);
+    res.send(dbNote);
   });
 
 });
