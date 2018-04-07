@@ -32,7 +32,7 @@
           {
             "object": "text",
             "leaves": [
-              { "object": "leaf", "text": " makes it ", "marks": [] },
+              { "object": "leaf", "text": "makes it ", "marks": [] },
               {
                 "object": "leaf",
                 "text": "much ",
@@ -41,36 +41,6 @@
               {
                 "object": "leaf",
                 "text": "easier to draft documents.",
-                "marks": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "object": "block",
-        "type": "paragraph",
-        "isVoid": false,
-        "data": {},
-        "nodes": [
-          {
-            "object": "text",
-            "leaves": [{ "object": "leaf", "text": "", "marks": [] }]
-          }
-        ]
-      },
-      {
-        "object": "block",
-        "type": "paragraph",
-        "isVoid": false,
-        "data": {},
-        "nodes": [
-          {
-            "object": "text",
-            "leaves": [
-              {
-                "object": "leaf",
-                "text": "It can do the following:",
                 "marks": []
               }
             ]
@@ -95,7 +65,7 @@
                   { "object": "leaf", "text": "Display small ", "marks": [] },
                   {
                     "object": "leaf",
-                    "text": "",
+                    "text": "code-blocks",
                     "marks": [{ "object": "mark", "type": "code", "data": {} }]
                   }
                 ]
@@ -279,25 +249,13 @@
       },
       {
         "object": "block",
-        "type": "paragraph",
+        "type": "code_block",
         "isVoid": false,
-        "data": {},
-        "nodes": [
-          {
-            "object": "text",
-            "leaves": [{ "object": "leaf", "text": "", "marks": [] }]
-          }
-        ]
-      },
-      {
-        "object": "block",
-        "type": "block-code",
-        "isVoid": false,
-        "data": { "language": "js" },
+        "data": { "syntax": "javascript" },
         "nodes": [
           {
             "object": "block",
-            "type": "code-line",
+            "type": "code_line",
             "isVoid": false,
             "data": {},
             "nodes": [
@@ -315,7 +273,7 @@
           },
           {
             "object": "block",
-            "type": "code-line",
+            "type": "code_line",
             "isVoid": false,
             "data": {},
             "nodes": [
@@ -324,7 +282,7 @@
                 "leaves": [
                   {
                     "object": "leaf",
-                    "text": "  first: \"A coding tutorial\"",
+                    "text": " 1: write a tutorial,",
                     "marks": []
                   }
                 ]
@@ -333,7 +291,7 @@
           },
           {
             "object": "block",
-            "type": "code-line",
+            "type": "code_line",
             "isVoid": false,
             "data": {},
             "nodes": [
@@ -342,7 +300,7 @@
                 "leaves": [
                   {
                     "object": "leaf",
-                    "text": "  second: \"Documentation\"",
+                    "text": " 2: create documentation,",
                     "marks": []
                   }
                 ]
@@ -351,7 +309,21 @@
           },
           {
             "object": "block",
-            "type": "code-line",
+            "type": "code_line",
+            "isVoid": false,
+            "data": {},
+            "nodes": [
+              {
+                "object": "text",
+                "leaves": [
+                  { "object": "leaf", "text": " 3: take notes", "marks": [] }
+                ]
+              }
+            ]
+          },
+          {
+            "object": "block",
+            "type": "code_line",
             "isVoid": false,
             "data": {},
             "nodes": [

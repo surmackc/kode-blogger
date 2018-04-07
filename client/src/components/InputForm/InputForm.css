@@ -42,6 +42,10 @@
   padding: 5px;
 }
 
+.code_block > span::before {
+  content: "\A";
+}
+
 
 /* -- Slate-RichText-Example -- */
 

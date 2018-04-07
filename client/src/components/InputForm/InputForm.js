@@ -3,16 +3,24 @@ import { Editor } from 'slate-react';
 import { Value } from 'slate';
 import { isKeyHotkey } from 'is-hotkey'
 import Prism from 'prismjs';
-import SlatePrism from 'slate-prism';
+import PluginPrism from 'slate-prism';
+import PluginEditCode from 'slate-edit-code'
 import defaultValue from './value.json';
 import Html from 'slate-html-serializer';
 import serializeRules from './serialize-rules';
 import axios from 'axios';
 import "./InputForm.css";
-import './prism-okaidia.css';
 
-/* Get editor content */
-const initialValue = '<p>Something</p>'
+const plugin = PluginEditCode({
+  onlyIn: node => node.type === 'code_block'
+})
+const plugins = [
+  PluginPrism({
+      onlyIn: node => node.type === 'code_block',
+      getSyntax: node => node.data.get('syntax')
+  }),
+  plugin
+];
 
 /* Create serializer */
 const html = new Html({ rules: serializeRules });
@@ -23,7 +31,7 @@ const html = new Html({ rules: serializeRules });
  * @type {String}
  */
 
-var DEFAULT_CODE_LANGUAGE = 'js'
+var DEFAULT_CODE_LANGUAGE = 'javascript'
 var DEFAULT_INDENTATION = '  '
 const DEFAULT_NODE = 'paragraph'
 
@@ -37,8 +45,6 @@ const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
-const isShiftTabHotkey = isKeyHotkey('shift+tab');
-const isTabHotkey = isKeyHotkey('tab');
 
 class DefaultCodeLanguage extends Component {
   state = {
@@ -53,10 +59,10 @@ class DefaultCodeLanguage extends Component {
   render() {
     return (      
       <label className="selector">
-        <span>Code-Language: </span> 
+        <span>Syntax: </span> 
         <select value={this.state.value} onChange={this.onChange}>
           <option value="css">CSS</option>
-          <option value="js">JavaScript</option>
+          <option value="javascript">JavaScript</option>
           <option value="html">HTML</option>
         </select>
       </label>
@@ -77,7 +83,7 @@ class DefaultIndentation extends Component {
   render() {
     return (
       <label className="selector">
-        <span>Tab Indent: </span> 
+        <span>Tab: </span> 
         <select value={this.state.value} onChange={this.onChange}>
           <option value="  ">TwoSpaces</option>
           <option value="    ">FourSpaces</option>
@@ -87,37 +93,49 @@ class DefaultIndentation extends Component {
   }
 }
 
-function CodeBlock(props) {
-  const { editor, node } = props
-  const language = node.data.get('language')
-
-  function onChange(event) {
-    editor.change(c =>
-      c.setNodeByKey(node.key, { data: { language: event.target.value } })
-    )
+class CodeBlock extends Component {
+  state = {
+    syntax: DEFAULT_CODE_LANGUAGE
   }
 
-  return (
-    <div style={{ position: 'relative' }}>
-      <pre>
-        <code {...props.attributes}>{props.children}</code>
-      </pre>
-      <div
-        contentEditable={false}
-        style={{ position: 'absolute', top: '5px', right: '5px' }}
-      >
-        <select value={language || DEFAULT_CODE_LANGUAGE} onChange={onChange}>
-          <option value="css">CSS</option>
-          <option value="js">JavaScript</option>
-          <option value="html">HTML</option>
-        </select>
-      </div>
-    </div>
-  )
-}
+  setSyntax = (event) => {
+    if (event) {
+      this.setState({syntax: event.target.value || DEFAULT_CODE_LANGUAGE})
+      this.props.editor.change(c =>
+        c.setNodeByKey(this.props.node.key, { data: { syntax: event.target.value || DEFAULT_CODE_LANGUAGE } })
+      )
+    } else {
+      this.props.editor.change(c =>
+        c.setNodeByKey(this.props.node.key, { data: { syntax: this.state.syntax } })
+      )
+    }
+  }
 
-function CodeBlockLine(props) {
-  return <div {...props.attributes}>{props.children}</div>
+  componentDidMount = (event) => {
+    this.setSyntax()
+  }
+
+  render() {
+    let syntax = this.state.syntax
+
+    return (
+      <div style={{ position: 'relative' }}>
+        <pre className={"language-" + syntax + " code_block"}>
+          <code className={"language-" + syntax} {...this.props.attributes}>{this.props.children}</code>
+        </pre>
+        <div
+          contentEditable={false}
+          style={{ position: 'absolute', top: '5px', right: '5px' }}
+        >
+          <select value={syntax || DEFAULT_CODE_LANGUAGE} ref={this.toggle} onChange={this.setSyntax}>
+            <option value="css">CSS</option>
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+          </select>
+        </div>
+      </div>
+    )
+  }
 }
 
 /**
@@ -132,10 +150,10 @@ class InputForm extends Component {
    *
    * @type {Object}
    */
-
+  
   state = {
-    value: html.deserialize(initialValue)
-    // value: Value.fromJSON(initialValue),
+    // value: html.deserialize(initialValue)
+    value: Value.fromJSON(defaultValue)
   }
 
   /* Handle DB Save */
@@ -144,17 +162,26 @@ class InputForm extends Component {
     axios.post('/notes/create', ({textBody: data, jsonBody: JSON.stringify(this.state.value.toJSON())}));
   }
 
-  componentDidMount() {
-    //Just for testing load something from DB
-    axios.get('/notes').then(data => {
-      console.log(data);
-      console.log(this.state.value);
-      if (data.data.length > 0) {
-        console.log(JSON.parse(data.data[0].json));
-        this.setState({value: Value.fromJSON(JSON.parse(data.data[0].json))});
-      }
-    })
-  }
+  // componentDidMount() {
+  //   //Just for testing load something from DB
+  //   axios.get('/notes').then(data => {
+  //     console.log(data);
+  //     console.log(this.state.value);
+  //     if (data.data.length > 0) {
+  //       console.log(JSON.parse(data.data[0].json));
+  //       this.setState({value: Value.fromJSON(JSON.parse(data.data[0].json))});
+  //     }
+  //   })
+  // }
+
+  onToggleCode = (event) => {
+    event.preventDefault()
+    const value = this.state.value;
+
+    this.onChange(
+      plugin.changes.toggleCodeBlock(value.change(), 'paragraph').focus()
+    );
+  };
 
   /**
    * Check if the current selection has a mark with `type` in it.
@@ -190,68 +217,6 @@ class InputForm extends Component {
     this.setState({ value })
   }
 
-  /**
-   * On key down, if it's a formatting command toggle a mark.
-   *
-   * @param {Event} event
-   * @param {Change} change
-   * @return {Change}
-   */
-
-  indentLines = (change) => {
-    const { value } = change;
-    const { document, selection } = value;
-    const lines = document
-    .getBlocksAtRange(selection)
-    .filter(node => node.type === "code-line");
-
-    return lines.reduce((c, line) => {
-        // Insert an indent at start of line
-        const text = line.nodes.first();
-        return c.insertTextByKey(text.key, 0, DEFAULT_INDENTATION);
-    }, change);
-  }
-
-  dedentLines = (change) => {
-    const { value } = change;
-    const { document, selection } = value;
-    const lines = document
-    .getBlocksAtRange(selection)
-    .filter(node => node.type === "code-line");
-
-    return lines.reduce((c, line) => {
-        // Insert an indent at start of line
-        const text = line.nodes.first();
-        const lengthToRemove = text.characters
-            .takeWhile((char, index) => DEFAULT_INDENTATION.charAt(index) === char.text)
-            .count();
-        return c.removeTextByKey(text.key, 0, lengthToRemove);
-    }, change);
-  }
-
-  onShiftTab = (event, change) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    // We indent all selected lines
-    this.dedentLines(change);
-  }
-
-  onTab = (event, change) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const { value } = change
-    const { isCollapsed } = value;
-
-    if (isCollapsed) {
-        return change.insertText(DEFAULT_INDENTATION);
-    }
-
-    // We indent all selected lines
-    this.indentLines(change);
-  }
-
   onKeyDown = (event, change) => {
     let mark
 
@@ -270,20 +235,6 @@ class InputForm extends Component {
     if (mark) {
       event.preventDefault()
       change.toggleMark(mark)
-    } else {
-      const { value } = change
-      const { startBlock } = value
-
-      if (isShiftTabHotkey(event) && startBlock.type=== 'code-line')  {       
-        this.onShiftTab(event, change);
-      } else if (isTabHotkey(event) && startBlock.type=== 'code-line')  {       
-        this.onTab(event, change);
-      }
-      
-      if (event.key != 'Enter') return
-      if (startBlock.type != 'block-code') return
-      if (value.isExpanded) change.delete()
-      change.insertText('\n')
     }
   }
 
@@ -315,6 +266,10 @@ class InputForm extends Component {
     const { document } = value
 
     if (type==='bulleted-list' || type==='numbered-list') {
+      var win = window.open();
+      var txt = JSON.stringify(this.state.value.toJSON())
+      win.document.write(txt);
+      return
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item')
       const isType = value.blocks.some(block => {
@@ -330,38 +285,14 @@ class InputForm extends Component {
         change
           .unwrapBlock('bulleted-list')
           .unwrapBlock('numbered-list')
-          .unwrapBlock('code-block')
           .wrapBlock(type)
       } else {
         change.setBlocks('list-item').wrapBlock(type)
       }
-    } else if (type==='block-code') {
-      // Handle the extra wrapping required for block-code.
-      const hasLines = this.hasBlock('code-line')
-      const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type===type)
-      })
-
-      if (hasLines && isType) {
-        change
-          .setBlocks('DEFAULT_NODE')
-          .unwrapBlock('block-code')
-      } else if (hasLines) {
-        change
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
-          .wrapBlock(type)
-      } else {
-        change
-          .setBlocks('code-line')
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
-          .wrapBlock(type)
-      }
-
-
+    } else if (type==='code_block') {
+      this.onToggleCode()
     } else {
-      // Handle everything but list buttons and block-code
+      // Handle everything but list buttons
       const isActive = this.hasBlock(type)
       const isList = this.hasBlock('list-item')
 
@@ -405,6 +336,9 @@ class InputForm extends Component {
     return (
       <div className="menu">
         <div className="toolbar">
+          <span className="button" onMouseDown={this.onToggleCode}>
+            <span className="material-icons">code</span>
+          </span>
           <DefaultCodeLanguage />
           <DefaultIndentation />
         </div>
@@ -418,7 +352,6 @@ class InputForm extends Component {
             {this.renderBlockButton('block-quote', 'format_quote')}
             {this.renderBlockButton('numbered-list', 'format_list_numbered')}
             {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
-            {this.renderBlockButton('block-code', 'code')}
         </div>
       </div>
     )
@@ -480,7 +413,7 @@ class InputForm extends Component {
           onKeyDown={this.onKeyDown}
           renderNode={this.renderNode}
           renderMark={this.renderMark}
-          decorateNode={this.decorateNode}
+          plugins={plugins}
           spellCheck
           autoFocus
         />
@@ -510,14 +443,14 @@ class InputForm extends Component {
         return <li {...attributes}>{children}</li>
       case 'numbered-list':
         return <ol {...attributes}>{children}</ol>
-      case 'block-code':
+      case 'code_block':
         return <CodeBlock {...props} />
-      case 'code-line':
-        return <CodeBlockLine {...props} />
+      case 'code_line':
+        return <div {...attributes}>{children}</div>;
       case 'paragraph':
         return <p {...attributes}>{children}</p>
       default:
-        return <p {...attributes}>{children}</p>
+        return null
     }
   }
 
@@ -548,80 +481,8 @@ class InputForm extends Component {
       case 'punctuation':
         return <span style={{ opacity: '0.75' }}>{children}</span>
         default:
-          return <span>{children}</span>
+          return null
     }
-  }
-
-  tokenToContent = token => {
-    if (typeof token==='string') {
-      return token
-    } else if (typeof token.content==='string') {
-      return token.content
-    } else {
-      return token.content.map(this.tokenToContent).join('')
-    }
-  }
-
-   /**
-   * Decorate code blocks with Prism.js highlighting.
-   *
-   * @param {Node} node
-   * @return {Array}
-   */
-
-  decorateNode = node => {
-    if (node.type!== 'block-code') return
-
-    // default language for new blocks is css
-    const language = node.data.get('language') || DEFAULT_CODE_LANGUAGE
-    const texts = node.getTexts().toArray()
-    const string = texts.map(t => t.text).join('\n')
-    const grammar = Prism.languages[language]
-    const tokens = Prism.tokenize(string, grammar)
-    const decorations = []
-    let startText = texts.shift()
-    let endText = startText
-    let startOffset = 0
-    let endOffset = 0
-    let start = 0
-
-    for (const token of tokens) {
-      startText = endText
-      startOffset = endOffset
-
-      const content = this.tokenToContent(token)
-      const newlines = content.split('\n').length - 1
-      const length = content.length - newlines
-      const end = start + length
-
-      let available = startText.text.length - startOffset
-      let remaining = length
-
-      endOffset = startOffset + remaining
-
-      while (available < remaining && texts.length > 0) {
-        endText = texts.shift()
-        remaining = length - available
-        available = endText.text.length
-        endOffset = remaining
-      }
-
-      if (typeof token!== 'string') {
-        const range = {
-          anchorKey: startText.key,
-          anchorOffset: startOffset,
-          focusKey: endText.key,
-          focusOffset: endOffset,
-          marks: [{ type: token.type }],
-        }
-
-        decorations.push(range)
-      }
-
-      start = end
-    }
-
-    return decorations
   }
 }
 
