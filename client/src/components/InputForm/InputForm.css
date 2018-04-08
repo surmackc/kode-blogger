@@ -1,5 +1,5 @@
-.inputForm {
-  margin-top: 1.5em;
+.input-form, .preview {
+  margin-bottom: 1.5em;
 }
 
 .editor, .html-output {
@@ -10,7 +10,6 @@
   border-radius: 2px;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #fefefe;
-  max-width: 1000px;
 }
 
 .title-input {
@@ -30,8 +29,6 @@
 
 .menu {
   padding: 5px 10px;
-  /* border: 1px solid #ddd;
-  border-radius: 2px; */
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #ddd;
   max-width: 1000px;
@@ -55,9 +52,7 @@ pre {
 
 pre[class*="language-"],
 pre[class*="language-"] {
-  overflow-x: hidden;
-  /* overflow-wrap: break-word; */
-  /* white-space: pre-wrap; */
+  padding-top: 25px;
 }
 
 :not(pre) > code {
@@ -131,10 +126,4 @@ input:focus {
 .button[data-active='true'] {
   color: black;
 }
-
-
-.button-block[data-active='true'] {
-  color: black;
-}
-
 /* ------------------ */

@@ -5,12 +5,13 @@ class NoteSelector extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { titles: []}
+    this.state = { 
+      titles: []
+    }
   }
 
   componentDidMount() {
     axios.get('/notes').then(res => {
-      console.log(res);
       this.setState({
         titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})) 
       }) 

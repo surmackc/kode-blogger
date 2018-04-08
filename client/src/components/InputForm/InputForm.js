@@ -52,11 +52,15 @@ class GlobalCodeSyntaxSelector extends Component {
 
   render() {
     return (
+      <div
+      contentEditable={false}
+      style={{ position: 'absolute', top: '-8px', right: '5px' }}>
         <select value={this.state.value} onChange={this.onChange}>
           <option value="css">CSS</option>
           <option value="javascript">JavaScript</option>
           <option value="html">HTML</option>
         </select>
+      </div>
     )
   }
 }
@@ -97,7 +101,7 @@ class CodeBlock extends Component {
         </pre>
         <div
           contentEditable={false}
-          style={{ position: 'absolute', top: '-5px', right: '5px' }}
+          style={{ position: 'absolute', top: '-8px', right: '5px' }}
         >
           <select value={syntax || DEFAULT_CODE_LANGUAGE} onChange={this.setSyntax}>
             <option value="css">CSS</option>
@@ -127,11 +131,14 @@ class CodeLine extends Component {
  */
 
 class InputForm extends Component {
-  state = {
+  initialValue = { 
     // value: html.deserialize(initialValue)
     value: Value.fromJSON(defaultValue),
-    title: ''
+    title: 'Untitled Note',
+    noteId: "new"
   }
+
+  state = {...this.initialValue}
 
   onChange = ({ value }) => {
     this.setState({ value })
@@ -164,29 +171,43 @@ class InputForm extends Component {
 
   /* Handle DB Save */
   onSaveClick = event => {
-    if (this.state.noteId) {
-      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}));
+    console.log(this.state.noteId, this.initialValue.noteId)
+    if (this.state.noteId === this.initialValue.noteId) {
+      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}))
+      .then((data)=> {
+        this.setState({ ...data })
+      });
     } else {
-      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}));
+      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}))
+      .then((data)=> {
+        console.log("updated note")
+        console.log(data)
+        this.setState({ ...data })
+      });
     }
   }
 
   /* Handle DB Retrieval */
   onNoteSelected = event => {
-    if (event.target.value === 'new') {
-      this.setState({value: Value.fromJSON(defaultValue)});
+    if (event.target.value === this.initialValue.noteId) {
+      this.setState({...this.initialValue})
+      this.titleInput.value = ''
     }
-    console.log(event.target.value);
+
     axios.get(`/notes/${event.target.value}`).then(res => {
+      console.log("gotNote", res.data)
       if (res.data) {
         this.setState(
           {
             value: Value.fromJSON(JSON.parse(res.data.body)), 
-            noteId: res.data.id
+            noteId: res.data.id,
+            title: res.data.title
           }
-        );
-      };
-    });
+        )
+        
+        this.titleInput.value = this.state.title
+      }
+    })
   }
 
  /*----- Toolbar Functions -----*/
@@ -207,6 +228,7 @@ class InputForm extends Component {
 
   hasBlock = type => {
     const { value } = this.state
+    if (type==="code_block") type="code_line"
     return value.blocks.some(node => node.type===type)
   }
 
@@ -224,10 +246,6 @@ class InputForm extends Component {
     const { document } = value
 
     if (type==='bulleted-list' || type==='numbered-list') {
-      var win = window.open();
-      var txt = JSON.stringify(this.state.value.toJSON())
-      win.document.write(txt);
-      return
       // Handle the extra wrapping required for list buttons.
       const isList = this.hasBlock('list-item')
       const isType = value.blocks.some(block => {
@@ -247,6 +265,11 @@ class InputForm extends Component {
       } else {
         change.setBlocks('list-item').wrapBlock(type)
       }
+
+    } else if (type==="code_block") {
+      this.onToggleCode(event)
+      return
+
     } else {
       // Handle everything but list buttons
       const isActive = this.hasBlock(type)
@@ -271,15 +294,15 @@ class InputForm extends Component {
     return (
       <div className="row">
         <div className="input-form col-md-6">
-          <NoteSelector onNoteSelected={this.onNoteSelected} />
-          <input className="title-input" onChange={this.onTitleChange} type="text" placeholder="enter a note title" />
+          <NoteSelector ref={(noteSelector) => { this.noteSelector = noteSelector}} newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} />
+          <input ref={(titleInput) => { this.titleInput = titleInput}} onChange={this.onTitleChange} type="text" placeholder={this.initialValue.title} />
           {this.renderToolbar()}
           {this.renderEditor()}
           <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
         </div>
-        <div className="col-md-6">
+        <div className="col-md-6 preview">
           <h5 className="alert-light">Preview:</h5>
-          <h3 className="alert-light">{this.state.title || "Untitled"}</h3>
+          <h3 className="alert-light">{this.state.title}</h3>
           <div className="html-output"
             dangerouslySetInnerHTML={{__html: html.serialize(this.state.value, {sanitize: true})}}
           >
@@ -313,11 +336,7 @@ class InputForm extends Component {
 
   renderToolbar = () => {
     return (
-      <div className="menu">
-        <button className="btn-light btn-sm mr-2" onMouseDown={this.onToggleCode}>
-          Code Block
-        </button>
-        <GlobalCodeSyntaxSelector />
+      <div className="menu" style={{ position: 'relative'}}>
         <div className="toolbar">
             {this.renderMarkButton('bold', 'format_bold')}
             {this.renderMarkButton('italic', 'format_italic')}
@@ -328,7 +347,9 @@ class InputForm extends Component {
             {this.renderBlockButton('block-quote', 'format_quote')}
             {this.renderBlockButton('numbered-list', 'format_list_numbered')}
             {this.renderBlockButton('bulleted-list', 'format_list_bulleted')}
+            {this.renderBlockButton('code_block', 'code')}
         </div>
+        <GlobalCodeSyntaxSelector />
       </div>
     )
   }
@@ -351,7 +372,7 @@ class InputForm extends Component {
 
     return (
       // eslint-disable-next-line react/jsx-no-bind
-      <span className="button" onMouseDown={onMouseDown} data-active={isActive}>
+      <span className="button" onMouseDown={onMouseDown} data-type={type} data-active={isActive}>
         <span className="material-icons">{icon}</span>
       </span>
     )

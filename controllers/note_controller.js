@@ -49,7 +49,7 @@ router.post('/notes/create/', (req, res) => {
     author: req.session.passport.user,
     body: req.body.jsonBody 
   })
-  .then(data => {
+  .then((data) => {
     res.json(data);
   })
   .catch(err => {
@@ -67,8 +67,7 @@ router.put('/notes/update/:id', (req, res) => {
         id: req.params.id
       }
     }
-  ).then(function(dbNote) {
-    console.log(dbNote);
+  ).then((dbNote) => {
     res.send(dbNote);
   });
 
