@@ -97,10 +97,11 @@ router.get('/notes/publish/:id', (req, res) => {
         author: req.session.passport.user,
         id: req.params.id
       }
-    }).then(res => {
-      return res.status(200).send();
+    }).then(data => {
+      res.status(200).send();
     }).catch(err => {
-      return res.status(500).send();
+      console.log(err);
+      res.status(500).send();
     })
   }
 })
@@ -114,7 +115,7 @@ router.get('/notes/unpublish/:id', (req, res) => {
         author: req.session.passport.user,
         id: req.params.id
       }
-    }).then(res => {
+    }).then(data => {
       return res.status(200).send();
     }).catch(err => {
       return res.status(500).send();
