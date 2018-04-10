@@ -6,15 +6,14 @@ nav.navbar {
   margin-bottom: 0;
   width: 100%;
   min-height: 60px;
+  -webkit-box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
+  box-shadow: 0 14px 28px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.22);
 }
 
 .navbar-custom {
   background-color: #03d8be;
 }
 
-nav.form {
-  justify-content: right;
-}
 a.navbar-brand {
   font-size: 30px;
   font-weight: 700;
@@ -28,3 +27,5 @@ a.navbar-brand {
 nav.form {
   justify-content: right;
 }
+
+/* need media breakpt at about 815px wide */
