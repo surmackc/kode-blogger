@@ -35,6 +35,7 @@ router.get('/notes', (req, res) => {
 router.get('/notes/get/:amount', (req, res) => {
   db.notes.findAll({
     limit: parseInt(req.params.amount),
+    where: {published: 1},
     order: [ [ 'createdAt', 'DESC']]
   }).then(entries => res.send(entries));
 });
@@ -78,14 +79,48 @@ router.put('/notes/update/:id', (req, res) => {
 
 });
 
-router.delete('/notes/delete/:id', (req, res) => {
-    db.notes.findOne({where: {id: req.params.id}}).then(data => {
-        res.json("deleting");
-      
-      
-    });
+router.delete('/notes/:id', (req, res) => {
+  if (!req.session.passport.user) {
+    return res.status(400).send();
+  }
+  db.notes.destroy({where: {id: req.params.id, author: req.session.passport.user}}).then(data => {
+    res.status(200).send();
   });
+});
 
+router.get('/notes/publish/:id', (req, res) => {
+  if (!req.session.passport.user) {
+    return res.status(400).send();
+  } else {
+    db.notes.update({published: 1}, {
+      where: { 
+        author: req.session.passport.user,
+        id: req.params.id
+      }
+    }).then(res => {
+      return res.status(200).send();
+    }).catch(err => {
+      return res.status(500).send();
+    })
+  }
+})
+
+router.get('/notes/unpublish/:id', (req, res) => {
+  if (!req.session.passport.user) {
+    return res.status(400).send();
+  } else {
+    db.notes.update({published: 0}, {
+      where: { 
+        author: req.session.passport.user,
+        id: req.params.id
+      }
+    }).then(res => {
+      return res.status(200).send();
+    }).catch(err => {
+      return res.status(500).send();
+    })
+  }
+})
 
 
 module.exports = router;

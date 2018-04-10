@@ -7,8 +7,24 @@ export default {
     return axios.get("/notes/read/");
   },
 
+  getActiveUserNotes: function() {
+    return axios.get("/notes");
+  },
+
   getById: function(id) {
     return axios.get("/notes/read/" + id);
+  },
+
+  publishNote: function(id) {
+    return axios.get(`/notes/publish/${id}`);
+  },
+
+  unpublishNote: function(id) {
+    return axios.get(`/notes/unpublish/${id}`);
+  },
+
+  deleteNote: function(id) {
+    return axios.delete(`/notes/${id}`);
   },
 
   getLastNotes: function(amount) {

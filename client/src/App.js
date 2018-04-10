@@ -8,6 +8,7 @@ import LoginForm from "./components/LoginForm/LoginForm";
 import SignupForm from './components/SignupForm/SignupForm';
 import InputForm from "./components/InputForm/InputForm";
 import AllPosts from "./components/AllPosts/AllPosts";
+import ManageNotes from './components/ManageNotes/ManageNotes';
 import VerifyEmail from './components/VerifyEmail/VerifyEmail';
 import PasswordResetRequest from './components/PasswordResetRequest/PasswordResetRequest';
 import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm';
@@ -66,7 +67,7 @@ class App extends Component {
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />
             <Route exact path="/displaypost" component={DisplayPost} />
-            
+            <Route exact path="/manageNotes" component={ManageNotes} />
             <Route component={NoMatch} />
           </Switch>
           </div>

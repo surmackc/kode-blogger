@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       body: {
         type: DataTypes.JSON,
         allowNull: true,
+      },
+      published: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: 0
       }
     }, {
       timestamps: true 
