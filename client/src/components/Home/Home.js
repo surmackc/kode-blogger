@@ -14,7 +14,6 @@ class Home extends Component {
 
   componentDidMount() {
     noteApi.getLastNotes(10).then(res => {
-      console.log(res);
       this.setState({notes: res.data.map(note => 
         {
           return {
@@ -35,7 +34,7 @@ class Home extends Component {
         <Link to="/displaypost"><button className="btn btn-outline-dark">View Post</button></Link>
         {this.state.notes.map(note => {
           return (
-          <div>
+          <div key={note.id}>
           <span>{note.title}</span>
           <div className="html-output" dangerouslySetInnerHTML={{__html: html.serialize(note.body, {sanitize: true})}} >
           </div>

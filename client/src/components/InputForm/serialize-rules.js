@@ -20,7 +20,6 @@ const rules = [
       if (type) {
         console.log(type);
         if (type === 'code') {
-          console.log('Code block found');
           return {
             object: 'block',
             type: 'block-code',
@@ -64,6 +63,11 @@ const rules = [
             return <pre>{children}</pre>;
           case 'block-code':
             return <code>{children}</code>
+          case 'code_block':
+            return <code className="language-javascript">{children}</code>
+          case 'code_line':
+          console.log(obj._map);
+            return <span>{children}</span> 
           default:
             return <p>{children}</p>
         }

@@ -35,7 +35,7 @@ class ManageProps extends Component {
       <ul className="list-group">
       {this.state.notes.map(note => {
         return (
-          <li class="list-group-item">
+          <li className="list-group-item" key={note.id}>
             <h3>{note.title}</h3>
             <div className="d-flex justify-content-end align-items-center">
             <div className="mr-auto">
