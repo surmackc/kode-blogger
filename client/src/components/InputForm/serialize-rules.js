@@ -66,7 +66,6 @@ const rules = [
           case 'code_block':
             return <code className="language-javascript">{children}</code>
           case 'code_line':
-          console.log(obj._map);
             return <span>{children}</span> 
           default:
             return <p>{children}</p>

@@ -9,6 +9,7 @@ import Html from 'slate-html-serializer';
 import serializeRules from './serialize-rules';
 import axios from 'axios';
 import NoteSelector from '../NoteSelector/NoteSelector';
+import noteApi from '../../utils/noteAPI';
 import "./InputForm.css";
 
 /* State.Value to HTML serializer */
@@ -139,6 +140,16 @@ class InputForm extends Component {
   }
 
   state = {...this.initialValue}
+
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      //Load note
+      noteApi.getById(this.props.match.params.id).then(res => {
+        const val = Value.fromJSON(JSON.parse(res.data.body));
+        this.setState({value: val, title: res.data.title, noteId: res.data.id});
+      });
+    }
+  }
 
   onChange = ({ value }) => {
     this.setState({ value })

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import noteApi from '../../utils/noteAPI';
+import {Redirect} from 'react-router-dom'
 
 class ManageProps extends Component {
   state = {
@@ -24,6 +25,10 @@ class ManageProps extends Component {
     noteApi.unpublishNote(id).then(this.updateNotes());
   }
 
+  editClicked = (id) => {
+    this.setState({redirect: <Redirect to={`/input/${id}`} /> })
+  }
+
   deleteClicked = (id) => {
     noteApi.deleteNote(id).then(this.updateNotes());
   }
@@ -31,9 +36,11 @@ class ManageProps extends Component {
   render() {
     return (
     <div>
+      {this.state.redirect ? this.state.redirect : ''}
       <h2>My Notes</h2>
       <ul className="list-group">
-      {this.state.notes.map(note => {
+      {this.state.notes.length ?
+      this.state.notes.map(note => {
         return (
           <li className="list-group-item" key={note.id}>
             <h3>{note.title}</h3>
@@ -43,6 +50,7 @@ class ManageProps extends Component {
               <p>Modified at {new Date(note.updated).toString()}</p>
             </div>
             <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(note.id)}>Delete</button>
+            <button className="btn btn-info mr-3" onClick={() => this.editClicked(note.id)}>Edit</button>
             {note.published ?
               <button className="btn btn-warning" onClick={() => this.unpublishClicked(note.id)}>Unpublish</button>
               : 
@@ -51,7 +59,8 @@ class ManageProps extends Component {
             </div>
           </li>
         )
-      })}
+      })
+      : <p>No Notes Created</p>}
       </ul>
     </div>
     );

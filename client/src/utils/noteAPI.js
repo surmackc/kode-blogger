@@ -12,7 +12,7 @@ export default {
   },
 
   getById: function(id) {
-    return axios.get("/notes/read/" + id);
+    return axios.get(`/notes/${id}`);
   },
 
   publishNote: function(id) {
