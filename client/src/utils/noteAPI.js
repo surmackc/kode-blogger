@@ -9,5 +9,9 @@ export default {
 
   getById: function(id) {
     return axios.get("/notes/read/" + id);
+  },
+
+  getLastNotes: function(amount) {
+    return axios.get(`/notes/get/${amount}`);
   }
 };

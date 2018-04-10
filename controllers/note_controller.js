@@ -12,14 +12,12 @@ const randomstring = require('randomstring');
 router.get('/notes/read/', (req, res) => {
   db.notes.findAll().then( data => {
     res.json("reading");
-    
   });
 });
 
 router.get('/notes/read/:id', (req, res) => {
     db.notes.findOne({where: {id: req.params.id}}).then( data => {
       res.json("reading");
-      
     });
   });
 
@@ -33,6 +31,13 @@ router.get('/notes', (req, res) => {
     res.json(data);
   });
 })
+
+router.get('/notes/get/:amount', (req, res) => {
+  db.notes.findAll({
+    limit: parseInt(req.params.amount),
+    order: [ [ 'createdAt', 'DESC']]
+  }).then(entries => res.send(entries));
+});
 
 router.get('/notes/:id', (req, res) => {
   db.notes.findOne({

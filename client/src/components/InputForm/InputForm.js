@@ -173,15 +173,13 @@ class InputForm extends Component {
   onSaveClick = event => {
     console.log(this.state.noteId, this.initialValue.noteId)
     if (this.state.noteId === this.initialValue.noteId) {
-      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}))
+      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}))
       .then((data)=> {
         this.setState({ ...data })
       });
     } else {
-      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}))
+      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}))
       .then((data)=> {
-        console.log("updated note")
-        console.log(data)
         this.setState({ ...data })
       });
     }
