@@ -53,7 +53,7 @@ class App extends Component {
         }}
         onChange={this.handleEditorChange.bind(this)}
             />
-            <button type='submit' class="btn btn-default">Submit</button>
+            <button type='submit' className="btn btn-default">Submit</button>
         </form>
       
     );
