@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const Sequelize = require('sequelize');
 
 const db = require('../models');
+const Op = Sequelize.Op;
 
 router.get('/posts', (req, res) => {
   if (!req.session.passport.user) {
     return res.status(400).send();
   }
-  db.notes.findAll({
+  db.posts.findAll({
     where: { author: req.session.passport.user }
   }).then(data => {
     res.json(data);
@@ -15,7 +17,7 @@ router.get('/posts', (req, res) => {
 })
 
 router.get('/posts/get/:amount', (req, res) => {
-  db.notes.findAll({
+  db.posts.findAll({
     limit: parseInt(req.params.amount),
     where: {published: 1},
     order: [ [ 'createdAt', 'DESC']]
@@ -24,16 +26,28 @@ router.get('/posts/get/:amount', (req, res) => {
 
 router.get('/posts/:id', (req, res) => {
   console.log(req.params);
-  db.notes.findOne({
+  db.posts.findOne({
     where: {author: req.session.passport.user, id: req.params.id}
   }).then(data => {
     res.json(data);
   })
 })
 
+router.get('/posts/search/:title', (req, res) => {
+  db.posts.findAll({
+    where: {
+      title: {
+        [Op.regexp]: `${req.params.title}+`
+      }
+    } 
+  }).then(data => {
+    res.send(data);
+  })
+})
+
 router.post('/posts', (req, res) => {
   let textBody = req.body.content;
-  db.notes.create({
+  db.posts.create({
     title: req.body.title,
     author: req.session.passport.user,
     body: req.body.jsonBody 
@@ -47,7 +61,7 @@ router.post('/posts', (req, res) => {
 });
 
 router.put('/posts/update/:id', (req, res) => {
-  db.notes.update({
+  db.posts.update({
     body: req.body.jsonBody
   },
     {
@@ -64,7 +78,7 @@ router.delete('/posts/:id', (req, res) => {
   if (!req.session.passport.user) {
     return res.status(400).send();
   }
-  db.notes.destroy({where: {id: req.params.id, author: req.session.passport.user}}).then(data => {
+  db.posts.destroy({where: {id: req.params.id, author: req.session.passport.user}}).then(data => {
     res.status(200).send();
   });
 });
@@ -73,7 +87,7 @@ router.get('/posts/publish/:id', (req, res) => {
   if (!req.session.passport.user) {
     return res.status(400).send();
   } else {
-    db.notes.update({published: 1}, {
+    db.posts.update({published: 1}, {
       where: { 
         author: req.session.passport.user,
         id: req.params.id
@@ -91,7 +105,7 @@ router.get('/posts/unpublish/:id', (req, res) => {
   if (!req.session.passport.user) {
     return res.status(400).send();
   } else {
-    db.notes.update({published: 0}, {
+    db.posts.update({published: 0}, {
       where: { 
         author: req.session.passport.user,
         id: req.params.id
