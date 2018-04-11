@@ -12,6 +12,7 @@ const apiController = require("./controllers/api_controller");
 const loginController = require("./controllers/login_controller");
 const userController = require("./controllers/user_controller");
 const noteController = require("./controllers/note_controller");
+const postController = require('./controllers/post_controller');
 
 //Setup passport
 const passport = require('passport');
@@ -40,11 +41,13 @@ app.use(session({
 
 db.users.sync();
 db.notes.sync();
+db.posts.sync();
 myStore.sync();
 
 // Use Controllers
 app.use("/api", apiController);
 app.use(noteController);
+app.use(postController);
 
 //Persistent login sessions (maybe?)
 app.use(passport.initialize());
@@ -52,6 +55,7 @@ app.use(passport.session());
 app.use(flash());
 require('./controllers/user_controller')(app, passport);
 require('./controllers/login_controller')(app, passport);
+
 
 // Send all other requests to the React app
 app.get("*", function(req, res) {

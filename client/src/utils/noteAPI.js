@@ -14,20 +14,4 @@ export default {
   getById: function(id) {
     return axios.get(`/notes/${id}`);
   },
-
-  publishNote: function(id) {
-    return axios.get(`/notes/publish/${id}`);
-  },
-
-  unpublishNote: function(id) {
-    return axios.get(`/notes/unpublish/${id}`);
-  },
-
-  deleteNote: function(id) {
-    return axios.delete(`/notes/${id}`);
-  },
-
-  getLastNotes: function(amount) {
-    return axios.get(`/notes/get/${amount}`);
-  }
 };

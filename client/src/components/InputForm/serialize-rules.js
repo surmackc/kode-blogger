@@ -64,7 +64,7 @@ const rules = [
           case 'block-code':
             return <code>{children}</code>
           case 'code_block':
-            return <code className="language-javascript">{children}</code>
+            return <code >{children}</code>
           case 'code_line':
             return <span>{children}</span> 
           default:
