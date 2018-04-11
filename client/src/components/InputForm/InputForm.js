@@ -9,6 +9,7 @@ import Html from 'slate-html-serializer';
 import serializeRules from './serialize-rules';
 import axios from 'axios';
 import NoteSelector from '../NoteSelector/NoteSelector';
+import postApi from '../../utils/postAPI';
 import "./InputForm.css";
 
 /* State.Value to HTML serializer */
@@ -140,6 +141,16 @@ class InputForm extends Component {
 
   state = {...this.initialValue}
 
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      //Load note
+      postApi.getById(this.props.match.params.id).then(res => {
+        const val = Value.fromJSON(JSON.parse(res.data.body));
+        this.setState({value: val, title: res.data.title, noteId: res.data.id});
+      });
+    }
+  }
+
   onChange = ({ value }) => {
     this.setState({ value })
   }
@@ -171,14 +182,13 @@ class InputForm extends Component {
 
   /* Handle DB Save */
   onSaveClick = event => {
-    console.log(this.state.noteId, this.initialValue.noteId)
     if (this.state.noteId === this.initialValue.noteId) {
-      axios.post('/notes/create', ({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())}))
+      postApi.createPost({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())})
       .then((data)=> {
         this.setState({ ...data })
       });
     } else {
-      axios.put(`/notes/update/${this.state.noteId}`, ({jsonBody: JSON.stringify(this.state.value.toJSON())}))
+      postApi.updatePost(this.state.noteId, {jsonBody: JSON.stringify(this.state.value.toJSON())})
       .then((data)=> {
         this.setState({ ...data })
       });
@@ -192,7 +202,7 @@ class InputForm extends Component {
       this.titleInput.value = ''
     }
 
-    axios.get(`/notes/${event.target.value}`).then(res => {
+    postApi.getById(event.target.value).then(res => {
       console.log("gotNote", res.data)
       if (res.data) {
         this.setState(

@@ -29,7 +29,6 @@ class App extends Component {
   componentDidMount() {
     axios.get('/users/loggedIn')
     .then( res => {
-      console.log(res);
       this.setState({loggedIn: true, username: res.data.username})
     })
     .catch(err => this.setState({loggedIn: false})); 
@@ -63,6 +62,7 @@ class App extends Component {
             <Route exact path="/resetPassword" component={PasswordResetRequest} />
             <Route path="/reset/:username/:token" component={PasswordResetForm} />
             <Route exact path="/input" component={InputForm} />
+            <Route path="/input/:id" component={InputForm} />
             <Route exact path="/addnote" component={Note} />
             <Route exact path="/posts" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />

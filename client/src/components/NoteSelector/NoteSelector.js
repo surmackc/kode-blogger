@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+import postApi from '../../utils/postAPI';
 
 class NoteSelector extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class NoteSelector extends Component {
   }
 
   componentDidMount() {
-    axios.get('/notes').then(res => {
+    postApi.getActiveUserPosts().then(res => {
       this.setState({
         titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})) 
       }) 
