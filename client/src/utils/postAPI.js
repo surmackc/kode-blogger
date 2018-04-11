@@ -15,8 +15,8 @@ export default {
     return axios.post("/posts", post);
   },
 
-  updatePost: function(post) {
-    return axios.put(`/notes/update/${this.state.noteId}`, post);
+  updatePost: function(id, post) {
+    return axios.put(`/posts/update/${id}`, post);
   },
 
   getById: function(id) {
