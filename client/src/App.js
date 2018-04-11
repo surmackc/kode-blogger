@@ -16,6 +16,7 @@ import Post from "./components/Post/Post";
 import Note from "./components/Note/Note";
 import NoMatch from "./components/NoMatch/NoMatch";
 import DisplayPost from "./components/DisplayPost/DisplayPost";
+import SearchResults from './components/SearchResults/SearchResults';
 
 class App extends Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class App extends Component {
             <Route exact path="/post/:id" component={Post} />
             <Route exact path="/displaypost" component={DisplayPost} />
             <Route exact path="/manageNotes" component={ManageNotes} />
+            <Route path="/search/:search?" component={SearchResults} />
             <Route component={NoMatch} />
           </Switch>
           </div>

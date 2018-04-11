@@ -19,6 +19,10 @@ export default {
     return axios.put(`/posts/update/${id}`, post);
   },
 
+  searchByTitle: function(title) {
+    return axios.get(`/posts/search/${title}`);
+  },
+
   getById: function(id) {
     return axios.get(`/posts/${id}`);
   },
