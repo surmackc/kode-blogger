@@ -1,4 +1,6 @@
 import React from 'react';
+import Prism from 'prismjs';
+import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
 const BLOCK_TAGS = {
   blockquote: 'quote',
@@ -64,9 +66,10 @@ const rules = [
           case 'block-code':
             return <code>{children}</code>
           case 'code_block':
-            return <code >{children}</code>
+            return <pre className="language-javascript"><code>{children}</code></pre>
           case 'code_line':
-            return <span>{children}</span> 
+          var testHtml = Prism.highlight(obj.text, Prism.languages.javascript, 'javascript');
+          return <div><span>{ ReactHtmlParser(testHtml) }</span></div>
           default:
             return <p>{children}</p>
         }

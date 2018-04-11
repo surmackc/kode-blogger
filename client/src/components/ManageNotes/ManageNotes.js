@@ -14,7 +14,7 @@ class ManageProps extends Component {
   updatePosts() {
     postApi.getActiveUserPosts().then(res => {
       this.setState({posts: res.data.map(note => {return {id: note.id, title: note.title, published: note.published, created: note.createdAt, updated: note.updatedAt}})})
-    }) 
+    }); 
   }
 
   publishClicked = (id) => {
