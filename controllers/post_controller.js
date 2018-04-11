@@ -27,7 +27,6 @@ router.get('/posts/:id', (req, res) => {
   db.notes.findOne({
     where: {author: req.session.passport.user, id: req.params.id}
   }).then(data => {
-    console.log(data, req.params.id);
     res.json(data);
   })
 })
