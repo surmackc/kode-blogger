@@ -139,9 +139,14 @@ class InputForm extends Component {
     noteId: "new"
   }
 
-  state = {...this.initialValue}
+  state = {...this.initialValue, titles: []}
 
   componentDidMount() {
+    postApi.getActiveUserPosts().then(res => {
+      this.setState({
+        titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})) 
+      }) 
+    });
     if (this.props.match.params.id) {
       //Load note
       postApi.getById(this.props.match.params.id).then(res => {
@@ -188,18 +193,23 @@ class InputForm extends Component {
         this.setState({ ...data })
       });
     } else {
-      postApi.updatePost(this.state.noteId, {jsonBody: JSON.stringify(this.state.value.toJSON())})
+      postApi.updatePost(this.state.noteId, {jsonBody: JSON.stringify(this.state.value.toJSON()), title: this.state.title})
       .then((data)=> {
         this.setState({ ...data })
       });
     }
+    //Update note titles due to save action possibly changing a title
+    postApi.getActiveUserPosts().then(res => {
+      this.setState({
+        titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})) 
+      }) 
+    });
   }
 
   /* Handle DB Retrieval */
   onNoteSelected = event => {
     if (event.target.value === this.initialValue.noteId) {
       this.setState({...this.initialValue})
-      this.titleInput.value = ''
     }
 
     postApi.getById(event.target.value).then(res => {
@@ -212,8 +222,6 @@ class InputForm extends Component {
             title: res.data.title
           }
         )
-        
-        this.titleInput.value = this.state.title
       }
     })
   }
@@ -302,8 +310,8 @@ class InputForm extends Component {
     return (
       <div className="row">
         <div className="input-form col-md-6">
-          <NoteSelector ref={(noteSelector) => { this.noteSelector = noteSelector}} newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} />
-          <input ref={(titleInput) => { this.titleInput = titleInput}} onChange={this.onTitleChange} type="text" placeholder={this.initialValue.title} />
+          <NoteSelector newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} posts={this.state.titles} />
+          <input value={this.state.title} onChange={this.onTitleChange} type="text" placeholder={this.initialValue.title} />
           {this.renderToolbar()}
           {this.renderEditor()}
           <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>

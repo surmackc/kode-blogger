@@ -62,7 +62,8 @@ router.post('/posts', (req, res) => {
 
 router.put('/posts/update/:id', (req, res) => {
   db.posts.update({
-    body: req.body.jsonBody
+    body: req.body.jsonBody,
+    title: req.body.title
   },
     {
       where: {

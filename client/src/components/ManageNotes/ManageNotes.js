@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import postApi from '../../utils/postAPI';
 import {Redirect} from 'react-router-dom'
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ManageProps extends Component {
   state = {
@@ -18,11 +20,33 @@ class ManageProps extends Component {
   }
 
   publishClicked = (id) => {
-    postApi.publishNote(id).then(this.updatePosts());
+    confirmAlert({
+      title: 'Publish?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => postApi.publishNote(id).then(this.updatePosts()) 
+        },
+        {
+          label: 'Cancel'
+        }
+      ]
+    });
   }
 
   unpublishClicked = (id) => {
-    postApi.unpublishNote(id).then(this.updatePosts());
+    confirmAlert({
+      title: 'Unpublish?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => postApi.unpublishNote(id).then(this.updatePosts())
+        },
+        {
+          label: 'Cancel'
+        }
+      ]
+    });
   }
 
   editClicked = (id) => {
@@ -30,7 +54,19 @@ class ManageProps extends Component {
   }
 
   deleteClicked = (id) => {
-    postApi.deleteNote(id).then(this.updatePosts());
+    confirmAlert({
+      title: 'Delete?',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => postApi.deleteNote(id).then(this.updatePosts())
+        },
+        {
+          label: 'Cancel'
+        }
+      ]
+    });
+    
   }
   
   render() {
