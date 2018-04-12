@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import postApi from '../../utils/postAPI';
 import {Redirect} from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert';
+import PostListItem from '../PostListItem/PostListItem';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ManageProps extends Component {
@@ -78,13 +79,7 @@ class ManageProps extends Component {
       {this.state.posts.length ?
       this.state.posts.map(note => {
         return (
-          <li className="list-group-item" key={note.id}>
-            <h3>{note.title}</h3>
-            <div className="d-flex justify-content-end align-items-center">
-            <div className="mr-auto">
-              <p>Created at {new Date(note.created).toString()}</p>
-              <p>Modified at {new Date(note.updated).toString()}</p>
-            </div>
+          <PostListItem {...note}>
             <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(note.id)}>Delete</button>
             <button className="btn btn-info mr-3" onClick={() => this.editClicked(note.id)}>Edit</button>
             {note.published ?
@@ -92,8 +87,8 @@ class ManageProps extends Component {
               : 
               <button className="btn btn-success" onClick={() => this.publishClicked(note.id)}>Publish</button>
             }
-            </div>
-          </li>
+          </PostListItem>
+
         )
       })
       : <p>No posts Created</p>}
