@@ -4,7 +4,7 @@ import axios from "axios";
 // It can accept a "query" that may be a search term or id
 export default {
   getAll: function() {
-    return axios.get("/posts/read/");
+    return axios.get("/posts/all");
   },
 
   getActiveUserPosts: function() {

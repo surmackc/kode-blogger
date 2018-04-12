@@ -15,6 +15,13 @@ router.get('/posts', (req, res) => {
     res.json(data);
   });
 })
+router.get('/posts/all', (req, res) => {
+  db.posts.findAll({
+    where: {published: true},
+    order: [ [ 'createdAt', 'DESC']]  }).then(data => {
+    res.json(data);
+  });
+})
 
 router.get('/posts/get/:amount', (req, res) => {
   db.posts.findAll({

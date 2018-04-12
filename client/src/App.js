@@ -64,7 +64,7 @@ class App extends Component {
             <Route path="/reset/:username/:token" component={PasswordResetForm} />
             <Route path="/input/:id?" component={InputForm} />
             <Route exact path="/addnote" component={Note} />
-            <Route exact path="/posts" component={AllPosts} />
+            <Route exact path="/posts/all" component={AllPosts} />
             <Route exact path="/post/:id" component={Post} />
             <Route exact path="/displaypost" component={DisplayPost} />
             <Route exact path="/manageNotes" component={ManageNotes} />
