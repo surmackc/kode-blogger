@@ -38,7 +38,8 @@ router.get('/posts/search/:title', (req, res) => {
     where: {
       title: {
         [Op.regexp]: `${req.params.title}+`
-      }
+      },
+      published: 1
     } 
   }).then(data => {
     res.send(data);

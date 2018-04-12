@@ -50,7 +50,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Wrapper>
-          <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>
+          <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>  
           <div className="container">
           <Switch>
             <Route exact path="/" component={Home}  />

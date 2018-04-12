@@ -1,6 +1,7 @@
 import React from "react";
 import "./Nav.css";
 import LoginNav from '../LoginNav/LoginNav';
+import NavSearch from '../NavSearch/NavSearch';
 import { Link } from 'react-router-dom'
 
 
@@ -19,10 +20,7 @@ const Nav = (props) => (
           <Link to="/input"><button className="btn btn-outline-light" type="button">+ Post</button></Link>
         </li>
       </ul>
-    <form className="form-inline my-2 mr-2 my-md-0">
-      <input className="form-control mr-2" type="search" placeholder="Search" aria-label="Search" />
-      <button className="btn btn-outline-light" type="submit">Search</button>
-    </form>
+    <NavSearch />
     <LoginNav {...props}/>
     </div>
   </nav>

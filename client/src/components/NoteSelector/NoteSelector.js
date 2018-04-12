@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import postApi from '../../utils/postAPI';
 
 const NoteSelector = (props) => (
-      <select onChange={props.onNoteSelected}>
+      <select className="form-control" onChange={props.onNoteSelected}>
         <option value="new" key={0}>Create New</option>
         {props.posts.map((element, index) => {
           return (
