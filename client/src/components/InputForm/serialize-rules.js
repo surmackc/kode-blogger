@@ -14,12 +14,15 @@ const MARK_TAGS = {
   strong: 'bold',
   u: 'underline',
 }
+
+let syntax = "javascript";
  
 const rules = [
   {
     deserialize(el, next) {
       const type = BLOCK_TAGS[el.tagName.toLowerCase()]
       if (type) {
+        console.log('Deserializing');
         console.log(type);
         if (type === 'code') {
           return {
@@ -66,10 +69,11 @@ const rules = [
           case 'block-code':
             return <code>{children}</code>
           case 'code_block':
-            return <pre className="language-javascript"><code>{children}</code></pre>
+            syntax = obj.data.get('syntax');
+            return <pre className={`language-${obj.data.get('syntax')}`}><code>{children}</code></pre>
           case 'code_line':
-          var testHtml = Prism.highlight(obj.text, Prism.languages.javascript, 'javascript');
-          return <div><span>{ ReactHtmlParser(testHtml) }</span></div>
+            var html = Prism.highlight(obj.text, Prism.languages[syntax], syntax);
+            return <div><span>{ ReactHtmlParser(html) }</span></div>
           default:
             return <p>{children}</p>
         }

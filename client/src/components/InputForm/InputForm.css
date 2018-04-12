@@ -28,10 +28,9 @@
 
 
 .menu {
-  padding: 5px 10px;
+  padding: 8px 10px;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #ddd;
-  max-width: 1000px;
 }
 
 .selector {

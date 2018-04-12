@@ -55,7 +55,7 @@ class GlobalCodeSyntaxSelector extends Component {
     return (
       <div
       contentEditable={false}
-      style={{ position: 'absolute', top: '-8px', right: '5px' }}>
+      style={{ position: 'absolute', top: '0px', right: '5px' }}>
         <select value={this.state.value} onChange={this.onChange}>
           <option value="css">CSS</option>
           <option value="javascript">JavaScript</option>
