@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 
 const Nav = (props) => (
-  <nav className="navbar navbar-expand-md navbar-custom">
+  <nav className="navbar navbar-expand-md navbar-custom mb-3">
     <Link to="/" className="navbar-brand"> 
       kode<span id="navbar-brand-second">Blogger</span></Link>
     <button className="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">

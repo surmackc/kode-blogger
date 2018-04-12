@@ -139,7 +139,7 @@ class InputForm extends Component {
     noteId: "new"
   }
 
-  state = {...this.initialValue, titles: []}
+  state = {...this.initialValue, titles: [], showPreview: false}
 
   componentDidMount() {
     postApi.getActiveUserPosts().then(res => {
@@ -201,7 +201,7 @@ class InputForm extends Component {
     //Update note titles due to save action possibly changing a title
     postApi.getActiveUserPosts().then(res => {
       this.setState({
-        titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})) 
+        titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})),
       }) 
     });
   }
@@ -224,6 +224,10 @@ class InputForm extends Component {
         )
       }
     })
+  }
+
+  onTogglePreview = () => {
+    this.setState({showPreview: !this.state.showPreview});
   }
 
  /*----- Toolbar Functions -----*/
@@ -308,21 +312,32 @@ class InputForm extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="input-form col-md-6">
+      <div>
+        <div className="row">
           <NoteSelector newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} posts={this.state.titles} />
-          <input value={this.state.title} onChange={this.onTitleChange} type="text" placeholder={this.initialValue.title} />
-          {this.renderToolbar()}
-          {this.renderEditor()}
-          <button onClick={this.onSaveClick} className="btn btn-success">Save It</button>
         </div>
-        <div className="col-md-6 preview">
-          <h5 className="alert-light">Preview:</h5>
-          <h3 className="alert-light">{this.state.title}</h3>
-          <div className="html-output"
-            dangerouslySetInnerHTML={{__html: html.serialize(this.state.value, {sanitize: true})}}
-          >
+        <div className="row">
+          <button className="btn btn-success m-2">Save</button>
+          <button className="btn btn-info m-2" onClick={this.onTogglePreview}>
+            {this.state.showPreview ? 'Hide Preview' : 'Show Preview'}
+          </button>
+        </div>
+        <div className="row">
+          <div className={`input-form ${this.state.showPreview ? 'col-md-6' : 'col-md-12'}`}>
+            <input value={this.state.title} onChange={this.onTitleChange} type="text" placeholder={this.initialValue.title} />
+            {this.renderToolbar()}
+            {this.renderEditor()}
           </div>
+          {this.state.showPreview ? 
+          <div className="col-md-6 preview">
+            <h5 className="alert-light">Preview:</h5>
+            <h3 className="alert-light">{this.state.title}</h3>
+            <div className="html-output"
+              dangerouslySetInnerHTML={{__html: html.serialize(this.state.value, {sanitize: true})}}
+            >
+            </div>
+          </div>
+          : '' }
         </div>
       </div>
     )
