@@ -2,6 +2,11 @@
   width: 30%;
 }
 
+#signupContainer {
+  background-color: #03d8be
+  !important;
+}
+
 input {
   clear: both;
   width: 100%;

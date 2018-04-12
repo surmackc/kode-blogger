@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import './LoginForm.css';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ class LoginForm extends Component {
   render() {
     return (
       <div className="row">
-        <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded">
+        <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded" id="loginContainer">
           <h3 className="text-light font-weight-bold">Log In</h3>
 
             {this.state.message ? <p className="alert alert-primary">{this.state.message}</p> : ''}

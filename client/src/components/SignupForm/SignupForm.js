@@ -68,7 +68,7 @@ class SignupForm extends Component {
 
   render() {
     return (
-      <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded">
+      <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded" id="signupContainer">
         <h3 className="text-light font-weight-bold">Sign Up</h3>
         <form className="mt-0" autoComplete="on">
           <div>
