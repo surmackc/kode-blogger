@@ -31,7 +31,8 @@ class Home extends Component {
       <div className="home">
         Home content here...
         <Carousel />
-        <Link to="/displaypost"><button className="btn btn-outline-dark">View Post</button></Link>
+        <Link to="/displaypost"><button className="btn btn-outline-dark mr-2">View Post</button></Link>
+        <Link to="/posts/all"><button className="btn btn-outline-dark">All Posts</button></Link>
         {this.state.notes.map(note => {
           return (
           <div key={note.id}>
