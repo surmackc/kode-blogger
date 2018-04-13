@@ -21,6 +21,7 @@
     "@tinymce/tinymce-react": "^2.2.4",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.17.2",
+    "cheerio": "^1.0.0-rc.2",
     "connect-flash": "^0.1.1",
     "connect-session-sequelize": "^5.2.1",
     "cookie-parser": "^1.4.3",

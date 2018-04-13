@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import postApi from '../../utils/postAPI';
 import {Redirect} from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert';
+import PostListItem from '../PostListItem/PostListItem';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ManageProps extends Component {
@@ -76,27 +77,21 @@ class ManageProps extends Component {
       <h2>My posts</h2>
       <ul className="list-group">
       {this.state.posts.length ?
-      this.state.posts.map(note => {
+      this.state.posts.map(post => {
         return (
-          <li className="list-group-item" key={note.id}>
-            <h3>{note.title}</h3>
-            <div className="d-flex justify-content-end align-items-center">
-            <div className="mr-auto">
-              <p>Created at {new Date(note.created).toString()}</p>
-              <p>Modified at {new Date(note.updated).toString()}</p>
-            </div>
-            <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(note.id)}>Delete</button>
-            <button className="btn btn-info mr-3" onClick={() => this.editClicked(note.id)}>Edit</button>
-            {note.published ?
-              <button className="btn btn-warning" onClick={() => this.unpublishClicked(note.id)}>Unpublish</button>
+          <PostListItem key={post.id} {...post}>
+            <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(post.id)}>Delete</button>
+            <button className="btn btn-info mr-3" onClick={() => this.editClicked(post.id)}>Edit</button>
+            {post.published ?
+              <button className="btn btn-warning" onClick={() => this.unpublishClicked(post.id)}>Unpublish</button>
               : 
-              <button className="btn btn-success" onClick={() => this.publishClicked(note.id)}>Publish</button>
+              <button className="btn btn-success" onClick={() => this.publishClicked(post.id)}>Publish</button>
             }
-            </div>
-          </li>
+          </PostListItem>
+
         )
       })
-      : <p>No posts Created</p>}
+      : <p>No Posts Created</p>}
       </ul>
     </div>
     );

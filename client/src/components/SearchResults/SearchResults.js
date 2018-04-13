@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PostListItem from '../PostListItem/PostListItem';
 import postApi from '../../utils/postAPI';
 
 class SearchResults extends Component {
@@ -38,7 +39,7 @@ class SearchResults extends Component {
         </form>
       <ul className="list-group">
       {this.state.results.length ? 
-        this.state.results.map(result => <li key={result.id} className="list-group-item">{result.title}</li>) 
+        this.state.results.map(result => <PostListItem {...result}/>) 
         : <div>No Results</div>}
       </ul>
       </div>

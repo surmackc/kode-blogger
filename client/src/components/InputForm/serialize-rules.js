@@ -72,7 +72,7 @@ const rules = [
             syntax = obj.data.get('syntax');
             return <pre className={`language-${obj.data.get('syntax')}`}><code>{children}</code></pre>
           case 'code_line':
-            var html = Prism.highlight(obj.text, Prism.languages[syntax], syntax);
+            var html = Prism.highlight(obj.text, Prism.languages[obj.data.get('syntax')], obj.data.get('syntax'));
             return <div><span>{ ReactHtmlParser(html) }</span></div>
           default:
             return <p>{children}</p>
