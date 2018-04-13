@@ -38,7 +38,7 @@ class Home extends Component {
         <div className="recent-post">
           <h2><span id="recent-post-title">recent</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
         
-        <div className="recent-post-container1">
+        <div>
         {this.state.notes.map(note => {
           return (
           <div className="recent-post-container">
