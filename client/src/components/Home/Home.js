@@ -14,16 +14,18 @@ class Home extends Component {
 
   componentDidMount() {
     postApi.getLastPosts(10).then(res => {
-      this.setState({notes: res.data.map(note => 
-        {
-          return {
-            id: note.id, 
-            author: note.author,
-            title: note.title, 
-            body: Value.fromJSON(JSON.parse(note.body))
-          }
-        })
-      });
+      if (res.data) {
+        this.setState({notes: res.data.map(note => 
+          {
+            return {
+              id: note.id, 
+              author: note.author,
+              title: note.title, 
+              body: Value.fromJSON(JSON.parse(note.body))
+            }
+          })
+        });
+      }
     });
   }
   render() {
