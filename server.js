@@ -50,6 +50,7 @@ myStore.sync();
 app.use("/api", apiController);
 app.use(noteController);
 app.use(fetchController);
+app.use(postController);
 
 //Persistent login sessions (maybe?)
 app.use(passport.initialize());
