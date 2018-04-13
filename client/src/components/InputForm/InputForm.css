@@ -126,3 +126,11 @@ input:focus {
   color: black;
 }
 /* ------------------ */
+.btn-outline-success {
+  border-color: #03d8be
+  !important;
+  color: #03d8be;
+}
+.btn-outline-success:hover {
+  background-color: #03d8be;
+}
