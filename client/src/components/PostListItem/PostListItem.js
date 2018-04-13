@@ -1,8 +1,13 @@
 import React from 'react';
+import "./PostListItem.css";
+
 
 const PostListItem = ({title, id, created, updated, children}) => (
-  <li className="list-group-item mb-3" key={id}>
-            <h3>{title}</h3>
+  <div className="post-list-container">
+  <div id="post-list-block" key={id}>
+          <div className="post-list-title-container">
+            <div className="post-list-title">{title}</div>
+          </div>
             <div className="d-flex justify-content-end align-items-center">
             <div className="mr-auto">
               {created ? <p>Created at {new Date(created).toString()}</p> : ''}
@@ -10,7 +15,9 @@ const PostListItem = ({title, id, created, updated, children}) => (
             </div>
             {children}
             </div>
-  </li>
+          
+  </div>
+  </div>
 )
 
 export default PostListItem;
