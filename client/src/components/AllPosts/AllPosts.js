@@ -27,19 +27,21 @@ class AllPosts extends Component {
   render() {
     return (
     <div>
-        <h2>{"< All Posts >"}</h2>
+      <h2><span id="recent-post-title">all</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
+
       {this.state.redirect ? this.state.redirect : ''}
       <ul className="list-group">
       {this.state.posts.length ?
       this.state.posts.map(note => {
         return (
           <PostListItem {...note}>
-            <button className="btn btn-outline-light" type="button" id="viewPost" onClick={() => this.viewPost(note.id)}>View Post</button>
+            <button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button>
           </PostListItem>
         )
       })
       :<p> No posts yet, check back soon!</p>}
     </ul>
+    <h2><span id="recent-post-curly-end">&#125;</span></h2>
   </div>
     );
 }

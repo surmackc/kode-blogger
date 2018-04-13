@@ -28,6 +28,9 @@ class Home extends Component {
       }
     });
   }
+
+ 
+
   render() {
     return (
       <div className="home">
@@ -38,7 +41,7 @@ class Home extends Component {
         <div className="recent-post">
           <h2><span id="recent-post-title">recent</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
         
-        <div className="recent-post-container1">
+        <div>
         {this.state.notes.map(note => {
           return (
           <div className="recent-post-container" key={note.id}>
@@ -48,7 +51,7 @@ class Home extends Component {
           </div>
           <div className="html-output" dangerouslySetInnerHTML={{__html: html.serialize(note.body, {sanitize: true})}} >
           </div>
-          <Link to="/displaypost"><button className="btn btn-outline-dark">View Post</button></Link>
+          <Link to={`/posts/${note.id}`}><button className="btn btn-outline-dark" type="button">View Post</button></Link>
           </div>
           </div>);
         })}
