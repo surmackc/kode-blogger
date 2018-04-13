@@ -16,8 +16,8 @@ const Nav = (props) => (
     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul className="navbar-nav mr-auto mt-2 mt-md-0">
         <li className="nav-item active">
-          <Link to="/manageNotes"><button className="btn btn-outline-light mr-2" type="button">My Posts</button></Link>
-          <Link to="/input"><button className="btn btn-outline-light" type="button">+ Post</button></Link>
+          <Link to="/manageNotes"><button className="btn btn-outline-light mr-2" type="button"><img src="./images/my-post.svg" height="24" width="24" hspace="5" />My Posts</button></Link>
+          <Link to="/input"><button className="btn btn-outline-light" type="button"><img src="./images/new-post.svg" height="24" width="24" hspace="5" />+ Post</button></Link>
         </li>
       </ul>
     <NavSearch />
