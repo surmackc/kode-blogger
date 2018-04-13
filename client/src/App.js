@@ -12,7 +12,6 @@ import ManageNotes from './components/ManageNotes/ManageNotes';
 import VerifyEmail from './components/VerifyEmail/VerifyEmail';
 import PasswordResetRequest from './components/PasswordResetRequest/PasswordResetRequest';
 import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm';
-import Post from "./components/Post/Post";
 import Note from "./components/Note/Note";
 import NoMatch from "./components/NoMatch/NoMatch";
 import DisplayPost from "./components/DisplayPost/DisplayPost";
@@ -65,8 +64,7 @@ class App extends Component {
             <Route path="/input/:id?" component={InputForm} />
             <Route exact path="/addnote" component={Note} />
             <Route exact path="/posts/all" component={AllPosts} />
-            <Route exact path="/post/:id" component={Post} />
-            <Route exact path="/displaypost" component={DisplayPost} />
+            <Route exact path="/posts/:id?" component={DisplayPost} />
             <Route exact path="/manageNotes" component={ManageNotes} />
             <Route path="/search/:search?" component={SearchResults} />
             <Route component={NoMatch} />
