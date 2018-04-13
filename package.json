@@ -28,6 +28,7 @@
     "dotenv": "^5.0.1",
     "express": "^4.15.4",
     "express-session": "^1.15.6",
+    "immutable": "^3.8.2",
     "mysql2": "^1.5.3",
     "nodemailer": "^4.6.4",
     "passport": "^0.4.0",

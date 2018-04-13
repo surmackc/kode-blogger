@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import ReactDrawer from 'react-drawer';
 
-
- 
 /* if you using webpack, should not apply identity to this css */
 import './Drawer.css';
  
@@ -55,7 +53,7 @@ class Drawer extends Component {
           onClose={this.onDrawerClose}
           noOverlay={true}>
           <p onClick={this.closeDrawer}>X</p>
-          <p>Scroll Panel Here!</p>
+          {this.props.children}
         </ReactDrawer>
       </div>
     );

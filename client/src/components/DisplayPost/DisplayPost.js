@@ -1,57 +1,107 @@
-import React from "react";
-import {ScrollSync, ScrollSyncPane}  from "react-scroll-sync";
+import React, {Component} from "react";
 import { Link } from 'react-router-dom'
+import { Value } from 'slate';
 import Drawer from '../Drawer/Drawer.js';
-
+import postApi from '../../utils/postAPI';
+import {SlateOutputHTML, SlateOutputCode} from '../SlateOutputHTML/SlateOutputHTML.js'
+import defaultValue from './value.json';
 import "./DisplayPost.css";
 
+class DisplayPost extends Component { 
+  initialValue = {
+    value: defaultValue,
+    title: 'Untitled Note',
+    noteId: "new",
+    index: 0,
+    code: [],
+    text: []
+  }
 
-const DisplayPost = () => 
-  (
-  <span>
-  <ScrollSync>
-    <div style={{ display: 'flex', position: 'relative', height: 300 }}>
-      <ScrollSyncPane>
-        <div className="scrollPanel" style={{overflow: 'auto'}}>
-          <section style={{ height: 500, width: 500 }}>
-            <h1>Article Text</h1>
-            <p>Check out this code!</p>
-            <Link to="/addnote"><button className="btn btn-default" >Add Note</button></Link>
-            <p>Check out these comments!</p>
-          </section>
-        </div>
-      </ScrollSyncPane>
-    
-    
-    
-      <ScrollSyncPane>
-        <div className="scrollPanel" style={{overflow: 'auto'}}>
-          <section style={{ height: 500, width: 500 }}>
-            <h1>Article Text</h1>
-            <p>Check out this code!</p>
-            <Link to="/addnote"><button className="btn btn-default" >Add Note</button></Link>
-            <p>Check out these comments!</p>
-          </section>
-          </div>
-      </ScrollSyncPane>
-    </div>
-  
-  </ScrollSync>
-     
-  <Drawer>
-       <ScrollSyncPane>
-        <div style={{overflow: 'auto'}}>
-          <section style={{ height: 500, width: 500 }}>
-            <h1>Article Text</h1>
-            <p>Check out this code!</p>
-            <Link to="/addnote"><button className="btn btn-default" >Add Note</button></Link>
-            <p>Check out these comments!</p>
-          </section>
-          </div>
-      </ScrollSyncPane>
-  </Drawer>
-</span>
-  );
+  state = { ...this.initialValue }
 
+  componentDidMount() {
+    if (this.props.match.params.id) {
+      //Load note
+      postApi.getById(this.props.match.params.id).then(res => {
+        const val = JSON.parse(res.data.body);
+        this.setState({value: val, title: res.data.title, noteId: res.data.id});
+        this.parseValue()
+      });
+    } else {
+      this.parseValue()
+    }
+  }
+
+  parseValue = () => {
+    var code = []
+    var text = []
+    var index = 0
+
+    this.state.value.document.nodes.map((node) => {
+      console.log(index)
+      if (node.type === 'code_block') {
+        if (!code[index]) {
+          code[index] = []
+        }
+        code[index].push(node)
+
+        if (!text[index]) {
+          text[index] = [{
+            "object": "text",
+            "leaves": [
+              { "object": "leaf", "text": "No text to display for this code block", "marks": [] },
+            ]
+          }]
+        }
+
+        index++
+
+      } else {
+        if (!text[index]) {
+          text[index] = []
+        }
+        text[index].push(node)
+      }
+    })
+    
+    this.setState({
+      code,
+      text
+    })
+  }
+
+  handleClick(type) {
+    let index = this.state.index
+    if (type === 'next') {
+      this.setState({index: index + 1})
+    } else {
+      this.setState({index: index - 1})
+    }
+  }
+
+  render() {
+    return(
+      <div>
+        <section>
+          <h1>{this.state.title}</h1>
+          <SlateOutputHTML text={this.state.text} index={this.state.index} />
+          <button className="btn btn-default" onClick={()=>this.handleClick('previous')} disabled={this.state.index === 0}>Previous</button>
+          <button className="btn btn-default" onClick={()=>this.handleClick('next')} disabled={this.state.index === this.state.text.length - 1}>Next</button>
+          <Link to="/addnote"><button className="btn btn-default">Add Note</button></Link>
+        </section>
+
+        <section>
+          <p>Check out these comments!</p>  
+        </section>
+      
+        <Drawer>
+            <section style={{width: 500 }}>
+              <SlateOutputCode code={this.state.code} index={this.state.index} />
+            </section>
+        </Drawer>
+      </div>
+    );
+  }
+}
 
 export default DisplayPost;
