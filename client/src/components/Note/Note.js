@@ -23,7 +23,7 @@ class App extends Component {
     event.preventDefault();
     // let data = tinymce.get('textbody').getContent()
     console.log(this.content)
-    fetch('/notes/create', {
+    fetch('/posts', {
       method: 'POST',
       body: JSON.stringify({
         content: this.content
