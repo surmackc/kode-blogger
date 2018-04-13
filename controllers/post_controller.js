@@ -17,7 +17,7 @@ router.get('/posts', (req, res) => {
 })
 router.get('/posts/all', (req, res) => {
   db.posts.findAll({
-    where: {published: true},
+    where: {published: 1},
     order: [ [ 'createdAt', 'DESC']]  }).then(data => {
     res.json(data);
   });

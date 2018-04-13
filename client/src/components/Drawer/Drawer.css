@@ -4,12 +4,6 @@
  *
  * Copyright (c) 2016 Tony Li
  */
- .scrollPanel {
-  display: flex;
-  position: relative; 
-  height: 600;
-}
-
  .css-sourceMap-modules-importLoaders-1-localIdentName-ReactDrawer__drawer___2r5VH-sass {
   position: fixed;
   background-color: #03d8be;
@@ -44,7 +38,8 @@
   top: 110px;
   right: 0;
   width: 600px;
-  height: 100%; }
+  height: 100%;
+}
 
 .css-sourceMap-modules-importLoaders-1-localIdentName-ReactDrawer__hidden___12vbU-sass {
   display: none; }

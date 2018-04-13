@@ -6,16 +6,17 @@
   box-shadow: 3px 8px 8px rgba(0,0,0,.15), 0 5px 10px rgba(0,0,0,.12);
 }
 
-#post-list-block {
+#home-post-list-block {
   margin: 10px;
   margin-top: 15px;
 }
-.post-list-title-container {
-  border-bottom: solid #03d8be 2px;
-  margin-bottom: 15px;
+.home-post-list-title-container{
+    border-bottom: solid #03d8be 2px;
+    margin-bottom: 15px;
+    padding-top: 5px;
 }
 
-.post-list-title {  
+#home-post-list-title {  
   font-family: 'Montserrat', sans-serif;
   font-size: 34px;
   font-weight: 300;
@@ -24,10 +25,10 @@
   line-height: 40px;
   }
 
-  .post-list-container{
-    width: 80%;
-    margin: auto;
-    margin-top: 20px;
-    padding-bottom: 10px;
-  }
+.post-list-container{
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  padding-bottom: 10px;
+}
 

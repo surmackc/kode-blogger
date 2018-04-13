@@ -74,18 +74,18 @@ class ManageProps extends Component {
     return (
     <div>
       {this.state.redirect ? this.state.redirect : ''}
-      <h2>My posts</h2>
+      <h2><span id="recent-post-title">my</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
       <ul className="list-group">
       {this.state.posts.length ?
       this.state.posts.map(post => {
         return (
           <PostListItem key={post.id} {...post}>
-            <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(post.id)}>Delete</button>
-            <button className="btn btn-info mr-3" onClick={() => this.editClicked(post.id)}>Edit</button>
+            <button className="btn btn-outline-danger mr-3" onClick={() => this.deleteClicked(post.id)}>Delete</button>
+            <button className="btn btn-outline-info mr-3" onClick={() => this.editClicked(post.id)}>Edit</button>
             {post.published ?
-              <button className="btn btn-warning" onClick={() => this.unpublishClicked(post.id)}>Unpublish</button>
+              <button className="btn btn-outline-warning" onClick={() => this.unpublishClicked(post.id)}>Unpublish</button>
               : 
-              <button className="btn btn-success" onClick={() => this.publishClicked(post.id)}>Publish</button>
+              <button className="btn btn-outline-success" onClick={() => this.publishClicked(post.id)}>Publish</button>
             }
           </PostListItem>
 
@@ -93,6 +93,7 @@ class ManageProps extends Component {
       })
       : <p>No Posts Created</p>}
       </ul>
+      <h2><span id="recent-post-curly-end">&#125;</span></h2>
     </div>
     );
   }

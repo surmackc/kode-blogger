@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import "./Home.css";
 import Carousel from '../Carousel/Carousel.js';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Html from 'slate-html-serializer';
 import {Value} from 'slate';
 import serializeRules from '../InputForm/serialize-rules';
@@ -10,7 +10,9 @@ import postApi from '../../utils/postAPI';
 const html = new Html({ rules: serializeRules });
 
 class Home extends Component {
-  state = { notes: [] }
+  state = { notes: [],
+    redirect: ''
+  }
 
   componentDidMount() {
     postApi.getLastPosts(10).then(res => {
@@ -29,18 +31,23 @@ class Home extends Component {
     });
   }
 
- 
+  viewPost = (id) => {
+    this.setState({redirect: <Redirect to={`/posts/${id}`} /> })
+  }
+
+  getAllPosts = () => {
+    this.setState({redirect: <Redirect to={`posts/all`} />})
+  }
+
 
   render() {
     return (
       <div className="home">
+      {this.state.redirect ? this.state.redirect : ''}
         {/* Home content here...
         <Carousel /> */}
-        <Link to="/displaypost"><button className="btn btn-outline-dark mr-2">View Post</button></Link>
-        <Link to="/posts/all"><button className="btn btn-outline-dark">All Posts</button></Link>
         <div className="recent-post">
           <h2><span id="recent-post-title">recent</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
-        
         <div>
         {this.state.notes.map(note => {
           return (
@@ -51,15 +58,15 @@ class Home extends Component {
           </div>
           <div className="html-output" dangerouslySetInnerHTML={{__html: html.serialize(note.body, {sanitize: true})}} >
           </div>
-          <Link to={`/posts/${note.id}`}><button className="btn btn-outline-dark" type="button">View Post</button></Link>
+          <div className="text-center"><button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button></div>
           </div>
           </div>);
         })}
         
       </div>
       </div>
-
       <h2><span id="recent-post-curly-end">&#125;</span></h2>
+      <div className="text-center"><button className="btn btn-outline-dark" type="button" onClick={() => this.getAllPosts()}>All Posts</button></div>
       </div>
     )
   }

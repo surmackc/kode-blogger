@@ -329,9 +329,9 @@ class InputForm extends Component {
         <div className="row">
           <NoteSelector newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} posts={this.state.titles} />
         </div>
-        <div className="row">
-          <button className="btn btn-success m-2" onClick={this.onSaveClick}>Save</button>
-          <button className="btn btn-info m-2" onClick={this.onTogglePreview}>
+        <div className="text-center">
+          <button className="btn btn-outline-success m-2" onClick={this.onSaveClick}>Save</button>
+          <button className="btn btn-outline-info m-2" onClick={this.onTogglePreview}>
             {this.state.showPreview ? 'Hide Preview' : 'Show Preview'}
           </button>
         </div>

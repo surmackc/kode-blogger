@@ -17,6 +17,7 @@
   .home-recent-post-title-container{
     border-bottom: solid #03d8be 2px;
     margin-bottom: 15px;
+    padding-top: 5px;
   }
 #home-recent-post-title{
   font-family: 'Montserrat', sans-serif;

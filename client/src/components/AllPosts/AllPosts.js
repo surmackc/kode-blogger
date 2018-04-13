@@ -7,7 +7,8 @@ import "./AllPosts.css";
 
 class AllPosts extends Component {
   state = {
-    posts: []
+    posts: [],
+    redirect: ''
   };
 
   componentDidMount = () => {
@@ -27,14 +28,13 @@ class AllPosts extends Component {
   render() {
     return (
     <div>
-      <h2><span id="recent-post-title">all</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
-
       {this.state.redirect ? this.state.redirect : ''}
+      <h2><span id="recent-post-title">all</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
       <ul className="list-group">
       {this.state.posts.length ?
       this.state.posts.map(note => {
         return (
-          <PostListItem {...note}>
+          <PostListItem key={note.id} {...note}>
             <button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button>
           </PostListItem>
         )
