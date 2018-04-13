@@ -41,8 +41,8 @@ class Home extends Component {
         <div className="recent-post-container1">
         {this.state.notes.map(note => {
           return (
-          <div className="recent-post-container">
-          <div id="home-recent-post-block" key={note.id}>
+          <div className="recent-post-container" key={note.id}>
+          <div id="home-recent-post-block">
           <div className="home-recent-post-title-container">
           <span id="home-recent-post-title">{note.title}</span>
           </div>

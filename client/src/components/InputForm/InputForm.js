@@ -120,9 +120,19 @@ class CodeBlock extends Component {
  */
 
 class CodeLine extends Component {
+  setSyntax = (syntax) => {
+      this.props.editor.change(c =>
+        c.setNodeByKey(this.props.node.key, {syntax})
+      )
+  }
+
+  componentDidMount(props) {
+    this.setSyntax('javascript');
+  }
+
   render() {
     return(
-      <div {...this.props.attributes}>{this.props.children}</div>
+      <div data-syntax={'javascript'} {...this.props.attributes}>{this.props.children}</div>
     )
   }
 }
@@ -188,12 +198,16 @@ class InputForm extends Component {
   /* Handle DB Save */
   onSaveClick = event => {
     if (this.state.noteId === this.initialValue.noteId) {
-      postApi.createPost({title: this.state.title, jsonBody: JSON.stringify(this.state.value.toJSON())})
+      let valueString = JSON.stringify(this.state.value.toJSON());
+      valueString = valueString.replace(/("data":{})/g, `"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
+      postApi.createPost({title: this.state.title, jsonBody: valueString})
       .then((data)=> {
         this.setState({ ...data })
       });
     } else {
-      postApi.updatePost(this.state.noteId, {jsonBody: JSON.stringify(this.state.value.toJSON()), title: this.state.title})
+      let valueString = JSON.stringify(this.state.value.toJSON());
+      valueString = valueString.replace(/("data":{})/g, `"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"`);
+      postApi.updatePost(this.state.noteId, {jsonBody: valueString, title: this.state.title})
       .then((data)=> {
         this.setState({ ...data })
       });
@@ -213,7 +227,6 @@ class InputForm extends Component {
     }
 
     postApi.getById(event.target.value).then(res => {
-      console.log("gotNote", res.data)
       if (res.data) {
         this.setState(
           {

@@ -77,21 +77,21 @@ class ManageProps extends Component {
       <h2>My posts</h2>
       <ul className="list-group">
       {this.state.posts.length ?
-      this.state.posts.map(note => {
+      this.state.posts.map(post => {
         return (
-          <PostListItem {...note}>
-            <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(note.id)}>Delete</button>
-            <button className="btn btn-info mr-3" onClick={() => this.editClicked(note.id)}>Edit</button>
-            {note.published ?
-              <button className="btn btn-warning" onClick={() => this.unpublishClicked(note.id)}>Unpublish</button>
+          <PostListItem key={post.id} {...post}>
+            <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(post.id)}>Delete</button>
+            <button className="btn btn-info mr-3" onClick={() => this.editClicked(post.id)}>Edit</button>
+            {post.published ?
+              <button className="btn btn-warning" onClick={() => this.unpublishClicked(post.id)}>Unpublish</button>
               : 
-              <button className="btn btn-success" onClick={() => this.publishClicked(note.id)}>Publish</button>
+              <button className="btn btn-success" onClick={() => this.publishClicked(post.id)}>Publish</button>
             }
           </PostListItem>
 
         )
       })
-      : <p>No posts Created</p>}
+      : <p>No Posts Created</p>}
       </ul>
     </div>
     );
