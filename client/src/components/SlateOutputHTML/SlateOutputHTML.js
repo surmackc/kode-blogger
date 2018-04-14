@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Html from 'slate-html-serializer';
 import { Value } from 'slate';
-import serializeRules from './serialize-rules';
+import serializeRules from '../InputForm/serialize-rules';
 import defaultValue from './value.json';
 import "./SlateOutputHTML.css";
 

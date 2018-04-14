@@ -104,11 +104,6 @@ class CodeBlock extends Component {
           contentEditable={false}
           style={{ position: 'absolute', top: '-8px', right: '5px' }}
         >
-          <select value={syntax || DEFAULT_CODE_LANGUAGE} onChange={this.setSyntax}>
-            <option value="css">CSS</option>
-            <option value="javascript">JavaScript</option>
-            <option value="html">HTML</option>
-          </select>
         </div>
       </div>
     )
@@ -127,12 +122,12 @@ class CodeLine extends Component {
   }
 
   componentDidMount(props) {
-    this.setSyntax('javascript');
+    this.setSyntax(DEFAULT_CODE_LANGUAGE);
   }
 
   render() {
     return(
-      <div data-syntax={'javascript'} {...this.props.attributes}>{this.props.children}</div>
+      <div data-syntax={DEFAULT_CODE_LANGUAGE} {...this.props.attributes}>{this.props.children}</div>
     )
   }
 }
@@ -168,6 +163,7 @@ class InputForm extends Component {
 
   onChange = ({ value }) => {
     this.setState({ value })
+    console.log(this.state.value)
   }
 
   onTitleChange = (event) => {
