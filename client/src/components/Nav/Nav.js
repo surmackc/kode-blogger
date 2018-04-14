@@ -15,15 +15,22 @@ const Nav = (props) => (
     </button>
     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
       {props.loggedIn ? 
-      <ul className="navbar-nav mr-auto mt-2 mt-md-0">
-        <li className="nav-item active">
-          <Link to="/manageNotes"><button className="btn btn-outline-light mr-2" type="button"><img src="./images/my-post.svg" height="24" width="24" hspace="5" />My Posts</button></Link>
-          <Link to="/input"><button className="btn btn-outline-light" type="button"><img src="./images/new-post.svg" height="24" width="24" hspace="5" />+ Post</button></Link>
+      <ul className="navbar-nav ml-auto mt-2 mt-md-0">
+        <li className="nav-item active ml-auto">
+          <Link to="/manageNotes"><button className="btn btn-outline-light" type="button"><img src="./images/my-post.svg" height="24" width="24" hspace="5" />My Posts</button></Link>
         </li>
+        <li className="nav-item ml-auto">
+          <Link to="/input"><button className="btn btn-outline-light ml-auto" type="button"><img src="./images/new-post.svg" height="24" width="24" hspace="5" />+ Post</button></Link>
+        </li>
+        <NavSearch />
+        <LoginNav {...props}/>
       </ul>
-      : ''}
-    <NavSearch />
-    <LoginNav {...props}/>
+      : 
+      <ul className="navbar-nav mt-2 mt-md-0">
+        <NavSearch />
+        <LoginNav {...props}/>
+      </ul>}
+
     </div>
   </nav>
 );

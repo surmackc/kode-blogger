@@ -28,3 +28,7 @@ nav.form {
   justify-content: right;
 }
 
+.nav-item > a > button {
+  min-width: 127px;
+}
+
