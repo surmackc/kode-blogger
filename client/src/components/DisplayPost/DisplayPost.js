@@ -14,16 +14,24 @@ class DisplayPost extends Component {
     noteId: "new",
     index: 0,
     code: [],
-    text: []
+    text: [],
+    height: 0,
+    width: 0
   }
 
-  state = { ...this.initialValue }
+  constructor(props) {
+    super(props);
+    this.state = { ...this.initialValue }
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+  }
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+
     if (this.props.match.params.id) {
       //Load note
       postApi.getById(this.props.match.params.id).then(res => {
-        console.log(res);
         const val = JSON.parse(res.data.body);
         this.setState({value: val, title: res.data.title, noteId: res.data.id});
         this.parseValue()
@@ -33,13 +41,20 @@ class DisplayPost extends Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+  
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
   parseValue = () => {
     var code = []
     var text = []
     var index = 0
 
     this.state.value.document.nodes.map((node) => {
-      console.log(index)
       if (node.type === 'code_block') {
         if (!code[index]) {
           code[index] = []
@@ -83,6 +98,11 @@ class DisplayPost extends Component {
   render() {
     return(
       <div>
+        <Drawer position={(window.innerWidth < 800)? "bottom" : "right"}>
+            <section>
+              <SlateOutputCode code={this.state.code} index={this.state.index} />
+            </section>
+        </Drawer>
         <section>
         <h2><span id="recent-post-title">title</span><span id="recent-post-curly">&#123;</span><span className="ml-3">{this.state.title}</span></h2>
           <SlateOutputHTML text={this.state.text} index={this.state.index} />
@@ -95,12 +115,6 @@ class DisplayPost extends Component {
           <p>Check out these comments!</p>  
         </section>
         <h2><span id="recent-post-curly-end">&#125;</span></h2>
-
-        <Drawer>
-            <section style={{width: 500 }}>
-              <SlateOutputCode code={this.state.code} index={this.state.index} />
-            </section>
-        </Drawer>
       </div>
     );
   }

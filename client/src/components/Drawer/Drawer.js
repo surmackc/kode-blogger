@@ -9,7 +9,7 @@ class Drawer extends Component {
     super(props);
     this.state = {
       open: false,
-      position: 'right',
+      position: props.position,
       noOverlay: true
     };
     this.toggleDrawer = this.toggleDrawer.bind(this);
@@ -17,6 +17,12 @@ class Drawer extends Component {
     this.onDrawerClose = this.onDrawerClose.bind(this);
     this.setPosition = this.setPosition.bind(this);
     this.setNoOverlay = this.setNoOverlay.bind(this);
+  }
+
+  componentWillReceiveProps(props){
+    this.setState({
+      position: props.position
+    })
   }
 
   componentDidMount(){
@@ -53,7 +59,7 @@ class Drawer extends Component {
        
         <ReactDrawer
           open={this.state.open}
-          position={"right"}
+          position={this.state.position}
           onClose={this.onDrawerClose}
           noOverlay={true}>
           <p onClick={this.closeDrawer}>X</p>
