@@ -28,7 +28,7 @@ const Nav = (props) => (
         <LoginNav {...props}/>
       </ul>
       : 
-      <ul className="navbar-nav mt-2 mt-md-0">
+      <ul className="navbar-nav ml-auto mt-2 mt-md-0">
         <NavSearch />
         <LoginNav {...props}/>
       </ul>}
