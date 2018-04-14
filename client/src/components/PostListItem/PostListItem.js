@@ -15,7 +15,7 @@ const PostListItem = ({title, id, created, updated, children}) => (
               {updated ? <p>Modified {new Date(updated).toLocaleDateString()}</p> : ''}
             </div>
           </div>
-          <div className="row ml-auto">
+          <div className="row">
             <div className="col-12">
               {children}
             </div>  
