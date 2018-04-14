@@ -16,9 +16,9 @@ class SlateOutputHTML extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      text: this.props.text,
-      index: this.props.index
-    })
+      text: props.text,
+      index: props.index
+    });
   }
 
   getHTML = (index, type) => {
@@ -30,6 +30,7 @@ class SlateOutputHTML extends Component {
         "nodes": this.state[type][index]
       }
     }
+
   
     data = Value.fromJSON(data)
   
@@ -58,8 +59,8 @@ class SlateOutputCode extends Component {
 
   componentWillReceiveProps(props) {
     this.setState({
-      code: this.props.code,
-      index: this.props.index
+      code: props.code,
+      index: props.index
     })
   }
 

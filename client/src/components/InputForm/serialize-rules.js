@@ -40,7 +40,6 @@ const rules = [
       }
     },
     serialize(obj, children) {
-      console.log(obj, obj.object);
       if (obj.object == 'block') {
         switch (obj.type) {
           case 'code':
@@ -71,10 +70,8 @@ const rules = [
             return <code>{children}</code>
           case 'code_block':
             syntax = obj.data.get('syntax');
-            console.log('Parsing code block');
             return <pre className={`language-${obj.data.get('syntax')}`}><code>{children}</code></pre>
           case 'code_line':
-          console.log('Parsing code line');
             var html = Prism.highlight(obj.text, Prism.languages[obj.data.get('syntax')], obj.data.get('syntax'));
             return <div><span>{ ReactHtmlParser(html) }</span></div>
           default:

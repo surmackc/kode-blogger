@@ -23,6 +23,7 @@ class DisplayPost extends Component {
     if (this.props.match.params.id) {
       //Load note
       postApi.getById(this.props.match.params.id).then(res => {
+        console.log(res);
         const val = JSON.parse(res.data.body);
         this.setState({value: val, title: res.data.title, noteId: res.data.id});
         this.parseValue()

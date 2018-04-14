@@ -163,7 +163,6 @@ class InputForm extends Component {
 
   onChange = ({ value }) => {
     this.setState({ value })
-    console.log(this.state.value)
   }
 
   onTitleChange = (event) => {
