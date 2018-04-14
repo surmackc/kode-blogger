@@ -18,7 +18,7 @@ router.get("/scrape", function(req, res) {
 
     // console.log(response)
 
-    $(".p").each(function(i, element) {
+    $("p").each(function(i, element) {
      
       // console.log(element);
       // console.log(test)
@@ -27,17 +27,17 @@ router.get("/scrape", function(req, res) {
 
       
       result.body = $(this)
-        .children("a")
         .text();
      
 
 
-          // res.json(result);
+        //res.json(result);
 
      
       db.articles.create(result)
         .then(function(dbArticle) {
-       
+          
+          console.log(dbArticle)
           
         })
         .catch(function(err) {
