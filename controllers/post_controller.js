@@ -34,7 +34,7 @@ router.get('/posts/get/:amount', (req, res) => {
 router.get('/posts/:id', (req, res) => {
   console.log(req.params);
   db.posts.findOne({
-    where: {author: req.session.passport.user, id: req.params.id}
+    where: {id: req.params.id}
   }).then(data => {
     res.json(data);
   })
