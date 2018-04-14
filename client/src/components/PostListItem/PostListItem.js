@@ -16,7 +16,7 @@ const PostListItem = ({title, id, created, updated, children}) => (
             </div>
           </div>
           <div className="row">
-            <div className="col-12">
+            <div className="col-12 text-center">
               {children}
             </div>  
           </div>
