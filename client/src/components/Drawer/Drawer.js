@@ -26,7 +26,7 @@ class Drawer extends Component {
   }
 
   componentDidMount(){
-    this.setState({open: true});
+    this.setState({open: true}, ()=>this.props.onToggleDrawer(this.state.open));
   }
   setPosition(e) {
     this.setState({position: e.target.value});
@@ -35,7 +35,7 @@ class Drawer extends Component {
     this.setState({noOverlay: e.target.checked});
   }
   toggleDrawer() {
-    this.setState({open: !this.state.open});
+    this.setState({open: !this.state.open}, ()=>this.props.onToggleDrawer(this.state.open));
   }
   closeDrawer() {
     this.setState({open: false});
@@ -62,7 +62,6 @@ class Drawer extends Component {
           position={this.state.position}
           onClose={this.onDrawerClose}
           noOverlay={true}>
-          <p onClick={this.closeDrawer}>X</p>
           {this.props.children}
         </ReactDrawer>
       </div>

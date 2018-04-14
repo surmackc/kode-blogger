@@ -15,8 +15,10 @@ class DisplayPost extends Component {
     index: 0,
     code: [],
     text: [],
-    height: 0,
-    width: 0
+    windowHeight: 0,
+    windowWidth: 0,
+    textHeight: "90vh",
+    textWidth: "90vw"
   }
 
   constructor(props) {
@@ -46,7 +48,7 @@ class DisplayPost extends Component {
   }
   
   updateWindowDimensions() {
-    this.setState({ width: window.innerWidth, height: window.innerHeight });
+    this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
   }
 
   parseValue = () => {
@@ -95,26 +97,40 @@ class DisplayPost extends Component {
     }
   }
 
+  resizeHTML = (open) => {
+    var width = "90vw"
+    var height = "90vh"
+    if (open) {
+      if (window.innerWidth < 800) {
+        height = "35vh"
+      } else {
+        width = "45vw"
+      }
+    }
+
+    this.setState({
+      textWidth: width,
+      textHeight: height
+    })
+  }
+
   render() {
     return(
       <div>
-        <Drawer position={(window.innerWidth < 800)? "bottom" : "right"}>
-            <section>
+        <Drawer position={(window.innerWidth < 800)? "bottom" : "right"} onToggleDrawer={this.resizeHTML}>
+            <section style={{padding: 15}}>
               <SlateOutputCode code={this.state.code} index={this.state.index} />
             </section>
         </Drawer>
-        <section>
-        <h2><span id="recent-post-title">title</span><span id="recent-post-curly">&#123;</span><span className="ml-3">{this.state.title}</span></h2>
+        <section style={{ width: this.state.textWidth, height: this.state.textHeight}}>
+          <h2><span id="recent-post-title">title</span><span id="recent-post-curly">&#123;</span><span className="ml-3">{this.state.title}</span></h2>
           <SlateOutputHTML text={this.state.text} index={this.state.index} />
           <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('previous')} disabled={this.state.index === 0}>Previous</button>
           <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('next')} disabled={this.state.index === this.state.text.length - 1}>Next</button>
           <Link to="/addnote"><button className="btn btn-outline-info">Add Comment</button></Link>
+          <p>Check out these comments!</p> 
+          <h2><span id="recent-post-curly-end">&#125;</span></h2>
         </section>
-
-        <section>
-          <p>Check out these comments!</p>  
-        </section>
-        <h2><span id="recent-post-curly-end">&#125;</span></h2>
       </div>
     );
   }
