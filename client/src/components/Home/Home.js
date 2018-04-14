@@ -2,12 +2,9 @@ import React, {Component} from "react";
 import "./Home.css";
 import Carousel from '../Carousel/Carousel.js';
 import { Link, Redirect } from 'react-router-dom';
-import Html from 'slate-html-serializer';
-import {Value} from 'slate';
-import serializeRules from '../InputForm/serialize-rules';
+import PostListItem from '../PostListItem/PostListItem';
 import postApi from '../../utils/postAPI';
 
-const html = new Html({ rules: serializeRules });
 
 class Home extends Component {
   state = { notes: [],
@@ -23,7 +20,6 @@ class Home extends Component {
               id: note.id, 
               author: note.author,
               title: note.title, 
-              body: Value.fromJSON(JSON.parse(note.body))
             }
           })
         });
@@ -51,16 +47,10 @@ class Home extends Component {
         <div>
         {this.state.notes.map(note => {
           return (
-          <div className="recent-post-container" key={note.id}>
-          <div id="home-recent-post-block">
-          <div className="home-recent-post-title-container">
-          <span id="home-recent-post-title">{note.title}</span>
-          </div>
-          <div className="html-output" dangerouslySetInnerHTML={{__html: html.serialize(note.body, {sanitize: true})}} >
-          </div>
-          <div className="text-center"><button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button></div>
-          </div>
-          </div>);
+            <PostListItem key={note.id} {...note}>
+            <div className="text-center"><button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button></div>
+            </PostListItem>
+          );
         })}
         
       </div>

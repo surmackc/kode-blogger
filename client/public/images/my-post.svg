@@ -3,18 +3,17 @@
 <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:none;stroke:#FFFFFF;stroke-width:1.5;stroke-miterlimit:10;}
-	.st1{fill:none;stroke:#FFFFFF;stroke-miterlimit:10;}
+	.st0{fill:#FFFFFF;}
 </style>
-<path class="st0" d="M5.5,3c0,0-2,0-2,2s0,24,0,24s0,2,2,2s21,0,21,0s2,0,2-2s0-24,0-24s0-2-2-2S5.5,3,5.5,3z"/>
-<line class="st1" x1="9" y1="7" x2="24" y2="7"/>
-<line class="st1" x1="9" y1="10" x2="20" y2="10"/>
-<line class="st1" x1="9" y1="12" x2="18" y2="12"/>
-<g>
-	<line class="st1" x1="9" y1="16" x2="18" y2="16"/>
-	<line class="st1" x1="9" y1="18" x2="22" y2="18"/>
-	<line class="st1" x1="9" y1="22" x2="19.5" y2="22"/>
-	<line class="st1" x1="9" y1="24" x2="23" y2="24"/>
-	<line class="st1" x1="9" y1="27" x2="21" y2="27"/>
-</g>
+<path class="st0" d="M26.5,31.8h-21c-2,0-2.8-1.6-2.8-2.8V5c0-2,1.6-2.8,2.8-2.8h21c2,0,2.8,1.6,2.8,2.8v24
+	C29.2,31,27.6,31.8,26.5,31.8z M5.5,3.8C5.2,3.8,4.2,3.9,4.2,5v24c0,0.3,0.1,1.2,1.2,1.2h21c0.3,0,1.2-0.1,1.2-1.2V5
+	c0-0.3-0.1-1.2-1.2-1.2H5.5z"/>
+<rect x="9" y="6.5" class="st0" width="15" height="1"/>
+<rect x="9" y="9.5" class="st0" width="11" height="1"/>
+<rect x="9" y="11.5" class="st0" width="9" height="1"/>
+<rect x="9" y="15.5" class="st0" width="9" height="1"/>
+<rect x="9" y="17.5" class="st0" width="13" height="1"/>
+<rect x="9" y="21.5" class="st0" width="10.5" height="1"/>
+<rect x="9" y="23.5" class="st0" width="14" height="1"/>
+<rect x="9" y="26.5" class="st0" width="12" height="1"/>
 </svg>
