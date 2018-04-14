@@ -3,6 +3,8 @@ import "./Nav.css";
 import LoginNav from '../LoginNav/LoginNav';
 import NavSearch from '../NavSearch/NavSearch';
 import { Link } from 'react-router-dom'
+import MyPostIcon from '../Icons/MyPostIcon';
+import NewPostIcon from '../Icons/NewPostIcon';
 
 
 
@@ -17,10 +19,10 @@ const Nav = (props) => (
       {props.loggedIn ? 
       <ul className="navbar-nav ml-auto mt-2 mt-md-0">
         <li className="nav-item active ml-auto">
-          <Link to="/manageNotes"><button className="btn btn-outline-light" type="button"><img src="./images/my-post.svg" height="24" width="24" hspace="5" />My Posts</button></Link>
+          <Link to="/manageNotes"><button className="btn btn-outline-light" type="button"><MyPostIcon />{"  "}My Posts</button></Link>
         </li>
         <li className="nav-item ml-auto">
-          <Link to="/input"><button className="btn btn-outline-light ml-auto" type="button"><img src="./images/new-post.svg" height="24" width="24" hspace="5" />+ Post</button></Link>
+          <Link to="/input"><button className="btn btn-outline-light ml-auto" type="button"><NewPostIcon />{"  "}+ Post</button></Link>
         </li>
         <NavSearch />
         <LoginNav {...props}/>
