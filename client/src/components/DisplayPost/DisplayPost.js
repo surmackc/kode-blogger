@@ -83,17 +83,18 @@ class DisplayPost extends Component {
     return(
       <div>
         <section>
-          <h1>{this.state.title}</h1>
+        <h2><span id="recent-post-title">title</span><span id="recent-post-curly">&#123;</span><span className="ml-3">{this.state.title}</span></h2>
           <SlateOutputHTML text={this.state.text} index={this.state.index} />
-          <button className="btn btn-default" onClick={()=>this.handleClick('previous')} disabled={this.state.index === 0}>Previous</button>
-          <button className="btn btn-default" onClick={()=>this.handleClick('next')} disabled={this.state.index === this.state.text.length - 1}>Next</button>
-          <Link to="/addnote"><button className="btn btn-default">Add Note</button></Link>
+          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('previous')} disabled={this.state.index === 0}>Previous</button>
+          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('next')} disabled={this.state.index === this.state.text.length - 1}>Next</button>
+          <Link to="/addnote"><button className="btn btn-outline-info">Add Comment</button></Link>
         </section>
 
         <section>
           <p>Check out these comments!</p>  
         </section>
-      
+        <h2><span id="recent-post-curly-end">&#125;</span></h2>
+
         <Drawer>
             <section style={{width: 500 }}>
               <SlateOutputCode code={this.state.code} index={this.state.index} />

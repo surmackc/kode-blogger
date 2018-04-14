@@ -18,6 +18,10 @@ class Drawer extends Component {
     this.setPosition = this.setPosition.bind(this);
     this.setNoOverlay = this.setNoOverlay.bind(this);
   }
+
+  componentDidMount(){
+    this.setState({open: true});
+  }
   setPosition(e) {
     this.setState({position: e.target.value});
   }
@@ -38,8 +42,8 @@ class Drawer extends Component {
       <div>
         <div>
         <button
-            className="btn btn-outline-dark"
-            style={{margin: 20}}
+            className="btn btn-outline-primary"
+            id="codeButton"
             onClick={this.toggleDrawer}
             disabled={this.state.open && !this.state.noOverlay}
             >

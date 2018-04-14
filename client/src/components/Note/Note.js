@@ -42,19 +42,22 @@ class App extends Component {
     return (
 
         
-      
-        <form onSubmit={this.handleSubmit.bind(this)}>
-            <Editor
-        id="textbody"
-        initialValue="<p>Add a note</p>"
-        init={{
-          plugins: 'link image code',
-          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-        }}
-        onChange={this.handleEditorChange.bind(this)}
-            />
-            <button type='submit' className="btn btn-default">Submit</button>
-        </form>
+      <div>
+        <h2><span id="recent-post-title">add</span><span id="recent-post-title-second">Comment</span><span id="recent-post-curly">&#123;</span></h2>
+          <form onSubmit={this.handleSubmit.bind(this)}>
+              <Editor
+          id="textbody"
+          initialValue="<p>Add a comment</p>"
+          init={{
+            plugins: 'link image code',
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+          }}
+          onChange={this.handleEditorChange.bind(this)}
+              />
+              <button className="btn btn-outline-primary mt-2" type="submit">Submit</button>
+          </form>
+        <h2><span id="recent-post-curly-end">&#125;</span></h2>
+      </div>
       
     );
   }
