@@ -10,6 +10,8 @@ import serializeRules from './serialize-rules';
 import axios from 'axios';
 import NoteSelector from '../NoteSelector/NoteSelector';
 import postApi from '../../utils/postAPI';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 import "./InputForm.css";
 
 /* State.Value to HTML serializer */
@@ -199,6 +201,14 @@ class InputForm extends Component {
       postApi.createPost({title: this.state.title, jsonBody: valueString})
       .then((data)=> {
         this.setState({ ...data })
+        confirmAlert({
+          title: `Post saved. Publish in "My Posts"`,
+          buttons: [
+            {
+              label: 'Cancel'
+            }
+          ]
+        });
       });
     } else {
       let valueString = JSON.stringify(this.state.value.toJSON());
@@ -206,6 +216,14 @@ class InputForm extends Component {
       postApi.updatePost(this.state.noteId, {jsonBody: valueString, title: this.state.title})
       .then((data)=> {
         this.setState({ ...data })
+        confirmAlert({
+          title: `Post saved. Publish in "My Posts"`,
+          buttons: [
+            {
+              label: 'Cancel'
+            }
+          ]
+        });
       });
     }
     //Update note titles due to save action possibly changing a title
