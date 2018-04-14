@@ -35,7 +35,7 @@ class SlateOutputHTML extends Component {
     data = Value.fromJSON(data)
   
     return (
-      <div className={type + '-output col-md-6'}
+      <div className={type + '-output'}
         dangerouslySetInnerHTML={{__html: html.serialize(data, {sanitize: true})}}
       >
       </div>
@@ -77,7 +77,7 @@ class SlateOutputCode extends Component {
     data = Value.fromJSON(data)
   
     return (
-      <div className={type + "-output col-md-6"}
+      <div className={type + "-output"}
         dangerouslySetInnerHTML={{__html: html.serialize(data, {sanitize: true})}}
       >
       </div>
