@@ -17,7 +17,10 @@ const Nav = (props) => (
     </button>
     <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
       {props.loggedIn ? 
-      <ul className="navbar-nav ml-auto mt-2 mt-md-0">
+      <ul className="navbar-nav ml-auto mt-2 mt-md-0">        
+        <li className="nav-item active ml-auto">
+          <Link to="/posts/all"><button className="btn btn-outline-light" type="button"><MyPostIcon />{"  "}All Posts</button></Link>
+        </li>
         <li className="nav-item active ml-auto">
           <Link to="/manageNotes"><button className="btn btn-outline-light" type="button"><MyPostIcon />{"  "}My Posts</button></Link>
         </li>

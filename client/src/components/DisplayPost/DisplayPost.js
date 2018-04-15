@@ -4,7 +4,7 @@ import { Value } from 'slate';
 import Drawer from '../Drawer/Drawer.js';
 import postApi from '../../utils/postAPI';
 import {SlateOutputHTML, SlateOutputCode} from '../SlateOutputHTML/SlateOutputHTML.js'
-import defaultValue from './value.json';
+import defaultValue from '../InputForm/value.json';
 import "./DisplayPost.css";
 
 class DisplayPost extends Component { 
