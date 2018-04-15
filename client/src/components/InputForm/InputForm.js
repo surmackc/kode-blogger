@@ -196,30 +196,32 @@ class InputForm extends Component {
   onSaveClick = event => {
     if (this.state.noteId === this.initialValue.noteId) {
       let valueString = JSON.stringify(this.state.value.toJSON());
-      valueString = valueString.replace(/("data":{})/g, `"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
+      valueString = valueString.replace(/("type":"code_line","isVoid":false,"data":{})/g, `"type":"code_line","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
+      valueString = valueString.replace(/("type":"code_block","isVoid":false,"data":{})/g, `"type":"code_block","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
       postApi.createPost({title: this.state.title, jsonBody: valueString})
       .then((data)=> {
         this.setState({ ...data })
         confirmAlert({
-          title: `Post saved. Publish in "My Posts"`,
+          title: `New post created. Publish in "My Posts"`,
           buttons: [
             {
-              label: 'Cancel'
+              label: 'OK'
             }
           ]
         });
       });
     } else {
       let valueString = JSON.stringify(this.state.value.toJSON());
-      valueString = valueString.replace(/("data":{})/g, `"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"`);
+      valueString = valueString.replace(/("type":"code_line","isVoid":false,"data":{})/g, `"type":"code_line","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
+      valueString = valueString.replace(/("type":"code_block","isVoid":false,"data":{})/g, `"type":"code_block","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
       postApi.updatePost(this.state.noteId, {jsonBody: valueString, title: this.state.title})
       .then((data)=> {
         this.setState({ ...data })
         confirmAlert({
-          title: `Post saved. Publish in "My Posts"`,
+          title: `Post updated. Publish in "My Posts"`,
           buttons: [
             {
-              label: 'Cancel'
+              label: 'OK'
             }
           ]
         });

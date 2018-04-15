@@ -5,6 +5,7 @@ import Drawer from '../Drawer/Drawer.js';
 import postApi from '../../utils/postAPI';
 import {SlateOutputHTML, SlateOutputCode} from '../SlateOutputHTML/SlateOutputHTML.js'
 import defaultValue from '../InputForm/value.json';
+import parseValue from './parse.js';
 import "./DisplayPost.css";
 
 class DisplayPost extends Component { 
@@ -31,11 +32,20 @@ class DisplayPost extends Component {
       //Load note
       postApi.getById(this.props.match.params.id).then(res => {
         const val = JSON.parse(res.data.body);
-        this.setState({value: val, title: res.data.title, noteId: res.data.id});
-        this.parseValue()
+
+        this.setState({
+          value: val, 
+          title: res.data.title, 
+          noteId: res.data.id
+        }, ()=> {
+          const {code, text} = parseValue(this.state.value.document.nodes);
+          this.setState({ code, text });
+        });
       });
+
     } else {
-      this.parseValue()
+      const {code, text} = parseValue(this.state.value.document.nodes);
+      this.setState({ code, text });
     }
   }
 
@@ -45,43 +55,6 @@ class DisplayPost extends Component {
   
   updateWindowDimensions() {
     this.setState({ windowWidth: window.innerWidth, windowHeight: window.innerHeight });
-  }
-
-  parseValue = () => {
-    var code = []
-    var text = []
-    var index = 0
-
-    this.state.value.document.nodes.map((node) => {
-      if (node.type === 'code_block') {
-        if (!code[index]) {
-          code[index] = []
-        }
-        code[index].push(node)
-
-        if (!text[index]) {
-          text[index] = [{
-            "object": "text",
-            "leaves": [
-              { "object": "leaf", "text": "No text to display for this code block", "marks": [] },
-            ]
-          }]
-        }
-
-        index++
-
-      } else {
-        if (!text[index]) {
-          text[index] = []
-        }
-        text[index].push(node)
-      }
-    })
-    
-    this.setState({
-      code,
-      text
-    })
   }
 
   handleClick(type) {
