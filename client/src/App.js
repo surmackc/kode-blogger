@@ -50,7 +50,7 @@ class App extends Component {
       <BrowserRouter>
         <Wrapper>
           <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>  
-          <div className="container">
+          <div className="container-fluid">
           <Switch>
             <Route exact path="/" component={Home}  />
             <Route exact path="/login"

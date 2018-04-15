@@ -44,7 +44,7 @@ class SlateOutputHTML extends Component {
 
   render() {
     return (
-        <div>
+        <div autoFocus>
           {this.getHTML(this.state.index, 'text')}
         </div>
     )

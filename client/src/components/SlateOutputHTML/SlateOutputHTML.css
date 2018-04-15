@@ -1,8 +1,3 @@
-.output {
-  /* box-sizing: border-box;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around; */
+.text-output {
+  padding: 10px;
 }

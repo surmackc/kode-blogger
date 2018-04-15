@@ -14,11 +14,7 @@ class DisplayPost extends Component {
     noteId: "new",
     index: 0,
     code: [],
-    text: [],
-    windowHeight: 0,
-    windowWidth: 0,
-    textHeight: "90vh",
-    textWidth: "90vw"
+    text: []
   }
 
   constructor(props) {
@@ -98,39 +94,51 @@ class DisplayPost extends Component {
   }
 
   resizeHTML = (open) => {
-    var width = "90vw"
-    var height = "90vh"
+    var width = "100%"
+    var paddingBottom = "0px"
+
     if (open) {
       if (window.innerWidth < 800) {
-        height = "35vh"
+        paddingBottom = "calc(45vh + 70px)"
       } else {
-        width = "45vw"
+        width = "50%"
       }
     }
 
     this.setState({
       textWidth: width,
-      textHeight: height
+      textHeight: paddingBottom
     })
   }
 
   render() {
+    let drawerPosition = (window.innerWidth < 800)? "bottom" : "right"
+    let isFirst = this.state.index === 0
+    let isLast = this.state.index === this.state.text.length - 1
+    let style = {
+      paddingBottom: this.state.textHeight,
+      width: this.state.textWidth,
+    }
+
+
     return(
-      <div>
-        <Drawer position={(window.innerWidth < 800)? "bottom" : "right"} onToggleDrawer={this.resizeHTML}>
+      <div className="displayPost" style={style}>
+        <h2 style={{marginBottom: "25px"}}>
+          <span id="recent-post-title">{this.state.title}</span>
+          <span id="recent-post-curly">&#123;</span>
+        </h2>
+          <SlateOutputHTML text={this.state.text} index={this.state.index} />
+        <h2 style={{marginTop: "25px"}}>
+          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('previous')} disabled={isFirst}>&#9664;</button>
+          <Link to="/addnote"><button className="btn btn-outline-info mr-2">Add Comment</button></Link> 
+          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('next')} disabled={isLast}>&#x25B6;</button>
+          <span id="recent-post-curly-end">&#125;</span>
+        </h2>
+        <Drawer position={drawerPosition} onToggleDrawer={this.resizeHTML}>
             <section style={{padding: 15}}>
               <SlateOutputCode code={this.state.code} index={this.state.index} />
             </section>
         </Drawer>
-        <section style={{ width: this.state.textWidth, height: this.state.textHeight}}>
-          <h2><span id="recent-post-title">title</span><span id="recent-post-curly">&#123;</span><span className="ml-3">{this.state.title}</span></h2>
-          <SlateOutputHTML text={this.state.text} index={this.state.index} />
-          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('previous')} disabled={this.state.index === 0}>Previous</button>
-          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('next')} disabled={this.state.index === this.state.text.length - 1}>Next</button>
-          <Link to="/addnote"><button className="btn btn-outline-info">Add Comment</button></Link>
-          <p>Check out these comments!</p> 
-          <h2><span id="recent-post-curly-end">&#125;</span></h2>
-        </section>
       </div>
     );
   }

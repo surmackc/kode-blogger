@@ -1,8 +1,15 @@
+html, body, #root {
+  height: 100%;
+}
+
 .wrapper {
-  padding-top: 50px;
-  background: #ECEFF1;
-  height: 100vh;
-  padding: 20px;
+  background: rgb(161, 203, 231);
+  height: 100%;
   align-content: flex-start;
   overflow: auto;
+}
+
+.container-fluid {
+  position: relative;
+  padding: 15px 10% 5px 10%;
 }
