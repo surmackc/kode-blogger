@@ -18,20 +18,35 @@ router.get("/scrape", function(req, res) {
 
     // console.log(response)
 
-    $("p").each(function(i, element) {
+    $("li", ".post-list").each(function(i, element) {
      
       // console.log(element);
       // console.log(test)
      
       var result = {};
 
+      if ($(this).text()) {
+
+        result.title = $(this)
+        .children("h2")
+        .text()
       
       result.body = $(this)
+        .children(".preview")
         .text();
+
+      result.link = $(this)
+        .children("h2")
+        .children("a")
+        .attr("href");
+        
+      }
+
+      
      
 
 
-        //res.json(result);
+        res.json(result);
 
      
       db.articles.create(result)

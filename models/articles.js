@@ -5,7 +5,15 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true, 
         autoIncrement: true,
       },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
       body: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      link: {
         type: DataTypes.STRING,
         allowNull: false
       }
