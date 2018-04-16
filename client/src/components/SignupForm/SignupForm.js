@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import './SignupForm.css';
+import SignupIcon from '../Icons/SignupIcon';
 
 class SignupForm extends Component {
   constructor(props) {
@@ -69,6 +70,9 @@ class SignupForm extends Component {
   render() {
     return (
       <div className="bg-dark p-5 col-md-6 offset-md-3 mt-5 border border-dark rounded" id="signupContainer">
+        <div id="logoSignup"><span className="logoOne"> 
+        kode</span><span className="logoTwo">Blogger</span>
+        </div>
         <h3 className="text-light font-weight-bold">Sign Up</h3>
         <form className="mt-0" autoComplete="on">
           <div>
@@ -98,7 +102,7 @@ class SignupForm extends Component {
               onChange={this.handleFormInput} 
               value={this.state.password2} />
           </div>
-          <button type="submit" className="btn btn-outline-light" onClick={this.onFormSubmit}>Sign Up</button>
+          <button type="submit" className="btn btn-outline-light all-post-button" onClick={this.onFormSubmit}><SignupIcon /><span className="button-spacing">Sign Up</span></button>
         </form>
       </div>
     )

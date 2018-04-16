@@ -3,6 +3,19 @@ html, body, #root {
   font-family: 'Montserrat', sans-serif;
 }
 
+.logoOne {
+  font-size: 30px;
+  font-weight: 700;
+  color: #ffffff;
+
+}
+.logoTwo {
+  font-size: 30px;
+  font-weight: 700;
+  color: #03717f;
+
+}
+
 .wrapper {
   background: rgb(161, 203, 231);
   height: 100%;
