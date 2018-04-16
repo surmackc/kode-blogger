@@ -6,7 +6,6 @@ import PostListItem from '../PostListItem/PostListItem';
 import postApi from '../../utils/postAPI';
 import AllPostIcon from '../Icons/AllPostIcon';
 import ViewPostIcon from '../Icons/ViewPostIcon';
-import SignupIcon from '../Icons/SignupIcon';
 
 
 class Home extends Component {

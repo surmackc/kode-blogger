@@ -6,6 +6,9 @@ import postApi from '../../utils/postAPI';
 import {SlateOutputHTML, SlateOutputCode} from '../SlateOutputHTML/SlateOutputHTML.js'
 import defaultValue from '../InputForm/value.json';
 import parseValue from './parse.js';
+import CommentIcon from '../Icons/CommentIcon';
+import NextIcon from '../Icons/NextIcon';
+import PrevIcon from '../Icons/PrevIcon';
 import "./DisplayPost.css";
 
 class DisplayPost extends Component { 
@@ -102,9 +105,9 @@ class DisplayPost extends Component {
         </h2>
           <SlateOutputHTML text={this.state.text} index={this.state.index} />
         <h2 style={{marginTop: "25px"}}>
-          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('previous')} disabled={isFirst}>&#9664;</button>
-          <Link to="/addnote"><button className="btn btn-outline-info mr-2">Add Comment</button></Link> 
-          <button className="btn btn-outline-dark mr-2" onClick={()=>this.handleClick('next')} disabled={isLast}>&#x25B6;</button>
+          <button className="btn btn-outline-dark mr-2 prev-button" onClick={()=>this.handleClick('previous')} disabled={isFirst}><PrevIcon /><span className="button-spacing"></span></button>
+          <Link to="/addnote"><button className="btn btn-outline-info mr-2 all-post-button"><CommentIcon /><span className="button-spacing">Add Comment</span></button></Link> 
+          <button className="btn btn-outline-dark mr-2 next-button" onClick={()=>this.handleClick('next')} disabled={isLast}><NextIcon /><span className="button-spacing"></span></button>
           <span id="recent-post-curly-end">&#125;</span>
         </h2>
         <Drawer position={drawerPosition} onToggleDrawer={this.resizeHTML}>
