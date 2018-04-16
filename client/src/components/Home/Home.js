@@ -4,6 +4,7 @@ import Carousel from '../Carousel/Carousel.js';
 import { Link, Redirect } from 'react-router-dom';
 import PostListItem from '../PostListItem/PostListItem';
 import postApi from '../../utils/postAPI';
+import AllPostIcon from '../Icons/AllPostIcon';
 
 
 class Home extends Component {
@@ -56,7 +57,7 @@ class Home extends Component {
       </div>
       </div>
       <h2><span id="recent-post-curly-end">&#125;</span></h2>
-      <div className="text-center"><button className="btn btn-outline-dark" type="button" onClick={() => this.getAllPosts()}>All Posts</button></div>
+      <div className="text-center"><button className="btn btn-outline-dark all-post-button" type="button" onClick={() => this.getAllPosts()}><AllPostIcon  /><span className="nav-button-spacing">all posts</span></button></div>
       </div>
     )
   }

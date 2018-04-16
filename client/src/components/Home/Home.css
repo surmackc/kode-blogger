@@ -45,21 +45,36 @@
 #recent-post-title {
 font-family: 'Roboto Mono', monospace, sans-serif;
 font-weight: 400;
-color: #03d8be;
+color: #03717f;
+text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
+
 }
 #recent-post-title-second {
   font-family: 'Roboto Mono', monospace, sans-serif;
   font-weight: 700;
-  color: #03d8be;
+  color: #03717f;
+  text-shadow: 1px 2px 6px rgba(0, 0, 0, 0.2);
 }
 #recent-post-curly, #recent-post-curly-end {
   font-family: 'Roboto Mono', monospace, sans-serif;
   font-weight: 700;
-  color: #03717f;
+  color: #fff;
   padding-left: 0px;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.29);
 } #recent-post-curly-end {
   padding-left: 1.25em;
 }
 .html-output {
   margin-bottom: 20px;
+}
+.all-post-button {
+  background:#03d8be ;
+  color: #fff;
+  box-shadow: 2px 2px 4px -3px rgba(73, 73, 73, 0.29);
+  border: 5px #03d8be solid;
+  font-variant: small-caps;
+  font-weight: 100;
+  display: inline-flex;
+  vertical-align: middle;
+
 }

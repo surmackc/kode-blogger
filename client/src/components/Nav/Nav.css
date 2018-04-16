@@ -32,3 +32,17 @@ nav.form {
   min-width: 127px;
 }
 
+.all-post-nav, .new-post-nav, .my-post-nav {
+  /* background:#00d2ba ; */
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 100;
+  display: inline-flex;
+  vertical-align: middle;
+  text-shadow: .5px .5px 5px rgba(0, 0, 0, 0.29);
+}
+.nav-button-spacing {
+  padding-left: 8px;
+}
+
