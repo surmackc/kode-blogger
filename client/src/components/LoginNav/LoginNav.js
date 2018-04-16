@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import UserIcon from '../Icons/UserIcon';
 import LogOutIcon from '../Icons/LogOutIcon';
+import SignupIcon from '../Icons/SignupIcon';
+import LoginIcon from '../Icons/LoginIcon';
+
 const LoginNav = (props) => 
         props.loggedIn ? 
           <div className="nav-item ml-auto">
@@ -10,8 +13,8 @@ const LoginNav = (props) =>
           </div>
           :
           (<div className="nav-item ml-auto">
-              <Link to="/signup"><button className="btn btn-sm  btn-outline-light" type="button">Signup</button></Link>
-              <Link to="/login"><button className="btn  btn-sm btn-outline-light" type="button">Login</button></Link>
+              <Link to="/signup"><button className="btn btn-sm  btn-outline-light nav-user" type="button"><SignupIcon /><span className="button-spacing">Signup</span></button></Link>
+              <Link to="/login"><button className="btn  btn-sm btn-outline-light nav-user" type="button"><LoginIcon /><span className="button-spacing">Login</span></button></Link>
           </div>);
 
 export default LoginNav;

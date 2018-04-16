@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import postAPI from '../../utils/postAPI';
 import {Redirect} from 'react-router-dom';
 import PostListItem from '../PostListItem/PostListItem';
+import ViewPostIcon from '../Icons/ViewPostIcon';
 import "./AllPosts.css";
 
 
@@ -35,7 +36,7 @@ class AllPosts extends Component {
       this.state.posts.map(note => {
         return (
           <PostListItem key={note.id} {...note}>
-            <button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button>
+            <button className="btn btn-outline-dark view-post-button" type="button" onClick={() => this.viewPost(note.id)}><ViewPostIcon  /><span className="button-spacing">View Post</span></button>
           </PostListItem>
         )
       })
