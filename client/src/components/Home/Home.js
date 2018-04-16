@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import PostListItem from '../PostListItem/PostListItem';
 import postApi from '../../utils/postAPI';
 import AllPostIcon from '../Icons/AllPostIcon';
+import ViewPostIcon from '../Icons/ViewPostIcon';
 
 
 class Home extends Component {
@@ -49,7 +50,7 @@ class Home extends Component {
         {this.state.notes.map(note => {
           return (
             <PostListItem key={note.id} {...note}>
-            <div className="text-center"><button className="btn btn-outline-dark" type="button" onClick={() => this.viewPost(note.id)}>View Post</button></div>
+            <div className="text-center"><button className="btn btn-outline-dark view-post-button" type="button" onClick={() => this.viewPost(note.id)}><ViewPostIcon  /><span className="button-spacing">View Post</span></button></div>
             </PostListItem>
           );
         })}
@@ -57,7 +58,7 @@ class Home extends Component {
       </div>
       </div>
       <h2><span id="recent-post-curly-end">&#125;</span></h2>
-      <div className="text-center"><button className="btn btn-outline-dark all-post-button" type="button" onClick={() => this.getAllPosts()}><AllPostIcon  /><span className="nav-button-spacing">all posts</span></button></div>
+      <div className="text-center"><button className="btn btn-outline-dark all-post-button" type="button" onClick={() => this.getAllPosts()}><AllPostIcon  /><span className="button-spacing">All Posts</span></button></div>
       </div>
     )
   }

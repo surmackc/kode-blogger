@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default (SearchIcon) => (
-<svg version="1" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 32 32">
+<svg version="1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
 <g>
 	<path class="st0" d="M28.7,8.9c-0.3-2.5-1.6-4.7-3.7-6.2c-2-1.5-4.5-2.2-7-1.8c-2.5,0.3-4.7,1.6-6.2,3.7c-1.5,2-2.2,4.5-1.8,7
 		c0.3,2.2,1.3,4.1,2.8,5.5L3.3,29.6c-0.4,0.5-0.3,1.2,0.2,1.5c0.2,0.1,0.4,0.2,0.7,0.2c0.3,0,0.7-0.2,0.9-0.4l9.6-12.6

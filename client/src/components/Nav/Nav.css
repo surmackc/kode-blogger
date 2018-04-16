@@ -1,7 +1,3 @@
-body {
-  font-family: 'Montserrat', sans-serif;
-}
-
 nav.navbar {
   margin-bottom: 0;
   width: 100%;
@@ -11,7 +7,7 @@ nav.navbar {
 }
 
 .navbar-custom {
-  background-color: #03d8be;
+  background-color: #01c6af;
 }
 
 a.navbar-brand {
@@ -32,7 +28,7 @@ nav.form {
   min-width: 127px;
 }
 
-.all-post-nav, .new-post-nav, .my-post-nav, .search-nav {
+.all-post-nav, .new-post-nav, .my-post-nav, .search-nav, .nav-user {
   /* background:#00d2ba ; */
   border: none;
   color: #fff;
@@ -43,7 +39,7 @@ nav.form {
   text-shadow: .5px .5px 2px rgba(0, 0, 0, 0.29);
 }
 .nav-button-spacing {
-  padding-left: 6px;
+  padding-left: 4px;
 }
 .search-button-spacing {
   padding-left: 2px;

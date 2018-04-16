@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default (MyPostIcon) => (
-<svg version="1" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 32 32">
+<svg version="1" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
 <g>
 	<path class="st0" d="M10.1,2H2.3c-1.1,0-2,0.9-2,2v7.8c0,1.1,0.9,2,2,2h7.8c1.1,0,2-0.9,2-2V4C12.1,2.9,11.2,2,10.1,2z M2.3,11.8V4
 		h7.8l0,7.8H2.3z" fill="#fff" />
