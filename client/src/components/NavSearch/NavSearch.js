@@ -3,6 +3,8 @@ import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
+import SearcgIcon from '../Icons/SearchIcon';
+
 class NavSearch extends Component {
   state = {searchString: ""}
 
@@ -16,7 +18,7 @@ class NavSearch extends Component {
       <form className="form-inline my-0">
         <input onChange={this.onSearchInput} value={this.searchString} className="form-control ml-2" type="search" placeholder="Search" aria-label="Search" />
         <Link className="ml-auto" to={`/search/${this.state.searchString}`}>
-        <button className="btn btn-outline-light" type="submit">Search</button>
+        <button className="btn btn-outline-light search-nav" type="submit"><SearcgIcon /><span className="search-button-spacing">Search</span></button>
         </Link>
       </form>
       </li>);
