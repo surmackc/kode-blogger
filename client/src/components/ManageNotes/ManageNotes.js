@@ -8,6 +8,7 @@ import DeleteIcon from '../Icons/DeleteIcon';
 import EditIcon from '../Icons/EditIcon';
 import PublishIcon from '../Icons/PublishIcon';
 import UnPublishIcon from '../Icons/UnPublishIcon';
+import ViewPostIcon from '../Icons/ViewPostIcon';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ManageProps extends Component {
@@ -90,7 +91,7 @@ class ManageProps extends Component {
               <button className="btn btn-success mr-3" onClick={() => this.publishClicked(post.id)}><PublishIcon /><span className="button-spacing">Publish</span></button>
             }
             <Link to={`/view/${post.id}`} >
-            <button className="btn btn-success">View</button>
+            <button className="btn btn-success"><ViewPostIcon /><span className="button-spacing">View</span></button>
             </Link>
           </PostListItem>
 
