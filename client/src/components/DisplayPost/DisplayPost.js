@@ -37,9 +37,10 @@ class DisplayPost extends Component {
 
     if (this.props.match.params.id) {
       //Load note
+      console.log("got param " + this.props.match.params.id)
       postApi.getById(this.props.match.params.id).then(res => {
         const val = JSON.parse(res.data.body);
-
+        console.log("got " + res.data.id)
         this.setState({
           value: val, 
           title: res.data.title, 
@@ -49,7 +50,7 @@ class DisplayPost extends Component {
           this.setState({ code, text });
         });
       }).catch(err => {
-        console.log('Caught error');
+        console.log('Caught error: ' + err);
         this.setState({ errorRedirect: true });
       });
 

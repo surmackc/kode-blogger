@@ -30,11 +30,11 @@ class Home extends Component {
   }
 
   viewPost = (id) => {
-    this.setState({redirect: <Redirect to={`/posts/${id}`} /> })
+    this.setState({redirect: <Redirect to={`/view/${id}`} /> })
   }
 
   getAllPosts = () => {
-    this.setState({redirect: <Redirect to={`posts/all`} />})
+    this.setState({redirect: <Redirect to={`/view/all`} />})
   }
 
 

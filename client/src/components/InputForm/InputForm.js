@@ -202,15 +202,19 @@ class InputForm extends Component {
       valueString = valueString.replace(/("type":"code_block","isVoid":false,"data":{})/g, `"type":"code_block","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
       postApi.createPost({title: this.state.title, jsonBody: valueString})
       .then((data)=> {
-        this.setState({ ...data })
-        confirmAlert({
-          title: `New post created. Publish in "My Posts"`,
-          buttons: [
-            {
-              label: 'OK'
-            }
-          ]
-        });
+        console.log(data)
+        this.setState({ 
+          noteId: data.data.id
+        }, ()=> {
+          confirmAlert({
+            title: `New post created. Publish in "My Posts"`,
+            buttons: [
+              {
+                label: 'OK'
+              }
+            ]
+          });
+        })
       });
     } else {
       let valueString = JSON.stringify(this.state.value.toJSON());
@@ -218,7 +222,9 @@ class InputForm extends Component {
       valueString = valueString.replace(/("type":"code_block","isVoid":false,"data":{})/g, `"type":"code_block","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
       postApi.updatePost(this.state.noteId, {jsonBody: valueString, title: this.state.title})
       .then((data)=> {
-        this.setState({ ...data })
+        this.setState({
+          noteId: data.data.id
+        })
         confirmAlert({
           title: `Post updated. Publish in "My Posts"`,
           buttons: [
@@ -348,11 +354,14 @@ class InputForm extends Component {
         </div>
         <div className="text-center">
           <button className="btn btn-secondary m-2 save-post-button" onClick={this.onSaveClick}><SavePostIcon /><span className="button-spacing">Save</span></button>
-          <a href={`/posts/${this.state.noteId}`} target="_blank">
-            <button className="btn btn-secondary m-2 preview-post-button"><ViewPostIcon /><span className="button-spacing">
-              Open Preview
-            </span></button>
-          </a>
+          <form action={`/view/${this.state.noteId}`} method="get" target="_blank">
+            <button className="btn btn-secondary m-2 preview-post-button" disabled={this.state.noteId === "new"}>
+              <ViewPostIcon />
+              <span className="button-spacing">
+                {this.state.noteId === "new"? "Save to Preview" : "Open Preview"}
+              </span>
+            </button>
+          </form>
         </div>
         <div className="row">
           <div className={'input-form col-md-12'}>
