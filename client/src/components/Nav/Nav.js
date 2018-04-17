@@ -36,6 +36,9 @@ const Nav = (props) => (
       </ul>
       : 
       <ul className="navbar-nav ml-auto mt-2 mt-md-0">
+        <li className="nav-item active ml-auto">
+          <Link to="/posts/all"><button className="btn  btn-sm btn-outline-light all-post-nav" type="button"><AllPostIcon /><span className="nav-button-spacing">All Posts</span></button></Link>
+        </li>
         <NavSearch />
         <LoginNav {...props}/>
       </ul>}
