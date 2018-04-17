@@ -43,13 +43,11 @@ app.use(session({
 db.users.sync();
 db.notes.sync();
 db.posts.sync();
-db.articles.sync()
 myStore.sync();
 
 // Use Controllers
 app.use("/api", apiController);
 app.use(noteController);
-app.use(fetchController);
 app.use(postController);
 
 //Persistent login sessions (maybe?)

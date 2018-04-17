@@ -12,6 +12,7 @@ class NoteSelector extends Component {
   }
 
   render() {
+    console.log("rendering")
       return (
       <select value={this.state.selected} className="form-control" onChange={this.state.onNoteSelected}>
         <option value={"new"} key={"new"}>Create New</option>
