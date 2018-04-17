@@ -202,7 +202,6 @@ class InputForm extends Component {
       valueString = valueString.replace(/("type":"code_block","isVoid":false,"data":{})/g, `"type":"code_block","isVoid":false,"data":{"syntax":"${DEFAULT_CODE_LANGUAGE}"}`);
       postApi.createPost({title: this.state.title, jsonBody: valueString})
       .then((data)=> {
-        console.log(data)
         this.setState({ 
           noteId: data.data.id
         }, ()=> {
@@ -239,7 +238,7 @@ class InputForm extends Component {
     postApi.getActiveUserPosts().then(res => {
       this.setState({
         titles: res.data.map(element => ({id: element.id, title: element.title, body: element.body})),
-      }) 
+      }, console.log("Titles added")) 
     });
   }
 
@@ -350,7 +349,7 @@ class InputForm extends Component {
     return (
       <div>
         <div className="row">
-          <NoteSelector newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} posts={this.state.titles} />
+          <NoteSelector selected={this.state.noteId} newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} posts={this.state.titles} />
         </div>
         <div className="text-center">
           <button className="btn btn-secondary m-2 save-post-button" onClick={this.onSaveClick}><SavePostIcon /><span className="button-spacing">Save</span></button>

@@ -37,10 +37,8 @@ class DisplayPost extends Component {
 
     if (this.props.match.params.id) {
       //Load note
-      console.log("got param " + this.props.match.params.id)
       postApi.getById(this.props.match.params.id).then(res => {
         const val = JSON.parse(res.data.body);
-        console.log("got " + res.data.id)
         this.setState({
           value: val, 
           title: res.data.title, 
