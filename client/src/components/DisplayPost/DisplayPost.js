@@ -48,7 +48,6 @@ class DisplayPost extends Component {
           this.setState({ code, text });
         });
       }).catch(err => {
-        console.log('Caught error: ' + err);
         this.setState({ errorRedirect: true });
       });
 
