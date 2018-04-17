@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import postApi from '../../utils/postAPI';
 import {Redirect} from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert';
@@ -54,10 +55,6 @@ class ManageProps extends Component {
     });
   }
 
-  editClicked = (id) => {
-    this.setState({redirect: <Redirect to={`/input/${id}`} /> })
-  }
-
   deleteClicked = (id) => {
     confirmAlert({
       title: 'Delete?',
@@ -77,7 +74,6 @@ class ManageProps extends Component {
   render() {
     return (
     <div>
-      {this.state.redirect ? this.state.redirect : ''}
       <h2><span id="recent-post-title">my</span><span id="recent-post-title-second">Posts</span><span id="recent-post-curly">&#123;</span></h2>
       <ul className="list-group">
       {this.state.posts.length ?
@@ -85,12 +81,17 @@ class ManageProps extends Component {
         return (
           <PostListItem key={post.id} {...post}>
             <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(post.id)}><DeleteIcon /><span className="button-spacing">Delete</span></button>
-            <button className="btn btn-info mr-3" onClick={() => this.editClicked(post.id)}><EditIcon /><span className="button-spacing">Edit</span></button>
+            <Link to={`/input/${post.id}`} >
+              <button className="btn btn-info mr-3"><EditIcon /><span className="button-spacing">Edit</span></button>
+            </Link>
             {post.published ?
-              <button className="btn btn-warning" onClick={() => this.unpublishClicked(post.id)}><UnPublishIcon /><span className="button-spacing">Unpublish</span></button>
+              <button className="btn btn-warning mr-3" onClick={() => this.unpublishClicked(post.id)}><UnPublishIcon /><span className="button-spacing">Unpublish</span></button>
               : 
-              <button className="btn btn-success" onClick={() => this.publishClicked(post.id)}><PublishIcon /><span className="button-spacing">Publish</span></button>
+              <button className="btn btn-success mr-3" onClick={() => this.publishClicked(post.id)}><PublishIcon /><span className="button-spacing">Publish</span></button>
             }
+            <Link to={`/view/${post.id}`} >
+            <button className="btn btn-success">View</button>
+            </Link>
           </PostListItem>
 
         )
