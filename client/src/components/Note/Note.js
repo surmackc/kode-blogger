@@ -48,7 +48,7 @@ class App extends Component {
     
     return (
       <div>
-        {this.state.redirect ? <Redirect to={`/posts/${this.state.articleId}`} /> : ''}
+        {this.state.redirect ? <Redirect to={`/view/${this.state.articleId}`} /> : ''}
         <h2><span id="recent-post-title">add</span><span id="recent-post-title-second">Comment</span><span id="recent-post-curly">&#123;</span></h2>
           <form onSubmit={this.handleSubmit.bind(this)}>
               <Editor
