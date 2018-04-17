@@ -49,10 +49,10 @@ class Home extends Component {
         <div>
         {this.state.notes.map(note => {
           return (
-            <div className="text-center">
+            <div key={note.id} className="text-center">
               
               <Link to={`/view/${note.id}`} >
-                <PostListItem key={note.id} {...note} />
+                <PostListItem {...note} />
               </Link>
             </div>
           );
