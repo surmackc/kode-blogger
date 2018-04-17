@@ -64,9 +64,9 @@ class App extends Component {
             <Route exact path="/addnote/:articleId" component={Note} />
             <Route exact path="/view/all" component={AllPosts} />
             <Route exact path="/view/:id?" component={DisplayPost} />
-            <Route exact path="/manageNotes" component={ManageNotes} />
             <Route path="/search/:search?" component={SearchResults} />
-              {this.state.loggedIn ? <Route path="/input/:id?" component={InputForm} /> : <Route path="/input/:id?" render={() => <LoginForm userLoggedIn={this.userLoggedIn}/>}/>}
+            {this.state.loggedIn ? <Route exact path="/manageNotes" component={ManageNotes} /> : <Route exact path="/manageNotes" render={() => <LoginForm userLoggedIn={this.userLoggedIn}/>} />}
+            {this.state.loggedIn ? <Route path="/input/:id?" component={InputForm} /> : <Route path="/input/:id?" render={() => <LoginForm userLoggedIn={this.userLoggedIn}/>}/>}
             <Route component={NoMatch} />
           </Switch>
           </div>
