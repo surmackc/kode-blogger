@@ -61,12 +61,12 @@ class App extends Component {
             <Route path="/verify/:username/:token" component={VerifyEmail} />
             <Route exact path="/resetPassword" component={PasswordResetRequest} />
             <Route path="/reset/:username/:token" component={PasswordResetForm} />
-            {this.state.loggedIn ? <Route path="/input/:id?" component={InputForm} /> : <Redirect to="/" />}
             <Route exact path="/addnote" component={Note} />
             <Route exact path="/posts/all" component={AllPosts} />
             <Route exact path="/posts/:id?" component={DisplayPost} />
             <Route exact path="/manageNotes" component={ManageNotes} />
             <Route path="/search/:search?" component={SearchResults} />
+              {this.state.loggedIn ? <Route path="/input/:id?" component={InputForm} /> : <Route path="/input/:id?" render={() => <LoginForm userLoggedIn={this.userLoggedIn}/>}/>}
             <Route component={NoMatch} />
           </Switch>
           </div>
