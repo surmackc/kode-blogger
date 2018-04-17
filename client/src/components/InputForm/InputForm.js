@@ -348,7 +348,7 @@ class InputForm extends Component {
         </div>
         <div className="text-center">
           <button className="btn btn-secondary m-2 save-post-button" onClick={this.onSaveClick}><SavePostIcon /><span className="button-spacing">Save</span></button>
-          <a href={`/posts/${this.state.noteId}`} target="_blank">
+          <a href={`/view/${this.state.noteId}`} target="_blank">
             <button className="btn btn-secondary m-2 preview-post-button"><ViewPostIcon /><span className="button-spacing">
               Open Preview
             </span></button>
