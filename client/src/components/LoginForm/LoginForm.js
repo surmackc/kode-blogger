@@ -29,7 +29,9 @@ class LoginForm extends Component {
     }).then((res) => {
       this.props.userLoggedIn(JSON.parse(res.config.data).username);
     }).catch(err => {
-      this.setState({message: err.response.data.message});
+      if (err.response) {
+        this.setState({message: err.response.data.message});
+      }
     });
   }
 
