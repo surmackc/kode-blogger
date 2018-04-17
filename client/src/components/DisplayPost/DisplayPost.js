@@ -135,7 +135,7 @@ class DisplayPost extends Component {
         <ul className="list-group">
         { this.state.commentsHidden ? '' :
           this.state.comments.map(comment => 
-          <li className="list-group-item" dangerouslySetInnerHTML={{__html: comment.content}}></li>)
+          <li className="list-group-item" key={comment.id} dangerouslySetInnerHTML={{__html: comment.content}}></li>)
         }
         </ul>
         <h2><span id="recent-post-curly-end">&#125;</span></h2>
