@@ -35,8 +35,10 @@ router.get('/posts/:id', (req, res) => {
   db.posts.findOne({
     where: {id: req.params.id}
   }).then(data => {
+    console.log(data);
     if (req.session.passport.user) {
-      if (data.published || data.author === req.session.passport.user) {
+      console.log('have user', data.author == req.session.passport.user);
+      if (data.published || data.author == req.session.passport.user) {
         return res.json(data);
       }
     } else {
