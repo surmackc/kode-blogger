@@ -256,7 +256,7 @@ class InputForm extends Component {
     })
   }
 
-  onTogglePreview = () => {
+  onPreviewClicked = () => {
     this.setState({showPreview: !this.state.showPreview});
   }
 
@@ -348,26 +348,18 @@ class InputForm extends Component {
         </div>
         <div className="text-center">
           <button className="btn btn-secondary m-2 save-post-button" onClick={this.onSaveClick}><SavePostIcon /><span className="button-spacing">Save</span></button>
-          <button className="btn btn-secondary m-2 preview-post-button" onClick={this.onTogglePreview}><ViewPostIcon /><span className="button-spacing">
-            {this.state.showPreview ? 'Hide Preview' : 'Show Preview'}
-          </span></button>
+          <a href={`/posts/${this.state.noteId}`} target="_blank">
+            <button className="btn btn-secondary m-2 preview-post-button"><ViewPostIcon /><span className="button-spacing">
+              Open Preview
+            </span></button>
+          </a>
         </div>
         <div className="row">
-          <div className={`input-form ${this.state.showPreview ? 'col-md-6' : 'col-md-12'}`}>
+          <div className={'input-form col-md-12'}>
             <input value={this.state.title} onChange={this.onTitleChange} type="text" placeholder={this.initialValue.title} />
             {this.renderToolbar()}
             {this.renderEditor()}
           </div>
-          {this.state.showPreview ? 
-          <div className="col-md-6 preview">
-            <h5 className="alert-light">Preview:</h5>
-            <h3 className="alert-light">{this.state.title}</h3>
-            <div className="html-output"
-              dangerouslySetInnerHTML={{__html: html.serialize(this.state.value, {sanitize: true})}}
-            >
-            </div>
-          </div>
-          : '' }
         </div>
       </div>
     )

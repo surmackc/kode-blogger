@@ -32,11 +32,20 @@ router.get('/posts/get/:amount', (req, res) => {
 });
 
 router.get('/posts/:id', (req, res) => {
-  console.log(req.params);
   db.posts.findOne({
     where: {id: req.params.id}
   }).then(data => {
-    res.json(data);
+    if (req.session.passport.user) {
+      if (data.published || data.author === req.session.passport.user) {
+        return res.json(data);
+      }
+    } else {
+      if (data.published) {
+        return res.json(data);
+      }
+    }
+
+    return res.status(404).send();
   })
 })
 

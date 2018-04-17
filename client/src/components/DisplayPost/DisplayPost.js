@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Value } from 'slate';
 import Drawer from '../Drawer/Drawer.js';
 import postApi from '../../utils/postAPI';
@@ -18,7 +18,8 @@ class DisplayPost extends Component {
     noteId: "new",
     index: 0,
     code: [],
-    text: []
+    text: [],
+    errorRedirect: false
   }
 
   constructor(props) {
@@ -44,6 +45,9 @@ class DisplayPost extends Component {
           const {code, text} = parseValue(this.state.value.document.nodes);
           this.setState({ code, text });
         });
+      }).catch(err => {
+        console.log('Caught error');
+        this.setState({ errorRedirect: true });
       });
 
     } else {
@@ -99,6 +103,7 @@ class DisplayPost extends Component {
 
     return(
       <div className="displayPost" style={style}>
+        {this.state.errorRedirect ? <Redirect to="/404" /> : ''}
         <h2 style={{marginBottom: "25px"}}>
           <span id="recent-post-title">{this.state.title}</span>
           <span id="recent-post-curly">&#123;</span>
