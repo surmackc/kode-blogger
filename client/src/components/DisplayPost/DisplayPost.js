@@ -122,7 +122,7 @@ class DisplayPost extends Component {
           <Link to={`/addnote/${this.state.noteId}`}><button className="btn btn-outline-info mr-2 all-post-button"><CommentIcon /><span className="button-spacing">Add Comment</span></button></Link> 
           <button className="btn btn-dark mr-2 next-button" onClick={()=>this.handleClick('next')} disabled={isLast}><NextIcon /><span className="button-spacing"></span></button>
         </h2>
-        {this.state.comments ? <h3>Comments</h3> : ''}
+        {this.state.comments.length ? <h3>Comments</h3> : ''}
         <ul className="list-group">
         {this.state.comments.map(comment => 
           <li className="list-group-item" dangerouslySetInnerHTML={{__html: comment.content}}></li>)
