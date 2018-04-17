@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Editor } from '@tinymce/tinymce-react';
 import tinymce from 'tinymce';
 import 'tinymce/themes/modern';
@@ -53,14 +53,16 @@ class App extends Component {
           <form onSubmit={this.handleSubmit.bind(this)}>
               <Editor
           id="textbody"
-          initialValue="<p>Add a comment</p>"
+          initialValue="<p></p>"
           init={{
             plugins: 'link image code',
             toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
           }}
           onChange={this.handleEditorChange.bind(this)}
               />
+              <Link to={"/"}>
               <button className="btn btn-outline-primary mt-2" type="submit">Submit</button>
+              </Link>
           </form>
         <h2><span id="recent-post-curly-end">&#125;</span></h2>
       </div>
