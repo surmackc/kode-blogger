@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { Link, Redirect } from 'react-router-dom'
 import { Value } from 'slate';
 import Drawer from '../Drawer/Drawer.js';
+import axios from 'axios';
 import postApi from '../../utils/postAPI';
 import {SlateOutputHTML, SlateOutputCode} from '../SlateOutputHTML/SlateOutputHTML.js'
 import defaultValue from '../InputForm/value.json';
@@ -19,6 +20,7 @@ class DisplayPost extends Component {
     index: 0,
     code: [],
     text: [],
+    comments: [],
     errorRedirect: false
   }
 
@@ -49,6 +51,11 @@ class DisplayPost extends Component {
         console.log('Caught error');
         this.setState({ errorRedirect: true });
       });
+
+      //Load comments
+      axios.get(`/notes/${this.props.match.params.id}`).then(res => {
+        this.setState({comments: res.data});
+      })
 
     } else {
       const {code, text} = parseValue(this.state.value.document.nodes);
@@ -112,9 +119,15 @@ class DisplayPost extends Component {
         <h2 style={{marginTop: "25px"}}>
 
           <button className="btn btn-dark mr-2 prev-button" onClick={()=>this.handleClick('previous')} disabled={isFirst}><PrevIcon /><span className="button-spacing"></span></button>
-          <Link to="/addnote"><button className="btn btn-outline-info mr-2 all-post-button"><CommentIcon /><span className="button-spacing">Add Comment</span></button></Link> 
+          <Link to={`/addnote/${this.state.noteId}`}><button className="btn btn-outline-info mr-2 all-post-button"><CommentIcon /><span className="button-spacing">Add Comment</span></button></Link> 
           <button className="btn btn-dark mr-2 next-button" onClick={()=>this.handleClick('next')} disabled={isLast}><NextIcon /><span className="button-spacing"></span></button>
         </h2>
+        {this.state.comments.length ? <h3>Comments</h3> : ''}
+        <ul className="list-group">
+        {this.state.comments.map(comment => 
+          <li className="list-group-item" dangerouslySetInnerHTML={{__html: comment.content}}></li>)
+          }
+        </ul>
         <h2><span id="recent-post-curly-end">&#125;</span></h2>
         <Drawer position={drawerPosition} onToggleDrawer={this.resizeHTML}>
             <section style={{padding: 15}}>
