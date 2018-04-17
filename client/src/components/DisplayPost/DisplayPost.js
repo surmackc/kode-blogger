@@ -21,6 +21,7 @@ class DisplayPost extends Component {
     code: [],
     text: [],
     comments: [],
+    commentsHidden: true,
     errorRedirect: false
   }
 
@@ -80,6 +81,10 @@ class DisplayPost extends Component {
     }
   }
 
+  onToggleCommentsClick = () => {
+    this.setState({commentsHidden: !this.state.commentsHidden});
+  }
+
   resizeHTML = (open) => {
     var width = "100%"
     var paddingBottom = "0px"
@@ -122,11 +127,17 @@ class DisplayPost extends Component {
           <Link to={`/addnote/${this.state.noteId}`}><button className="btn btn-outline-info mr-2 all-post-button"><CommentIcon /><span className="button-spacing">Add Comment</span></button></Link> 
           <button className="btn btn-dark mr-2 next-button" onClick={()=>this.handleClick('next')} disabled={isLast}><NextIcon /><span className="button-spacing"></span></button>
         </h2>
-        {this.state.comments.length ? <h3>Comments</h3> : ''}
+        {this.state.comments.length ? 
+          <div>
+            <h3>Comments</h3> 
+            <button className="btn btn-dark all-post-button" onClick={this.onToggleCommentsClick}>{this.state.commentsHidden ? 'Show Comments' : 'Hide Comments'}</button>
+          </div>
+          : ''}
         <ul className="list-group">
-        {this.state.comments.map(comment => 
+        { this.state.commentsHidden ? '' :
+          this.state.comments.map(comment => 
           <li className="list-group-item" dangerouslySetInnerHTML={{__html: comment.content}}></li>)
-          }
+        }
         </ul>
         <h2><span id="recent-post-curly-end">&#125;</span></h2>
         <Drawer position={drawerPosition} onToggleDrawer={this.resizeHTML}>
