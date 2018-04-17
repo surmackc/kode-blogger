@@ -2,13 +2,7 @@
   align-content: center;
 }
 
-.recent-post-container{
-  background:#fff;
-  margin: 10px;
-  border-radius: 5px;
-  -webkit-box-shadow: 0 8px 18px rgba(0,0,0,.15), 0 10px 10px rgba(0,0,0,.12);
-  box-shadow: 3px 8px 8px rgba(0,0,0,.15), 0 5px 10px rgba(0,0,0,.12);
-}
+
 #home-recent-post-block {
   /* background:#ccc; */
   margin: 10px;

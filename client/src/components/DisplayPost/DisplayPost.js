@@ -105,11 +105,12 @@ class DisplayPost extends Component {
         </h2>
           <SlateOutputHTML text={this.state.text} index={this.state.index} />
         <h2 style={{marginTop: "25px"}}>
-          <button className="btn btn-outline-dark mr-2 prev-button" onClick={()=>this.handleClick('previous')} disabled={isFirst}><PrevIcon /><span className="button-spacing"></span></button>
+
+          <button className="btn btn-dark mr-2 prev-button" onClick={()=>this.handleClick('previous')} disabled={isFirst}><PrevIcon /><span className="button-spacing"></span></button>
           <Link to="/addnote"><button className="btn btn-outline-info mr-2 all-post-button"><CommentIcon /><span className="button-spacing">Add Comment</span></button></Link> 
-          <button className="btn btn-outline-dark mr-2 next-button" onClick={()=>this.handleClick('next')} disabled={isLast}><NextIcon /><span className="button-spacing"></span></button>
-          <span id="recent-post-curly-end">&#125;</span>
+          <button className="btn btn-dark mr-2 next-button" onClick={()=>this.handleClick('next')} disabled={isLast}><NextIcon /><span className="button-spacing"></span></button>
         </h2>
+        <h2><span id="recent-post-curly-end">&#125;</span></h2>
         <Drawer position={drawerPosition} onToggleDrawer={this.resizeHTML}>
             <section style={{padding: 15}}>
               <SlateOutputCode code={this.state.code} index={this.state.index} />

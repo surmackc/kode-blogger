@@ -1,3 +1,16 @@
+.save-post-button {
+  background: #03d8be;
+  color: #fff;
+  border: none;
+  text-shadow: .5px .5px 2px rgba(0, 0, 0, 0.29);
+}
+.preview-post-button {
+  font-color: #fff;
+  border: none;
+  text-shadow: .5px .5px 2px rgba(0, 0, 0, 0.29);
+
+}
+
 .input-form, .preview {
   margin-bottom: 1.5em;
 }

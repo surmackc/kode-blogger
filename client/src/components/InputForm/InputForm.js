@@ -12,6 +12,8 @@ import NoteSelector from '../NoteSelector/NoteSelector';
 import postApi from '../../utils/postAPI';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import SavePostIcon from '../Icons/SavePostIcon';
+import ViewPostIcon from '../Icons/ViewPostIcon';
 import "./InputForm.css";
 
 /* State.Value to HTML serializer */
@@ -345,10 +347,10 @@ class InputForm extends Component {
           <NoteSelector newId={this.initialValue.noteId} onNoteSelected={this.onNoteSelected} posts={this.state.titles} />
         </div>
         <div className="text-center">
-          <button className="btn btn-outline-success m-2" onClick={this.onSaveClick}>Save</button>
-          <button className="btn btn-outline-info m-2" onClick={this.onTogglePreview}>
+          <button className="btn btn-secondary m-2 save-post-button" onClick={this.onSaveClick}><SavePostIcon /><span className="button-spacing">Save</span></button>
+          <button className="btn btn-secondary m-2 preview-post-button" onClick={this.onTogglePreview}><ViewPostIcon /><span className="button-spacing">
             {this.state.showPreview ? 'Hide Preview' : 'Show Preview'}
-          </button>
+          </span></button>
         </div>
         <div className="row">
           <div className={`input-form ${this.state.showPreview ? 'col-md-6' : 'col-md-12'}`}>

@@ -3,6 +3,10 @@ import postApi from '../../utils/postAPI';
 import {Redirect} from 'react-router-dom'
 import { confirmAlert } from 'react-confirm-alert';
 import PostListItem from '../PostListItem/PostListItem';
+import DeleteIcon from '../Icons/DeleteIcon';
+import EditIcon from '../Icons/EditIcon';
+import PublishIcon from '../Icons/PublishIcon';
+import UnPublishIcon from '../Icons/UnPublishIcon';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ManageProps extends Component {
@@ -80,12 +84,12 @@ class ManageProps extends Component {
       this.state.posts.map(post => {
         return (
           <PostListItem key={post.id} {...post}>
-            <button className="btn btn-outline-danger mr-3" onClick={() => this.deleteClicked(post.id)}>Delete</button>
-            <button className="btn btn-outline-info mr-3" onClick={() => this.editClicked(post.id)}>Edit</button>
+            <button className="btn btn-danger mr-3" onClick={() => this.deleteClicked(post.id)}><DeleteIcon /><span className="button-spacing">Delete</span></button>
+            <button className="btn btn-info mr-3" onClick={() => this.editClicked(post.id)}><EditIcon /><span className="button-spacing">Edit</span></button>
             {post.published ?
-              <button className="btn btn-outline-warning" onClick={() => this.unpublishClicked(post.id)}>Unpublish</button>
+              <button className="btn btn-warning" onClick={() => this.unpublishClicked(post.id)}><UnPublishIcon /><span className="button-spacing">Unpublish</span></button>
               : 
-              <button className="btn btn-outline-success" onClick={() => this.publishClicked(post.id)}>Publish</button>
+              <button className="btn btn-success" onClick={() => this.publishClicked(post.id)}><PublishIcon /><span className="button-spacing">Publish</span></button>
             }
           </PostListItem>
 
