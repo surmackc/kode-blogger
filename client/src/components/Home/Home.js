@@ -49,9 +49,12 @@ class Home extends Component {
         <div>
         {this.state.notes.map(note => {
           return (
-            <PostListItem key={note.id} {...note}>
-            <div className="text-center"><button className="btn btn-outline-dark view-post-button" type="button" onClick={() => this.viewPost(note.id)}><ViewPostIcon  /><span className="button-spacing">View Post</span></button></div>
-            </PostListItem>
+            <div className="text-center">
+              
+              <Link to={`/view/${note.id}`} >
+                <PostListItem key={note.id} {...note} />
+              </Link>
+            </div>
           );
         })}
         

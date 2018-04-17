@@ -27,6 +27,7 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     // let data = tinymce.get('textbody').getContent()
+    console.log('Submitting note');
     fetch(`/notes/${this.state.articleId}`, {
       method: 'POST',
       body: JSON.stringify({
@@ -38,7 +39,7 @@ class App extends Component {
     }).then(res => {
       console.log(res);
       this.setState({redirect: true});
-    });
+    }).catch(err => console.log(err));
   }
     
   
@@ -61,7 +62,7 @@ class App extends Component {
           onChange={this.handleEditorChange.bind(this)}
               />
               <Link to={"/"}>
-              <button className="btn btn-outline-primary mt-2" type="submit">Submit</button>
+              <button className="btn btn-outline-primary mt-2" onClick={this.handleSubmit} type="submit">Submit</button>
               </Link>
           </form>
         <h2><span id="recent-post-curly-end">&#125;</span></h2>
