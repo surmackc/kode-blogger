@@ -49,7 +49,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Wrapper>
-          <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>  
+          <Nav loggedIn={this.state.loggedIn} username={this.state.username} logOut={this.logOut}/>
+          <div className="container">
           <div className="container-fluid">
           <Switch>
             <Route exact path="/" component={Home}  />
@@ -69,6 +70,7 @@ class App extends Component {
             {this.state.loggedIn ? <Route path="/input/:id?" component={InputForm} /> : <Route path="/input/:id?" render={() => <LoginForm userLoggedIn={this.userLoggedIn}/>}/>}
             <Route component={NoMatch} />
           </Switch>
+          </div>
           </div>
         </Wrapper>
       </BrowserRouter>

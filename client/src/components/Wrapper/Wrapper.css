@@ -17,14 +17,16 @@ html, body, #root {
 
 }
 .wrapper {
-  background: rgb(236, 236, 236);
+  background: url("../../utils/binary-background.jpg");
   height: 100%;
   align-content: flex-start;
   overflow: auto;
 }
-.container-fluid {
+.container-fluid{
   position: relative;
   padding: 15px 10% 5px 10%;
+  background: #ececec;
+  height: max-content;
 }
 .btn {
   display: inline-flex;
