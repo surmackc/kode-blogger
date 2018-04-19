@@ -1,6 +1,5 @@
 nav.navbar {
-  margin-bottom: 0
-  !important;
+  margin-bottom: 0;
   width: 100%;
   min-height: 60px;
   z-index: 2;
