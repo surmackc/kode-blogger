@@ -1,3 +1,17 @@
+kodeBlogger is a team project blog created for posting coding tutorials. kodeBlogger's power is in how it receives and displays user data. The app dynamically parses user input into rich text and syntax-highlighted code blocks while a unique view allows users to “step-through” these tutorials with the text and code blocks displayed side by side.
+
+This is a Full-Stack mobile-responsive MERN Application.  Technologies used include React, Node, MySQL + Sequelize, Express, Passport for Auth., Prism for syntax highlighting, Slate for user input, tinymce for comments, nodeMailer,  Bootstrap, JavaScript. MVC design pattern. 
+
+Add post:
+![image of add post]
+(https://github.com/surmackc/kode-blogger/blob/master/kode-blogger-add-post.png)
+
+View post:
+![image of view post]
+(https://github.com/surmackc/kode-blogger/blob/master/kode-blogger-view-post.png)
+
+
+
 # Create React Express App
 
 ## About This Boilerplate
