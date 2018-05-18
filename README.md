@@ -4,13 +4,11 @@ This is a Full-Stack mobile-responsive MERN Application.  Technologies used incl
 
 Add post:
 
-![Image of add post]
-(https://github.com/surmackc/kode-blogger/blob/master/kode-blogger-add-post.png)
+![Image of add post](https://github.com/surmackc/kode-blogger/blob/master/kode-blogger-add-post.png)
 
 View post:
 
-![Image of view post]
-(https://github.com/surmackc/kode-blogger/blob/master/kode-blogger-view-post.png)
+![Image of view post](https://github.com/surmackc/kode-blogger/blob/master/kode-blogger-view-post.png)
 
 
 
